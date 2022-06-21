@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nancy_stationnement/screens/home_screen.dart';
 
 ///
 /// Fonction main
@@ -7,7 +8,7 @@ void main() {
   runApp(const MaterialApp(
     // Set it to false in release version
     debugShowCheckedModeBanner: true,
-    //TODO:manage here themMode
+    //TODO:vmanage here themMode
     home: NancyStationnementApp(),
   ));
 }
@@ -20,6 +21,6 @@ class NancyStationnementApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text("first test");
+    return const HomeScreen();
   }
 }
