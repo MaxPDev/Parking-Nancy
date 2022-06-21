@@ -1,16 +1,26 @@
-# nancy_stationnement
+# Nancy Stationnement App
 
-A new Flutter project.
+Application permettant d'informer en temps réel les disponibilités des parkings de Nancy sur une carte.
 
-## Getting Started
+## Framework et Langage :
 
-This project is a starting point for a Flutter application.
+* Flutter 3.0.2
+* Dart 2.17.3
 
-A few resources to get you started if this is your first Flutter project:
+## Installation
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+(à faire...)
+## Workflow
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+[Gitflow](https://danielkummer.github.io/git-flow-cheatsheet/index.fr_FR.html) est utilisé pour ce projet :
+
+- La branche *master* est reservé pour les version en production.
+- Le travail principal se fait dans la branch *develop*.
+
+- Chaque fonctionnalité est réalisée dans une branche *feature*, puis merge dans *develop*.
+- Les branches *release* préparent une mise en production depuis *develop*.vers *master*.
+- La branche *hotfix* concerne les correctifs de la version en production.
+
+
+
+(à compléter...)
