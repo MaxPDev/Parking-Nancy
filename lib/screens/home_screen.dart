@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
+import 'package:nancy_stationnement/services/gny_parking.dart';
+
 ///
 /// HomeScreen gère l'affichage de la map, écran principal de l'application.
 ///
@@ -109,7 +111,8 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(
                 onPressed: () {
                   if (kDebugMode) {
-                    print("button");
+                    print("MAJ");
+                    GnyParking().fetchParkings();
                   }
                 },
                 icon: const Icon(Icons.update)

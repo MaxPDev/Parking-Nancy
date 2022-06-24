@@ -61,7 +61,7 @@ class Parking {
     this.operator,
 
     this.fee,
-    this.prices,
+    this.prices, //* via mgn mais via osm avant
     // this.price30Min,
     // this.price60Min,
     // this.price120Min,
@@ -94,7 +94,7 @@ class Parking {
   String? type, // souterrain, multi étage etc...
   String? operator,
 
-  String? free,
+  String? fee,
   Map<String, String>? prices,
   // String? price30Min,
   // String? price60Min,
@@ -152,19 +152,19 @@ class Parking {
           json["geometry.coordinates"].map((x) => x.toDouble())),
 
       // description: json["description"] == null ? null : json["description"],
-      addressNumber: json["addressNumber"] == null ? null : json["addressNumber"],
-      addressStreet: json["addressStreet"] == null ? null : json["addressStreet"],
-      phone: json["phone"] == null ? null : json["phone"],
+      addressNumber: json["addr:housenumber"] == null ? null : json["addr:housenumber"],
+      addressStreet: json["addr:street"] == null ? null : json["addr:street"],
+      phone: json["contact:phone"] == null ? null : json["contact:phone"],
       website: json["website"] == null ? null : json["website"],
 
-      disabled: json["disabled"] == null ? null : json["disabled"],
-      charging: json["charging"] == null ? null : json["charging"],
-      maxHeight: json["maxHeight"] == null ? null : json["maxHeight"],
-      type: json["type"] == null ? null : json["type"],
+      disabled: json["capacity:disabled"] == null ? null : json["capacity:disabled"],
+      charging: json["capacity:charging"] == null ? null : json["capacity:charging"],
+      maxHeight: json["maxheight"] == null ? null : json["maxheight"],
+      type: json["parking"] == null ? null : json["parking"],
       operator: json["operator"] == null ? null : json["operator"],
 
       fee: json["fee"] == null ? null : json["fee"],
-      prices: json["prices"] == null ? null : json["prices"],
+      prices: json["mgn:prices"] == null ? null : Map.from(json["mgn:prices"]).map((k, v) => MapEntry<String, String>(k, v)), //todo: map fonction to have key: horaire, value: price ?
       // price30Min: json["price30Min"] == null ? null : json["price30Min"],
       // price60Min: json["price60Min"] == null ? null : json["price60Min"],
       // price120Min: json["price120Min"] == null ? null : json["price120Min"],
