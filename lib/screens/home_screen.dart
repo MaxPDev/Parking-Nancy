@@ -112,7 +112,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () {
                   if (kDebugMode) {
                     print("MAJ");
-                    GnyParking().fetchParkings();
+                    GnyParking().fetchDataParkings().then((value) => {
+                      GnyParking().fetchDynamicDataParkings()
+                      
+                    });
                   }
                 },
                 icon: const Icon(Icons.update)

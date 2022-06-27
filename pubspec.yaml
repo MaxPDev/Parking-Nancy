@@ -35,7 +35,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   latlong2: ^0.8.1
-  flutter_map: ^1.1.0
+  flutter_map: ^1.1.1
   font_awesome_flutter: ^10.1.0
   provider: ^6.0.3
   xml: ^6.1.0

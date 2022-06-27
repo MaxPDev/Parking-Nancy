@@ -35,7 +35,7 @@ class Parking {
   //Dynamic data
   int? available;
   int? capacity;
-  bool isClosed;
+  bool? isClosed;
   String? colorText;
   String? colorHexa;
   
@@ -104,7 +104,7 @@ class Parking {
   //Dynamic data
   int? available,
   int? capacity,
-  bool isClosed = false,
+  bool? isClosed = false,
   String? colorText,
   String? colorHexa,
 
@@ -169,6 +169,14 @@ class Parking {
       // price60Min: json["price60Min"] == null ? null : json["price60Min"],
       // price120Min: json["price120Min"] == null ? null : json["price120Min"],
       // price240Min: json["price240Min"] == null ? null : json["price240Min"],
+
+      // //* On récupère la partie dynamique, ce qui permet d'initialiser correctement les attributs une première fois
+      // //* pour éviter des problème de cast
+      // capacity: json["capacity"] == null ? null : json["capacity"],
+      // available: json["mgn:available"] == null ? null : json["mgn:available"],
+      // isClosed: json["mgn:closed"] == null ? null : json["mgn:closed"],
+      // colorHexa: json["ui:color"] == null ? null : json["ui:color"],
+      // colorText: json["ui:color_en"] == null ? null : json["ui:color_en"],
     );
   }
 
