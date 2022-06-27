@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:latlong2/latlong.dart';
 
 import 'package:nancy_stationnement/services/gny_parking.dart';
@@ -20,6 +21,8 @@ class _HomeScreenState extends State<HomeScreen> {
   // Fonction controllant move, rotate et fitBound de la carte de flutter_map
   // et gére ses propriétés en cours
   final MapController _mapController = MapController();
+
+  List<Marker> _markers = [];
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +50,9 @@ class _HomeScreenState extends State<HomeScreen> {
             zoom: 14.0,
             // Empêche la rotation
             interactiveFlags: InteractiveFlag.pinchZoom | InteractiveFlag.drag,
-            // plugins: [
-            //   MarkerClusterPlugin(),
-            // ],
+            plugins: [
+              MarkerClusterPlugin(),
+            ],
             // //TODO: Make hide popup when tap map work
             // onTap: (_, __) => _popupController.hidePopupsOnlyFor(_markers)
           ),
@@ -60,7 +63,31 @@ class _HomeScreenState extends State<HomeScreen> {
               backgroundColor: Colors.black,
               urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
               subdomains: ['a', 'b', 'c'],
-            )
+            ),
+            MarkerClusterLayerOptions(
+                maxClusterRadius: 120,
+                disableClusteringAtZoom: 12,
+                size: const Size(50, 50),
+                fitBoundsOptions:
+                    const FitBoundsOptions(padding: EdgeInsets.all(50)),
+                markers: _markers.toList(),
+                polygonOptions: const PolygonOptions(
+                    borderColor: Colors.blueAccent,
+                    color: Colors.black12,
+                    borderStrokeWidth: 3),
+                builder: (context, markers) {
+                  
+                  // Affichage du Widget du Cluster
+                  return Container(
+                    alignment: Alignment.center,
+                    decoration: const BoxDecoration(
+                        color: Color.fromARGB(255, 69, 66, 241),
+                        shape: BoxShape.circle),
+                    child: Text('${markers.length}',
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 233, 228, 228))),
+                  );
+                })
           ],
         ),
       ),
@@ -82,44 +109,46 @@ class _HomeScreenState extends State<HomeScreen> {
                     print("button");
                   }
                 },
-                icon: const Icon(Icons.directions_walk)
-            ),
+                icon: const Icon(Icons.directions_walk)),
             IconButton(
                 onPressed: () {
                   if (kDebugMode) {
                     print("button");
                   }
                 },
-                icon: const Icon(Icons.directions_bus)
-            ),
+                icon: const Icon(Icons.directions_bus)),
             IconButton(
                 onPressed: () {
                   if (kDebugMode) {
                     print("button");
                   }
                 },
-                icon: const Icon(Icons.directions_bike)
-            ),
+                icon: const Icon(Icons.directions_bike)),
             IconButton(
                 onPressed: () {
                   if (kDebugMode) {
                     print("button");
                   }
                 },
-                icon: const Icon(Icons.local_parking)
-            ),
+                icon: const Icon(Icons.local_parking)),
             IconButton(
                 onPressed: () {
                   if (kDebugMode) {
                     print("MAJ");
                     GnyParking().fetchDataParkings().then((value) => {
-                      GnyParking().fetchDynamicDataParkings()
-                      
-                    });
+                          GnyParking()
+                              .fetchDynamicDataParkings()
+                              .then((value) => {
+                                    GnyParking().generateParkingMarkers(),
+                                    setState(() {
+                                      _markers =
+                                          GnyParking().getParkingsMarkers();
+                                    }),
+                                  })
+                        });
                   }
                 },
-                icon: const Icon(Icons.update)
-            ),
+                icon: const Icon(Icons.update)),
           ],
         ),
       ),

@@ -13,7 +13,7 @@ class GnyParking extends ChangeNotifier {
       []; //todo: à supprimer pour nourrir directement la bd + getAll depuis la bd
   static List<Parking> _parkings = [];
 
-  List<Marker> _markers = [];
+  static List<Marker> _markers = [];
 
   String uriGny =
       'https://go.g-ny.org/stationnement?output='; //TODO: Global uriGny
@@ -43,6 +43,7 @@ class GnyParking extends ChangeNotifier {
       _parkings = _parkingsFromAPI; //todo: à changer quand database ok
 
     } catch (e) {
+      //todo : remonter les erreur dans un affichage user
       print('Caught error in GnyParking.fetchDataParking() : $e');
     }
   }
@@ -63,7 +64,9 @@ class GnyParking extends ChangeNotifier {
         //? Autre chose qu'un forEach dans un forEach ?
         data.forEach((key, value) {
           if (parking.id == key) {
-            parking.capacity = data[key]["capacity"] == null ? null : int?.parse(data[key]["capacity"].toString());
+            parking.capacity = data[key]["capacity"] == null
+                ? null
+                : int?.parse(data[key]["capacity"].toString());
             parking.available = data[key]["mgn:available"];
             parking.isClosed = data[key]["mgn:closed"];
             parking.colorHexa = data[key]["ui:color"];
@@ -71,10 +74,38 @@ class GnyParking extends ChangeNotifier {
           }
         });
       }
-      inspect(_parkings);
     } catch (e) {
       print('Caught error in GnyParking.fetchDynamicDataParking() : $e');
     }
+  }
+
+  //
+  // Construit les marker depuis les objets parking
+  //
+  void generateParkingMarkers() {
+    List<Marker> markers = [];
+    for (var parking in _parkings) {
+      //todo récupérer depuis db
+      markers.add(Marker(
+          point: LatLng(parking.coordinates[1],
+              parking.coordinates[0]), //? refaire en parking.lat et.long ?
+          width: 30,
+          height: 30,
+          builder: (context) => Icon(
+                FontAwesomeIcons.squareParking,
+                size: 30,
+                color: Colors.blueAccent,
+              )));
+    }
+    // _markers.clear();
+    _markers = markers;
+    inspect(_markers);
+  }
+
+  // Renvoie les la liste des markers
+  List<Marker> getParkingsMarkers() {
+    print(_markers);
+    return _markers;
   }
 
   @override
