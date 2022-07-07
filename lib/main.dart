@@ -4,7 +4,7 @@ import 'package:nancy_stationnement/screens/home_screen.dart';
 ///
 /// Fonction main
 ///
-void main() {
+void main() async {
   runApp(const MaterialApp(
     // Set it to false in release version
     debugShowCheckedModeBanner: true,

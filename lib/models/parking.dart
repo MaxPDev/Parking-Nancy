@@ -1,5 +1,52 @@
 import 'dart:convert';
 
+final String tableParkings = "parkings";
+
+class ParkingFields {
+  static final List<String> values = [
+    id,
+    name,
+    coordinates,
+
+    addressNumber,
+    addressStreet,
+    phone,
+    website,
+
+    disabled,
+    charging,
+    maxHeight,
+    type,
+    operator,
+
+    fee,
+    prices
+  ];
+
+  // static final String osmId = "osmId";
+  static final String id = "_id";
+  static final String name = "name";
+  static final String coordinates = "coordinates";
+
+  static final String addressNumber = "addresseNumber";
+  static final String addressStreet = "addressStreet";
+  static final String phone = "phone";
+  static final String website = "website";
+
+  static final String disabled = "disabled";
+  static final String charging = "charging";
+  static final String maxHeight = "maxHeight";
+  static final String type = "type";
+  static final String operator = "operator";
+
+  static final String fee = "fee";
+  static final String prices = "prices";
+
+
+
+  // static final String capacity = "capacity";
+}
+
 //TODO: comment
 //? parking + héritage parking_gny ?
 class Parking {
@@ -164,7 +211,7 @@ class Parking {
       operator: json["operator"] == null ? null : json["operator"],
 
       fee: json["fee"] == null ? null : json["fee"],
-      prices: json["mgn:prices"] == null ? null : Map.from(json["mgn:prices"]).map((k, v) => MapEntry<String, String>(k, v)), //todo: map fonction to have key: horaire, value: price ?
+      prices: json["mgn:prices"] == null ? {"prices":"no_data"} : Map.from(json["mgn:prices"]).map((k, v) => MapEntry<String, String>(k, v)), //todo: map fonction to have key: horaire, value: price ?
       // price30Min: json["price30Min"] == null ? null : json["price30Min"],
       // price60Min: json["price60Min"] == null ? null : json["price60Min"],
       // price120Min: json["price120Min"] == null ? null : json["price120Min"],
@@ -193,6 +240,56 @@ class Parking {
   //     colorText: ,
   //   );
   // }
+
+  // Conversion de JSON depuis la database local en objet Parking.
+  factory Parking.fromDBJson(Map<String, dynamic> json) {
+        return Parking(
+      // osmId: json["osmId"] == null ? null : json["osmId"],
+      id: json["_id"] == null ? null : json["_id"],
+      name: json["name"] == null ? null : json["name"],
+      coordinates: List<double>.from(
+          jsonDecode(json["coordinates"]).map((x) => x.toDouble())),
+    
+      addressNumber: json["addressNumber"] == null ? null : json["addressNumber"],
+      addressStreet: json["addressStreet"] == null ? null : json["addressStreet"],
+      phone: json["phone"] == null ? null : json["phone"],
+      website: json["website"] == null ? null : json["website"],
+
+      disabled: json["disabled"] == null ? null : json["disabled"],
+      charging: json["charging"] == null ? null : json["charging"],
+      maxHeight: json["maxHeight"] == null ? null : json["maxHeight"],
+      type: json["type"] == null ? null : json["type"],
+      operator: json["operator"] == null ? null : json["operator"],
+
+      fee: json["fee"] == null ? null : json["fee"],
+      // prices: json["prices"] == null ? null : Map<String, String>.from(
+      //   jsonDecode(json["prices"]).map((x) => x.toString())),
+      // prices: json["prices"] == null ? null : Map.from(json["prices"]).map((k, v) => MapEntry<String, String>(k, v)),
+      prices: json["prices"] == null ? null : Map.from(jsonDecode(json["prices"]).map((k, v) => MapEntry<String, String>(k, v))),
+
+    );
+  }
+
+  // Convertir en Json pour la database local
+  Map<String, Object?> toJson() => {
+    ParkingFields.id: id,
+    ParkingFields.name: name,
+    ParkingFields.coordinates: jsonEncode(coordinates),
+
+    ParkingFields.addressNumber: addressNumber,
+    ParkingFields.addressStreet: addressStreet,
+    ParkingFields.phone : phone,
+    ParkingFields.website: website,
+
+    ParkingFields.disabled: disabled,
+    ParkingFields.charging: charging,
+    ParkingFields.maxHeight: maxHeight,
+    ParkingFields.type: type,
+    ParkingFields.operator: operator,
+
+    ParkingFields.fee: fee,
+    ParkingFields.prices: jsonEncode(prices),
+  };
 
 
 }
