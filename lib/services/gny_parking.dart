@@ -8,7 +8,7 @@ import 'dart:developer';
 import 'package:latlong2/latlong.dart';
 
 import 'package:nancy_stationnement/models/parking.dart';
-import 'package:nancy_stationnement/database/parking_database.dart';
+import 'package:nancy_stationnement/database/database_handler.dart';
 
 class GnyParking extends ChangeNotifier {
   static List<Parking> _parkingsFromAPI = []; //todo: à supprimer pour nourrir directement la bd + getAll depuis la bd
@@ -35,19 +35,21 @@ class GnyParking extends ChangeNotifier {
       Map<String, dynamic> data = jsonDecode(response.body);
 
       
-      await ParkingDatabase.instance.deleteDatabase('parkings.db');
+      await DatabaseHandler.instance.deleteDatabase('parkings.db');
 
 
       // Créer les objets parkings depuis les données //TODO: transformer à directement dans la DB
       _parkingsFromAPI.clear();
       data.forEach((key, value) async {
+        //? Décider si le remplissage de la BD se faire pas parkingsToDatabase ou ici.
+        //? Dans ce cas : besoin de _parkingsFromAPI
         // _parkingsFromAPI.add(Parking.fromAPIJson(data[key]));
-        var id = await ParkingDatabase.instance.createParking(Parking.fromAPIJson(data[key]));
+        var id = await DatabaseHandler.instance.createParking(Parking.fromAPIJson(data[key]));
       });
       // await parkingsToDatabase();
-      inspect(_parkingsFromAPI);
+      // inspect(_parkingsFromAPI);
       // _parkings = _parkingsFromAPI; //todo: à changer quand database ok
-      _parkings = await ParkingDatabase.instance.getAllParking();
+      _parkings = await DatabaseHandler.instance.getAllParking();
 
       inspect(_parkings);
 
@@ -61,7 +63,7 @@ class GnyParking extends ChangeNotifier {
 
   Future parkingsToDatabase() async {
     _parkingsFromAPI.forEach((parking) async {
-        var id = await ParkingDatabase.instance.createParking(parking);
+        var id = await DatabaseHandler.instance.createParking(parking);
         print(id);
     });
   }

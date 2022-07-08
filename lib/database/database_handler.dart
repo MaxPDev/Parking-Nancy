@@ -4,12 +4,12 @@ import 'package:nancy_stationnement/models/parking.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-class ParkingDatabase {
-  static final ParkingDatabase instance = ParkingDatabase._init();
+class DatabaseHandler {
+  static final DatabaseHandler instance = DatabaseHandler._init();
 
   static Database? _database;
 
-  ParkingDatabase._init();
+  DatabaseHandler._init();
 
   Future<Database> get database async {
     if (_database != null) return _database!;
