@@ -1,8 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
+
 import 'package:latlong2/latlong.dart';
+import 'package:provider/provider.dart';
 
 import 'package:nancy_stationnement/services/gny_parking.dart';
 
@@ -22,7 +25,34 @@ class _HomeScreenState extends State<HomeScreen> {
   // et gére ses propriétés en cours
   final MapController _mapController = MapController();
 
+  // Providers
+  final gny = Provider.of<GnyParking>;
+
   List<Marker> _markers = [];
+
+  // Initie les Parkings et leur marqueurs.
+  _initParkingMarkers() {
+    gny(context, listen: false)
+        .initParkingAndGenerateMarkers()
+        .then((value) => {
+              setState(() {
+                _markers =
+                    // GnyParking().getParkingsMarkers();
+                    gny(context, listen: false).getParkingsMarkers();
+              }),
+            });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    // Charge l'initialisation des marqueur de Parkings au permiers chargement
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      _initParkingMarkers();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +106,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: Colors.black12,
                     borderStrokeWidth: 3),
                 builder: (context, markers) {
-                  
                   // Affichage du Widget du Cluster
                   return Container(
                     alignment: Alignment.center,
@@ -135,12 +164,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () {
                   if (kDebugMode) {
                     print("MAJ");
-                    GnyParking().initParkingAndGenerateMarkers().then((value) => {
-                      setState(() {
-                        _markers =
-                            GnyParking().getParkingsMarkers();
-                      }),
-                    });
+                    gny(context, listen: false)
+                        .initParkingAndGenerateMarkers()
+                        .then((value) => {
+                              setState(() {
+                                _markers =
+                                    // GnyParking().getParkingsMarkers();
+                                    gny(context, listen: false)
+                                        .getParkingsMarkers();
+                              }),
+                            });
                   }
                 },
                 icon: const Icon(Icons.update)),

@@ -78,7 +78,7 @@ class GnyParking extends ChangeNotifier {
     // _parkings.clear();
     //? Utile si accessible depuis DatabaseHandler ?
     _parkings = await DatabaseHandler.instance.getAllParking();
-    await fetchDataParkings();
+    await fetchDynamicDataParkings();
 
     inspect(_parkings);
   }
@@ -132,6 +132,8 @@ class GnyParking extends ChangeNotifier {
           }
         });
       }
+
+      notifyListeners();
     } catch (e) {
       if (kDebugMode) {
         print('Caught error in GnyParking.fetchDynamicDataParking() : $e');
