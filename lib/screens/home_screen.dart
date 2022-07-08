@@ -5,6 +5,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 
 import 'package:latlong2/latlong.dart';
+import 'package:nancy_stationnement/widgets/parkingPopup.dart';
 import 'package:provider/provider.dart';
 
 import 'package:nancy_stationnement/services/gny_parking.dart';
@@ -94,6 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
               urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
               subdomains: ['a', 'b', 'c'],
             ),
+
             MarkerClusterLayerOptions(
                 maxClusterRadius: 120,
                 disableClusteringAtZoom: 12,
@@ -101,10 +103,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 fitBoundsOptions:
                     const FitBoundsOptions(padding: EdgeInsets.all(50)),
                 markers: _markers.toList(),
+
                 polygonOptions: const PolygonOptions(
                     borderColor: Colors.blueAccent,
                     color: Colors.black12,
                     borderStrokeWidth: 3),
+
+                popupOptions: PopupOptions(
+                  popupSnap: PopupSnap.markerTop,
+                  //todo: rajouter des conditions comme dans proto en fonction du service selectionné
+                  popupController: PopupController(initiallySelectedMarkers: _markers),
+                  popupBuilder: (_, marker) {
+                    return ParkingPopup(markers: _markers, marker: marker);
+                  }
+                ),
+
+                
+
+
+
                 builder: (context, markers) {
                   // Affichage du Widget du Cluster
                   return Container(
@@ -156,23 +173,26 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(
                 onPressed: () {
                   if (kDebugMode) {
-                    print("button");
+                    print("parking button pressed");
                   }
                 },
+
+
                 icon: const Icon(Icons.local_parking)),
             IconButton(
                 onPressed: () {
                   if (kDebugMode) {
                     print("MAJ");
                     gny(context, listen: false)
-                        .initParkingAndGenerateMarkers()
+                        .fetchDynamicDataParkings()
                         .then((value) => {
-                              setState(() {
-                                _markers =
-                                    // GnyParking().getParkingsMarkers();
-                                    gny(context, listen: false)
-                                        .getParkingsMarkers();
-                              }),
+                          print("fetchDynamicData from MAJ button"),
+                          setState(() {
+                            _markers =
+                                // GnyParking().getParkingsMarkers();
+                                gny(context, listen: false)
+                                    .getParkingsMarkers();
+                          }),
                             });
                   }
                 },
