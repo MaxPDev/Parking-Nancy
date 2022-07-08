@@ -88,7 +88,7 @@ CREATE TABLE $tableParkings (
     return result.map((json) => Parking.fromDBJson(json)).toList();
   }
 
-  Future<int> update(Parking parking) async {
+  Future<int> updateParking(Parking parking) async {
     final db = await instance.database;
 
     return db.update(
@@ -99,7 +99,7 @@ CREATE TABLE $tableParkings (
     );
   }
 
-  Future<int> delete(int id) async {
+  Future<int> deleteParking(int id) async {
     final db = await instance.database;
 
     return await db.delete(
@@ -109,6 +109,13 @@ CREATE TABLE $tableParkings (
     );
   }
 
+  Future<bool>isParkingEmpty() async {
+    final db = await instance.database;
+    final result = await db.query(tableParkings);
+    return tableParkings.isEmpty;
+  }
+
+  // Delete database, every tables
   Future<void> deleteDatabase(String path) =>
       databaseFactory.deleteDatabase(path);
 
@@ -117,4 +124,5 @@ CREATE TABLE $tableParkings (
 
     db.close();
   }
+
 }

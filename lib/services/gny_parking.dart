@@ -1,17 +1,23 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart';
+import 'package:latlong2/latlong.dart';
+
 import 'dart:convert'; // to user jsonDecode
 import 'dart:developer';
-import 'package:latlong2/latlong.dart';
 
 import 'package:nancy_stationnement/models/parking.dart';
 import 'package:nancy_stationnement/database/database_handler.dart';
+import 'package:nancy_stationnement/services/check_connection.dart';
 
 class GnyParking extends ChangeNotifier {
-  static List<Parking> _parkingsFromAPI = []; //todo: à supprimer pour nourrir directement la bd + getAll depuis la bd
+  bool gnyConnectionStatus = false;
+
+  static List<Parking> _parkingsFromAPI =
+      []; //todo: à supprimer pour nourrir directement la bd + getAll depuis la bd
   static List<Parking> _parkings = [];
 
   static List<Marker> _markers = [];
@@ -23,48 +29,55 @@ class GnyParking extends ChangeNotifier {
     print("GnyParking constructor");
   }
 
+  //?faire une fonction qui réunis : checker, fetch et mettre dans database, et bien séparée avant les fonctions ?
+
   //
   // Récupère les données de parking depuis go.g-ny.org
   // Sotck les données dans la base de données local
   //
   Future<void> fetchDataParkings() async {
-    try {
-      // Récupère les données via l'API
-      var uri = Uri.parse('${uriGny}json');
-      Response response = await get(uri);
-      Map<String, dynamic> data = jsonDecode(response.body);
+    // Vérifie la connection internet vers go.gny.org
+    gnyConnectionStatus = await CheckConnection.isGnyConnection();
 
-      
-      await DatabaseHandler.instance.deleteDatabase('parkings.db');
+    if (gnyConnectionStatus) {
+      try {
+        // Récupère les données via l'API
+        var uri = Uri.parse('${uriGny}json');
+        Response response = await get(uri);
+        Map<String, dynamic> data = jsonDecode(response.body);
 
+        await DatabaseHandler.instance.deleteDatabase('parkings.db');
 
-      // Créer les objets parkings depuis les données //TODO: transformer à directement dans la DB
-      _parkingsFromAPI.clear();
-      data.forEach((key, value) async {
-        //? Décider si le remplissage de la BD se faire pas parkingsToDatabase ou ici.
-        //? Dans ce cas : besoin de _parkingsFromAPI
-        // _parkingsFromAPI.add(Parking.fromAPIJson(data[key]));
-        var id = await DatabaseHandler.instance.createParking(Parking.fromAPIJson(data[key]));
-      });
-      // await parkingsToDatabase();
-      // inspect(_parkingsFromAPI);
-      // _parkings = _parkingsFromAPI; //todo: à changer quand database ok
-      _parkings = await DatabaseHandler.instance.getAllParking();
+        // Créer les objets parkings depuis les données //TODO: transformer à directement dans la DB
+        _parkingsFromAPI.clear();
+        data.forEach((key, value) async {
+          //? Décider si le remplissage de la BD se faire pas parkingsToDatabase ou ici.
+          //? Dans ce cas : besoin de _parkingsFromAPI
+          // _parkingsFromAPI.add(Parking.fromAPIJson(data[key]));
+          var id = await DatabaseHandler.instance
+              .createParking(Parking.fromAPIJson(data[key]));
+        });
+        // await parkingsToDatabase();
+        // inspect(_parkingsFromAPI);
+        // _parkings = _parkingsFromAPI; //todo: à changer quand database ok
+        _parkings = await DatabaseHandler.instance
+            .getAllParking(); //! acessible direction depuis la db, variable inutile ?
 
-      inspect(_parkings);
-
-    } catch (e) {
-      //todo : remonter les erreurs dans un affichage user
-      print('Caught error in GnyParking.fetchDataParking() : $e');
+        inspect(_parkings);
+      } catch (e) {
+        //todo : remonter les erreurs dans un affichage user
+        print('Caught error in GnyParking.fetchDataParking() : $e');
+      }
+    } else {
+      //? Générer affichage d'erreur ici ?
+      print("Récupération des Parkings impossible, pas de connecion");
     }
   }
 
-
-
   Future parkingsToDatabase() async {
     _parkingsFromAPI.forEach((parking) async {
-        var id = await DatabaseHandler.instance.createParking(parking);
-        print(id);
+      var id = await DatabaseHandler.instance.createParking(parking);
+      print(id);
     });
   }
 
