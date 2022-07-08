@@ -30,25 +30,26 @@ class GnyParking extends ChangeNotifier {
 
   // Prépare la liste de parking, génère les marqueur
   Future<void> initParkingAndGenerateMarkers() async {
+    // Supprime la database : pour tester le remplissage.
+    // await DatabaseHandler.instance.deleteDatabase('parkings.db');
+
+    // Initialise les Parking
     await initParking();
+
+    // Génère les marqueurs
     generateParkingMarkers();
   }
 
   // Rempli la liste de Parking depuis la DB Local:
   //  Si pas de parking dans la DB Local :
   //   Récupère les informations depuis g-ny.org et rempli la DB
-  //  
+  //
   Future<void> initParking() async {
-    // await DatabaseHandler.instance.deleteDatabase('parkings.db');
-
     // Vérifie la connection internet vers go.gny.org
     isGnyConnection = await CheckConnection.isGnyConnection();
 
     // Vérifie dans la base de données si la table des parking est vide (true) ou remplie (false)
     isParkingDatabaseEmpty = await DatabaseHandler.instance.isParkingEmpty();
-
-    // variable initialisée pour récupéré les données de G-ny
-    Map<String, dynamic> data = {};
 
     // Rempli la base de données si elle est vide, en allant chercher les données
     if (isParkingDatabaseEmpty) {
@@ -58,16 +59,16 @@ class GnyParking extends ChangeNotifier {
         }
 
         Map<String, dynamic> data = await fetchDataParkings();
+
+        data.forEach((key, value) async {
+          var id = await DatabaseHandler.instance
+              .createParking(Parking.fromAPIJson(data[key]));
+        });
       } else {
         //? Générer affichage d'erreur ici ?
         print(
             "Récupération des Parkings impossible, pas de connecion"); //? try catch ?
       }
-
-      data.forEach((key, value) async {
-        var id = await DatabaseHandler.instance
-            .createParking(Parking.fromAPIJson(data[key]));
-      });
     } else {
       //? update, ou alors le faire ailleurs ?
       if (kDebugMode) {

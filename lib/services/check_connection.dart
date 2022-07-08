@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
+// https://www.woolha.com/tutorials/flutter-check-internet-connection-examples
+
 class CheckConnection {
   //Check internet connection
   static Future<bool> isGnyConnection() async {
