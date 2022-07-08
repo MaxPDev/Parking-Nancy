@@ -111,8 +111,8 @@ CREATE TABLE $tableParkings (
 
   Future<bool>isParkingEmpty() async {
     final db = await instance.database;
-    final result = await db.query(tableParkings);
-    return tableParkings.isEmpty;
+    final List<Map<String, Object?>> result = await db.query(tableParkings);
+    return result.isEmpty;
   }
 
   // Delete database, every tables

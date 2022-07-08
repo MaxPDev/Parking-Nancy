@@ -135,17 +135,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () {
                   if (kDebugMode) {
                     print("MAJ");
-                    GnyParking().fetchDataParkings().then((value) => {
-                          GnyParking()
-                              .fetchDynamicDataParkings()
-                              .then((value) => {
-                                    GnyParking().generateParkingMarkers(),
-                                    setState(() {
-                                      _markers =
-                                          GnyParking().getParkingsMarkers();
-                                    }),
-                                  })
-                        });
+                    GnyParking().initParkingAndGenerateMarkers().then((value) => {
+                      setState(() {
+                        _markers =
+                            GnyParking().getParkingsMarkers();
+                      }),
+                    });
                   }
                 },
                 icon: const Icon(Icons.update)),
