@@ -167,6 +167,57 @@ class GnyParking extends ChangeNotifier {
     return _markers;
   }
 
+    /**
+   * Récupère et rénvoie la propriété available depuis les coordonnées
+   */
+  //! Contournement
+  static int? getAvailableFromCoordinates(LatLng point) {
+    Parking parkingPopup = _parkings.firstWhere((parking) =>
+        parking.coordinates[1] == point.latitude &&
+        parking.coordinates[0] == point.longitude);
+    // notifyListeners();
+    return parkingPopup.available;
+  }
+
+    /**
+   * Récupère et rénvoie la propriété uiColor_en depuis les coordonnées
+   */
+  //! Contournement
+  static Color? getColorFromCoordinates(LatLng point) {
+    Parking parkingPopup = _parkings.firstWhere((parking) =>
+        parking.coordinates[1] == point.latitude &&
+        parking.coordinates[0] == point.longitude);
+
+    // notifyListeners();
+
+    switch (parkingPopup.colorText) {
+      case "blue":
+        {
+          return Colors.blue;
+        }
+
+      case "orange":
+        {
+          return Colors.orange;
+        }
+
+      case "green":
+        {
+          return Colors.green;
+        }
+
+      case "red":
+        {
+          return Colors.red;
+        }
+
+      default:
+        {
+          return Colors.black;
+        }
+    }
+  }
+
   @override
   void removeListener(VoidCallback listener) {
     // TODO: implement removeListener
