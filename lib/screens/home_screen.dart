@@ -5,9 +5,10 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 
 import 'package:latlong2/latlong.dart';
-import 'package:nancy_stationnement/widgets/parkingPopup.dart';
 import 'package:provider/provider.dart';
 
+import 'package:nancy_stationnement/widgets/main_bottom_app_bar.dart';
+import 'package:nancy_stationnement/widgets/parking_popup.dart';
 import 'package:nancy_stationnement/services/gny_parking.dart';
 
 ///
@@ -42,6 +43,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     gny(context, listen: false).getParkingsMarkers();
               }),
             });
+  }
+
+  // Lance mise à jour de la disponibilité des parkings
+  _updatePopupParkings() {
+    setState(() {
+      print("updatePopuParking");
+      _markers = gny(context, listen: false).getParkingsMarkers();
+      
+    });
+  
   }
 
   @override
@@ -95,7 +106,6 @@ class _HomeScreenState extends State<HomeScreen> {
               urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
               subdomains: ['a', 'b', 'c'],
             ),
-
             MarkerClusterLayerOptions(
                 maxClusterRadius: 120,
                 disableClusteringAtZoom: 12,
@@ -103,25 +113,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 fitBoundsOptions:
                     const FitBoundsOptions(padding: EdgeInsets.all(50)),
                 markers: _markers.toList(),
-
                 polygonOptions: const PolygonOptions(
                     borderColor: Colors.blueAccent,
                     color: Colors.black12,
                     borderStrokeWidth: 3),
-
                 popupOptions: PopupOptions(
-                  popupSnap: PopupSnap.markerTop,
-                  //todo: rajouter des conditions comme dans proto en fonction du service selectionné
-                  popupController: PopupController(initiallySelectedMarkers: _markers),
-                  popupBuilder: (_, marker) {
-                    return ParkingPopup(markers: _markers, marker: marker);
-                  }
-                ),
-
-                
-
-
-
+                    popupSnap: PopupSnap.markerTop,
+                    //todo: rajouter des conditions comme dans proto en fonction du service selectionné
+                    popupController:
+                        PopupController(initiallySelectedMarkers: _markers),
+                    popupBuilder: (_, marker) {
+                      return ParkingPopup(markers: _markers, marker: marker);
+                    }),
                 builder: (context, markers) {
                   // Affichage du Widget du Cluster
                   return Container(
@@ -144,62 +147,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ///
       // TODO: This must be a Widget
       //? Better Icon ? Global ?
-      bottomNavigationBar: BottomAppBar(
-        color: Color.fromARGB(255, 92, 212, 92), //TODO: Global
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            IconButton(
-                onPressed: () {
-                  if (kDebugMode) {
-                    print("button");
-                  }
-                },
-                icon: const Icon(Icons.directions_walk)),
-            IconButton(
-                onPressed: () {
-                  if (kDebugMode) {
-                    print("button");
-                  }
-                },
-                icon: const Icon(Icons.directions_bus)),
-            IconButton(
-                onPressed: () {
-                  if (kDebugMode) {
-                    print("button");
-                  }
-                },
-                icon: const Icon(Icons.directions_bike)),
-            IconButton(
-                onPressed: () {
-                  if (kDebugMode) {
-                    print("parking button pressed");
-                  }
-                },
-
-
-                icon: const Icon(Icons.local_parking)),
-            IconButton(
-                onPressed: () {
-                  if (kDebugMode) {
-                    print("MAJ");
-                    gny(context, listen: false)
-                        .fetchDynamicDataParkings()
-                        .then((value) => {
-                          print("fetchDynamicData from MAJ button"),
-                          setState(() {
-                            _markers =
-                                // GnyParking().getParkingsMarkers();
-                                gny(context, listen: false)
-                                    .getParkingsMarkers();
-                          }),
-                            });
-                  }
-                },
-                icon: const Icon(Icons.update)),
-          ],
-        ),
-      ),
+      //! attention, appellé une méthode avec (),n'est pas comme la passer en paramètre
+      bottomNavigationBar: MainBottomAppBar(onUpdateTap: _updatePopupParkings),
     );
   }
 }
