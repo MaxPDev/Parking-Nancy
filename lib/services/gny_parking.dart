@@ -18,6 +18,7 @@ class GnyParking extends ChangeNotifier {
   bool isParkingDatabaseEmpty = true;
 
   static List<Parking> _parkings = [];
+  Parking? selectedParking;
 
   static List<Marker> _markers = [];
 
@@ -153,11 +154,21 @@ class GnyParking extends ChangeNotifier {
               parking.coordinates[0]), //? refaire en parking.lat et.long ?
           width: 30,
           height: 30,
-          builder: (context) => Icon(
-                FontAwesomeIcons.squareParking,
-                size: 30,
-                color: Colors.blueAccent,
-              )));
+          builder: (context) => GestureDetector(
+            // onTap: () => //,
+            onTap: () {
+              print("${parking.name} tapped");
+              selectedParking = parking;
+              // selectedParking = selectedParking != null ? null : parking;
+              inspect(selectedParking);
+              notifyListeners();
+            },
+            child: Icon(
+                  FontAwesomeIcons.squareParking,
+                  size: 30,
+                  color: Colors.blueAccent,
+                ),
+          )));
     }
     _markers = markers;
   }
@@ -165,6 +176,16 @@ class GnyParking extends ChangeNotifier {
   // Renvoie les la liste des markers
   List<Marker> getParkingsMarkers() {
     return _markers;
+  }
+
+   // Récupère Parking depuis les coordonnées
+  //! Contournement?
+  static Parking getParkingFromCoordinates(LatLng point) {
+    Parking parking = _parkings.firstWhere((parking) =>
+        parking.coordinates[1] == point.latitude &&
+        parking.coordinates[0] == point.longitude);
+    // notifyListeners();
+    return parking;
   }
 
     /**
