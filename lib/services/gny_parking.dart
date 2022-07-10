@@ -12,6 +12,7 @@ import 'dart:developer';
 import 'package:nancy_stationnement/models/parking.dart';
 import 'package:nancy_stationnement/database/database_handler.dart';
 import 'package:nancy_stationnement/services/check_connection.dart';
+import 'package:nancy_stationnement/utils/hex_color.dart';
 
 class GnyParking extends ChangeNotifier {
   bool isGnyConnection = false;
@@ -123,10 +124,11 @@ class GnyParking extends ChangeNotifier {
       for (Parking parking in _parkings) {
         data.forEach((key, value) {
           if (parking.id == key) {
-            parking.capacity = data[key]["capacity"] == null
-                ? null
-                : int?.parse(data[key]["capacity"].toString());
-            parking.available = data[key]["mgn:available"];
+            // parking.capacity = data[key]["capacity"] == null
+            //     ? null
+            //     : int?.parse(data[key]["capacity"].toString());
+            parking.capacity = data[key]["mgn:capacity"].toString();
+            parking.available = data[key]["mgn:available"].toString();
             parking.isClosed = data[key]["mgn:closed"];
             parking.colorHexa = data[key]["ui:color"];
             parking.colorText = data[key]["ui:color_en"];
@@ -166,7 +168,7 @@ class GnyParking extends ChangeNotifier {
             child: Icon(
                   FontAwesomeIcons.squareParking,
                   size: 30,
-                  color: Colors.blueAccent,
+                  color: Colors.blue,
                 ),
           )));
     }
@@ -192,7 +194,7 @@ class GnyParking extends ChangeNotifier {
    * Récupère et rénvoie la propriété available depuis les coordonnées
    */
   //! Contournement
-  static int? getAvailableFromCoordinates(LatLng point) {
+  static String? getAvailableFromCoordinates(LatLng point) {
     Parking parkingPopup = _parkings.firstWhere((parking) =>
         parking.coordinates[1] == point.latitude &&
         parking.coordinates[0] == point.longitude);
@@ -210,6 +212,8 @@ class GnyParking extends ChangeNotifier {
         parking.coordinates[0] == point.longitude);
 
     // notifyListeners();
+    // //! Prevoir le cas null pour ne pas être bloquant
+    // return HexColor(parkingPopup.colorHexa!);
 
     switch (parkingPopup.colorText) {
       case "blue":

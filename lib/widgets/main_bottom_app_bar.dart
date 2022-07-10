@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:nancy_stationnement/services/gny_parking.dart';
 
 class MainBottomAppBar extends StatelessWidget {
-  MainBottomAppBar({
+  const MainBottomAppBar({
     Key? key,
     required this.onUpdateTap
     // required this.gny,
