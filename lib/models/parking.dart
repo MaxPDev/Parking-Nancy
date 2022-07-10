@@ -80,8 +80,8 @@ class Parking {
   // final String? bicycle; //? place pour vélo dans le parking. Donnée pour 1 seul parking actuellement
 
   //Dynamic data
-  int? available;
-  int? capacity;
+  String? available;
+  String? capacity;
   bool? isClosed;
   String? colorText;
   String? colorHexa;
@@ -149,8 +149,8 @@ class Parking {
   // String? price240Min,
 
   //Dynamic data
-  int? available,
-  int? capacity,
+  String? available,
+  String? capacity,
   bool? isClosed = false,
   String? colorText,
   String? colorHexa,

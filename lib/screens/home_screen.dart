@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 
 import 'package:nancy_stationnement/widgets/main_bottom_app_bar.dart';
 import 'package:nancy_stationnement/widgets/parking_popup.dart';
+import 'package:nancy_stationnement/widgets/min_parking_card.dart';
 import 'package:nancy_stationnement/services/gny_parking.dart';
+import 'package:nancy_stationnement/utils/hex_color.dart';
 
 ///
 /// HomeScreen gère l'affichage de la map, écran principal de l'application.
@@ -50,9 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       print("updatePopuParking");
       _markers = gny(context, listen: false).getParkingsMarkers();
-      
     });
-  
   }
 
   @override
@@ -76,70 +77,91 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text("Nancy Stationnement Application"),
       ),
 
-      body: Container(
-        child: FlutterMap(
-          mapController: _mapController,
+      //? Container ?
+      body: Column(
+        children: [
+          Expanded(
+            child: FlutterMap(
+              mapController: _mapController,
 
-          // - `center`- Mention the center of the map, it will be the center when the map starts.
-          // - `bounds`- It can take a list of geo-coordinates and show them all when the map starts. If both bounds & center are provided, then bounds will take preference.
-          // - `zoom`- It is used to mention the initial zoom.
-          // - `swPanBoundary`/`nePanBoundary`- These are two geocoordinate points, which can be used to have interactivity constraints.
-          // -  Callbacks such as `onTap`/`onLongPress`/`onPositionChanged` can also be used.
-          options: MapOptions(
-            //TODO: make and use global var/settings
-            center: LatLng(48.6907359, 6.1825126),
-            // bounds: LatLngBounds(LatLng(48.6292781, 6.0974121), LatLng(48.7589048, 6.3322449)), //# affiche la zone en délimitant des coins
-            zoom: 14.0,
-            // Empêche la rotation
-            interactiveFlags: InteractiveFlag.pinchZoom | InteractiveFlag.drag,
-            plugins: [
-              MarkerClusterPlugin(),
-            ],
-            // //TODO: Make hide popup when tap map work
-            // onTap: (_, __) => _popupController.hidePopupsOnlyFor(_markers)
-          ),
-          layers: [
-            TileLayerOptions(
-              minZoom: 1, //? Global?
-              maxZoom: 18, //? Global?
-              backgroundColor: Colors.black,
-              urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-              subdomains: ['a', 'b', 'c'],
+              // - `center`- Mention the center of the map, it will be the center when the map starts.
+              // - `bounds`- It can take a list of geo-coordinates and show them all when the map starts. If both bounds & center are provided, then bounds will take preference.
+              // - `zoom`- It is used to mention the initial zoom.
+              // - `swPanBoundary`/`nePanBoundary`- These are two geocoordinate points, which can be used to have interactivity constraints.
+              // -  Callbacks such as `onTap`/`onLongPress`/`onPositionChanged` can also be used.
+              options: MapOptions(
+                //TODO: make and use global var/settings
+                center: LatLng(48.6907359, 6.1825126),
+                // bounds: LatLngBounds(LatLng(48.6292781, 6.0974121), LatLng(48.7589048, 6.3322449)), //# affiche la zone en délimitant des coins
+                zoom: 14.0,
+                // Empêche la rotation
+                interactiveFlags:
+                    InteractiveFlag.pinchZoom | InteractiveFlag.drag,
+                plugins: [
+                  MarkerClusterPlugin(),
+                ],
+                // //TODO: Make hide popup when tap map work
+                // onTap: (_, __) => _popupController.hidePopupsOnlyFor(_markers)
+              ),
+              layers: [
+                TileLayerOptions(
+                  minZoom: 1, //? Global?
+                  maxZoom: 18, //? Global?
+                  backgroundColor: Colors.black,
+                  urlTemplate:
+                      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                  subdomains: ['a', 'b', 'c'],
+                ),
+                MarkerClusterLayerOptions(
+                    maxClusterRadius: 120,
+                    disableClusteringAtZoom: 12,
+                    size: const Size(50, 50),
+                    fitBoundsOptions:
+                        const FitBoundsOptions(padding: EdgeInsets.all(50)),
+                    markers: _markers.toList(),
+                    polygonOptions: const PolygonOptions(
+                        borderColor: Colors.blueAccent,
+                        color: Colors.black12,
+                        borderStrokeWidth: 3),
+                    popupOptions: PopupOptions(
+                        popupSnap: PopupSnap.markerTop,
+                        //todo: rajouter des conditions comme dans proto en fonction du service selectionné
+                        popupController:
+                            PopupController(initiallySelectedMarkers: _markers),
+                        popupBuilder: (_, marker) {
+                          return ParkingPopup(
+                              markers: _markers, marker: marker);
+                        }),
+                    builder: (context, markers) {
+                      // Affichage du Widget du Cluster
+                      return Container(
+                        alignment: Alignment.center,
+                        decoration: const BoxDecoration(
+                            color: Color.fromARGB(255, 69, 66, 241),
+                            shape: BoxShape.circle),
+                        child: Text('${markers.length}',
+                            style: const TextStyle(
+                                color: Color.fromARGB(255, 233, 228, 228))),
+                      );
+                    })
+              ],
             ),
-            MarkerClusterLayerOptions(
-                maxClusterRadius: 120,
-                disableClusteringAtZoom: 12,
-                size: const Size(50, 50),
-                fitBoundsOptions:
-                    const FitBoundsOptions(padding: EdgeInsets.all(50)),
-                markers: _markers.toList(),
-                polygonOptions: const PolygonOptions(
-                    borderColor: Colors.blueAccent,
-                    color: Colors.black12,
-                    borderStrokeWidth: 3),
-                popupOptions: PopupOptions(
-                    popupSnap: PopupSnap.markerTop,
-                    //todo: rajouter des conditions comme dans proto en fonction du service selectionné
-                    popupController:
-                        PopupController(initiallySelectedMarkers: _markers),
-                    popupBuilder: (_, marker) {
-                      return ParkingPopup(markers: _markers, marker: marker);
-                    }),
-                builder: (context, markers) {
-                  // Affichage du Widget du Cluster
-                  return Container(
-                    alignment: Alignment.center,
-                    decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 69, 66, 241),
-                        shape: BoxShape.circle),
-                    child: Text('${markers.length}',
-                        style: const TextStyle(
-                            color: Color.fromARGB(255, 233, 228, 228))),
-                  );
-                })
-          ],
-        ),
+          ),
+          Container(
+            color: Color(0xFFE5E5E5),
+            // mainAxisAlignment: MainAxisAlignment.start,
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            child: gny(context, listen: true).selectedParking != null
+                ? MinParkingCard()
+                : Container(),
+          )
+        ],
       ),
+
+      // Text("${gny(context, listen: true).selectedParking!.name} :
+      // PMR: ${gny(context, listen: true).selectedParking!.disabled},
+      // Charging: ${gny(context, listen: true).selectedParking!.charging},
+      // dispo: ${gny(context, listen: true).selectedParking!.available}")
 
       ///
       /// Bar de selection des icones sur la map
@@ -152,3 +174,5 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+

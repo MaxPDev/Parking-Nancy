@@ -15,7 +15,7 @@ class ParkingPopup extends StatelessWidget {
   final List<Marker> _markers;
   final Marker _marker;
 
-  late int? available;
+  late String? available;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class ParkingPopup extends StatelessWidget {
 
     // Si la donnée available est à null, un container vide est retournée
     // Sinon, un container est créé pour afficher une popup avec available
-    if (available == null) {
+    if (available == "null") {
       return Container();
     } else {
       return Container(
