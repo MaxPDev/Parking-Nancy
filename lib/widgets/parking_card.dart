@@ -25,6 +25,23 @@ class ParkingCard extends StatelessWidget {
     }
     return "$price €";
   }
+
+  static String typeToPrint(type) {
+    if(type == null) {
+      return "_";
+    }
+    if(type == "underground") {
+      return "souterrain";
+    }
+    if(type == "multi-storey") {
+      return "à étages";
+    }
+    if(type == "surface") {
+      return "au sol";
+    }
+    return type;
+  }
+
   //? Mettre les conditions sur les colonnes plutôt que 0 ? Dans certains cas ?
   //? Voir en fonction de la réalité...
 
@@ -167,7 +184,6 @@ class ParkingCard extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Column(
-                  //todo: blinder de if : if "30" exites => display etc... + free : gratuit
                   children: [
                     Text("4h"),
                     Text(priceToPrint(parking.prices!['240']))
@@ -177,6 +193,33 @@ class ParkingCard extends StatelessWidget {
 
             ],
           ),
+          // Type et Haute du parking
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              
+              // Type Hauteur
+              Expanded(
+                flex: 1,
+                child: Column(
+                  children: [
+                    Text("Hauteur max: ${parking.maxHeight}")
+                  ],
+                ),
+              ),
+
+              // Type parking
+              Expanded(
+                flex: 1,
+                child: Column(
+                  children: [
+                    Text("Type: " + typeToPrint(parking.type))
+                  ],
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );
