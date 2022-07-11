@@ -11,7 +11,10 @@ import 'package:provider/provider.dart';
 import 'package:nancy_stationnement/widgets/main_bottom_app_bar.dart';
 import 'package:nancy_stationnement/widgets/parking_popup.dart';
 import 'package:nancy_stationnement/widgets/min_parking_card.dart';
+import 'package:nancy_stationnement/widgets/parking_card.dart';
+
 import 'package:nancy_stationnement/services/gny_parking.dart';
+
 import 'package:nancy_stationnement/utils/hex_color.dart';
 
 ///
@@ -34,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final gny = Provider.of<GnyParking>;
 
   List<Marker> _markers = [];
+  bool isParkCardSelected = false;
 
   // Initie les Parkings et leur marqueurs.
   _initParkingMarkers() {
@@ -147,13 +151,44 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          Container(
-            color: Color(0xFFE5E5E5),
-            // mainAxisAlignment: MainAxisAlignment.start,
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            child: gny(context, listen: true).selectedParking != null
-                ? const MinParkingCard() //todo Gesture doctor : miniCard, onTruc : Card (column->row->column)
-                : Container(),
+          AnimatedSize(
+            duration: Duration(milliseconds: 400),
+            curve: Curves.decelerate,
+            child: Container(
+              color: Color(0xFFE5E5E5),
+              // mainAxisAlignment: MainAxisAlignment.start,
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              child: gny(context, listen: true).selectedParking != null
+                  ? GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onPanUpdate: (details) {
+                        if (details.delta.dy < 1) {
+                          print("dragup");
+                          if (!isParkCardSelected) {
+                            setState(() {
+                              isParkCardSelected = true;
+                            });
+                          }
+                        } else {
+                          print("drag down");
+                          if (isParkCardSelected) {
+                            setState(() {
+                              isParkCardSelected = false;
+                            });
+                          }
+                        }
+                      },
+                      // onTap: () {
+                      //   setState(() {
+                      //     isParkCardSelected =
+                      //         isParkCardSelected == false ? true : false;
+                      //   });
+                      // },
+                      child: isParkCardSelected
+                          ? ParkingCard()
+                          : MinParkingCard()) //todo Gesture doctor : miniCard, onTruc : Card (column->row->column)
+                  : Container(),
+            ),
           )
         ],
       ),
@@ -174,5 +209,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'package:nancy_stationnement/models/parking.dart';
 import 'package:nancy_stationnement/utils/hex_color.dart';
 import 'package:nancy_stationnement/services/gny_parking.dart';
 
@@ -16,9 +17,11 @@ class MinParkingCard extends StatelessWidget {
 
       // Providers
   final gny = Provider.of<GnyParking>;
+  // double cardHeight = 54;
 
   @override
   Widget build(BuildContext context) {
+  Parking parking = gny(context, listen: true).selectedParking!;
     return SizedBox(
         height: 54,
         child: Row(
@@ -38,7 +41,7 @@ class MinParkingCard extends StatelessWidget {
                     color: Colors.blue,
                   ), 
                   Text(
-                    "${gny(context, listen: true).selectedParking!.name}",
+                    "${parking.name}",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -57,8 +60,8 @@ class MinParkingCard extends StatelessWidget {
                     FontAwesomeIcons.wheelchair,
                     size: 18
                   ), 
-                  gny(context, listen: true).selectedParking!.disabled != null ? 
-                    Text("${gny(context, listen: true).selectedParking!.disabled}") : 
+                  parking.disabled != null ? 
+                    Text("${parking.disabled}") : 
                     Text("0") 
                   ],
               ),
@@ -73,8 +76,8 @@ class MinParkingCard extends StatelessWidget {
                     FontAwesomeIcons.chargingStation,
                     size: 18
                   ), 
-                  gny(context, listen: true).selectedParking!.charging != null ? 
-                    Text("${gny(context, listen: true).selectedParking!.charging}") : 
+                  parking.charging != null ? 
+                    Text("${parking.charging}") : 
                     Text("0") 
                   ],
               ),
@@ -86,14 +89,14 @@ class MinParkingCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(""), 
-                  gny(context, listen: true).selectedParking!.available != null ? 
+                  parking.available != null ? 
                   Text(
-                    "${gny(context, listen: true).selectedParking!.available} places",
+                    "${parking.available} places",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                       //! Prévoir un cas nullable pour ne pas être bloquant
-                      color: HexColor(gny(context, listen: true).selectedParking!.colorHexa!),
+                      color: HexColor(parking.colorHexa!),
                     ),) :
                     Text(""),
                   ],
