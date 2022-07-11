@@ -16,6 +16,15 @@ class ParkingCard extends StatelessWidget {
 
   final gny = Provider.of<GnyParking>;
 
+  static String priceToPrint(price) {
+    if((price == null) || (price == "-")) {
+      return "-";
+    }
+    if(price == "free") {
+      return "Gratuit";
+    }
+    return "$price €";
+  }
   //? Mettre les conditions sur les colonnes plutôt que 0 ? Dans certains cas ?
   //? Voir en fonction de la réalité...
 
@@ -61,38 +70,111 @@ class ParkingCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // Capacité
-              Column(
-                children: [Text("Capacité :")],
+              Expanded(
+                flex: 2,
+                child: Column(
+                  children: [Text("Capacité :")],
+                ),
               ),
               // Capacité max
-              Column(
-                children: [
-                  Text("Max."),
-                  parking.capacity != "null"
-                      ? Text("${parking.capacity}")
-                      : Text("_")
-                ],
+              Expanded(
+                flex: 3,
+                child: Column(
+                  children: [
+                    Text("Max."),
+                    parking.capacity != "null"
+                        ? Text("${parking.capacity}")
+                        : Text("_")
+                  ],
+                ),
               ),
               // PMR
-              Column(
-                children: [
-                  Icon(FontAwesomeIcons.wheelchair, size: 18),
-                  parking.disabled != null
-                      ? Text("${parking.disabled}")
-                      : Text("0")
-                ],
+              Expanded(
+                flex: 3,
+                child: Column(
+                  children: [
+                    Icon(FontAwesomeIcons.wheelchair, size: 18),
+                    parking.disabled != null
+                        ? Text("${parking.disabled}")
+                        : Text("0")
+                  ],
+                ),
               ),
               // Bornes de recharge
-              Column(
-                // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                // crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(FontAwesomeIcons.chargingStation, size: 18),
-                  parking.charging != null
-                      ? Text("${parking.charging}")
-                      : Text("0")
-                ],
+              Expanded(
+                flex: 3,
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(FontAwesomeIcons.chargingStation, size: 18),
+                    parking.charging != null
+                        ? Text("${parking.charging}")
+                        : Text("0")
+                  ],
+                ),
               ),
+            ],
+          ),
+          // Tarifs
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // Tarifs
+              Expanded(
+                flex: 2,
+                child: Column(
+                  children: [
+                    Text("Tarif :")
+                  ],
+                ),
+              ),
+              // Tarif 30 min
+              Expanded(
+                flex: 3,
+                child: Column(
+                  children: [
+                    Text("30 min"),
+                    Text(priceToPrint(parking.prices!['30']))
+                  ],
+                ),
+              ),
+
+              // Tarif 60 min
+              Expanded(
+                flex: 3,
+                child: Column(
+                  children: [
+                    Text("1h"),
+                    Text(priceToPrint(parking.prices!['60']))
+                  ],
+                ),
+              ),
+
+              // Tarif 120 min
+              Expanded(
+                flex: 3,
+                child: Column(
+                  children: [
+                    Text("2h"),
+                    Text(priceToPrint(parking.prices!['120']))
+                  ],
+                ),
+              ),
+
+              // Tarif 240 min
+              Expanded(
+                flex: 3,
+                child: Column(
+                  //todo: blinder de if : if "30" exites => display etc... + free : gratuit
+                  children: [
+                    Text("4h"),
+                    Text(priceToPrint(parking.prices!['240']))
+                  ],
+                ),
+              ),
+
             ],
           ),
         ],
