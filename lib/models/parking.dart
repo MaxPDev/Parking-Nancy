@@ -10,6 +10,7 @@ class ParkingFields {
 
     addressNumber,
     addressStreet,
+    address,
     phone,
     website,
 
@@ -30,6 +31,7 @@ class ParkingFields {
 
   static final String addressNumber = "addresseNumber";
   static final String addressStreet = "addressStreet";
+  static final String address = "address";
   static final String phone = "phone";
   static final String website = "website";
 
@@ -58,6 +60,7 @@ class Parking {
   // final String? description;
   final String? addressNumber;
   final String? addressStreet;
+  final String? address;
   final String? phone;
   final String? website;
   
@@ -98,6 +101,7 @@ class Parking {
     // this.description,
     this.addressNumber,
     this.addressStreet,
+    this.address,
     this.phone,
     this.website,
 
@@ -164,6 +168,7 @@ class Parking {
     // description: description ?? this.description,
     addressNumber: address ?? this.addressNumber,
     addressStreet: address ?? this.addressStreet,
+    address: address ?? this.address,
     phone: phone ?? this.phone,
     website: website ?? this.website,
 
@@ -201,6 +206,7 @@ class Parking {
       // description: json["description"] == null ? null : json["description"],
       addressNumber: json["addr:housenumber"] == null ? null : json["addr:housenumber"],
       addressStreet: json["addr:street"] == null ? null : json["addr:street"],
+      address: json["mgn:address"] == null ? null : json["mgn:address"],
       phone: json["contact:phone"] == null ? null : json["contact:phone"],
       website: json["website"] == null ? null : json["website"],
 
@@ -252,6 +258,7 @@ class Parking {
     
       addressNumber: json["addressNumber"] == null ? null : json["addressNumber"],
       addressStreet: json["addressStreet"] == null ? null : json["addressStreet"],
+      address: json["address"] == null ? null : json["address"],
       phone: json["phone"] == null ? null : json["phone"],
       website: json["website"] == null ? null : json["website"],
 
@@ -278,6 +285,7 @@ class Parking {
 
     ParkingFields.addressNumber: addressNumber,
     ParkingFields.addressStreet: addressStreet,
+    ParkingFields.address: address,
     ParkingFields.phone : phone,
     ParkingFields.website: website,
 

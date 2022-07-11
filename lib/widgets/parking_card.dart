@@ -16,6 +16,17 @@ class ParkingCard extends StatelessWidget {
 
   final gny = Provider.of<GnyParking>;
 
+  //TODO: Peut être changer les adresse de mgn à OSM dans la récupération, ou l'inverse ! Bien décider
+
+  //? faire évoluer par charging/pmr/max si besoin d'autres conditions :
+  //? discerner null et 0.
+  static String dataToPrint(data) {
+    if(data == null) {
+      return "-";
+    }
+    return data;
+  }
+
   static String priceToPrint(price) {
     if((price == null) || (price == "-")) {
       return "-";
@@ -40,6 +51,13 @@ class ParkingCard extends StatelessWidget {
       return "au sol";
     }
     return type;
+  }
+
+  static String operatorToPrint(operator) {
+    if(operator == null) {
+      return "-";
+    }
+    return operator;
   }
 
   //? Mettre les conditions sur les colonnes plutôt que 0 ? Dans certains cas ?
@@ -99,9 +117,7 @@ class ParkingCard extends StatelessWidget {
                 child: Column(
                   children: [
                     Text("Max."),
-                    parking.capacity != "null"
-                        ? Text("${parking.capacity}")
-                        : Text("_")
+                    Text(dataToPrint(parking.capacity))
                   ],
                 ),
               ),
@@ -111,9 +127,7 @@ class ParkingCard extends StatelessWidget {
                 child: Column(
                   children: [
                     Icon(FontAwesomeIcons.wheelchair, size: 18),
-                    parking.disabled != null
-                        ? Text("${parking.disabled}")
-                        : Text("0")
+                    Text(dataToPrint(parking.disabled))
                   ],
                 ),
               ),
@@ -125,9 +139,7 @@ class ParkingCard extends StatelessWidget {
                   // crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Icon(FontAwesomeIcons.chargingStation, size: 18),
-                    parking.charging != null
-                        ? Text("${parking.charging}")
-                        : Text("0")
+                    Text(dataToPrint(parking.charging))
                   ],
                 ),
               ),
@@ -219,7 +231,67 @@ class ParkingCard extends StatelessWidget {
                 ),
               ),
             ],
-          )
+          ),
+          // Propriétaire
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              
+              // Type Hauteur
+              Expanded(
+                flex: 1,
+                child: Column(
+                  children: [
+                    Text("Propriétaire: " + operatorToPrint(parking.operator))
+                  ],
+                ),
+              ),
+            ],
+          ),
+          // Téléphone et adresse
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              
+              // Téléphone
+              Expanded(
+                flex: 1,
+                child: Row(
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.phone,
+                      size: 18
+                    ),
+                    Text(dataToPrint(parking.phone))
+                  ],
+                ),
+              ),
+
+              // Adresse
+              Expanded(
+                flex: 1,
+                child: Row(
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.house,
+                      size: 18
+                    ),
+                    // OSM
+                    // Text(dataToPrint(parking.addressNumber)),
+                    // Text(dataToPrint(parking.addressStreet)),
+                    // MGN
+                    Text(
+                      dataToPrint(parking.address),
+                      style: TextStyle(
+                        overflow: TextOverflow.clip
+                      ),)
+                  ],
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
