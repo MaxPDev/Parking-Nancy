@@ -29,6 +29,7 @@ class MinParkingCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            // Nom de du Parking
             Expanded(
               flex: 2,
               child: Column(
@@ -50,6 +51,7 @@ class MinParkingCard extends StatelessWidget {
                   ],
               ),
             ),
+            // Affichage place PMR
             Expanded(
               flex: 1,
               child: Column(
@@ -66,6 +68,7 @@ class MinParkingCard extends StatelessWidget {
                   ],
               ),
             ),
+            // Affichage borne de recharge electrique
             Expanded(
               flex: 1,
               child: Column(
@@ -82,6 +85,7 @@ class MinParkingCard extends StatelessWidget {
                   ],
               ),
             ),
+            // Affichage Disponibilité
             Expanded(
               flex: 2,
               child: Column(
@@ -89,7 +93,7 @@ class MinParkingCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(""), 
-                  parking.available != null ? 
+                  parking.available != "null" ? 
                   Text(
                     "${parking.available} places",
                     style: TextStyle(
