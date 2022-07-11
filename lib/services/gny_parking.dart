@@ -127,7 +127,7 @@ class GnyParking extends ChangeNotifier {
             // parking.capacity = data[key]["capacity"] == null
             //     ? null
             //     : int?.parse(data[key]["capacity"].toString());
-            parking.capacity = data[key]["mgn:capacity"].toString();
+            parking.capacity = data[key]["capacity"].toString();
             parking.available = data[key]["mgn:available"].toString();
             parking.isClosed = data[key]["mgn:closed"];
             parking.colorHexa = data[key]["ui:color"];
