@@ -152,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // mainAxisAlignment: MainAxisAlignment.start,
             // crossAxisAlignment: CrossAxisAlignment.center,
             child: gny(context, listen: true).selectedParking != null
-                ? MinParkingCard()
+                ? const MinParkingCard() //todo Gesture doctor : miniCard, onTruc : Card (column->row->column)
                 : Container(),
           )
         ],

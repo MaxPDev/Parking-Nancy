@@ -86,7 +86,7 @@ class MinParkingCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(""), 
-                  gny(context, listen: true).selectedParking!.charging != null ? 
+                  gny(context, listen: true).selectedParking!.available != null ? 
                   Text(
                     "${gny(context, listen: true).selectedParking!.available} places",
                     style: TextStyle(
