@@ -19,6 +19,15 @@ class MinParkingCard extends StatelessWidget {
   final gny = Provider.of<GnyParking>;
   // double cardHeight = 54;
 
+  //? faire évoluer par charging/pmr/max si besoin d'autres conditions :
+  //? discerner null et 0.
+  static String dataToPrint(data) {
+    if((data == null) || (data == "null")) {
+      return "-";
+    }
+    return data;
+  }
+
   @override
   Widget build(BuildContext context) {
   Parking parking = gny(context, listen: true).selectedParking!;
@@ -62,9 +71,7 @@ class MinParkingCard extends StatelessWidget {
                     FontAwesomeIcons.wheelchair,
                     size: 18
                   ), 
-                  parking.disabled != null ? 
-                    Text("${parking.disabled}") : 
-                    Text("0") 
+                  Text(dataToPrint(parking.disabled)) 
                   ],
               ),
             ),
@@ -79,9 +86,7 @@ class MinParkingCard extends StatelessWidget {
                     FontAwesomeIcons.chargingStation,
                     size: 18
                   ), 
-                  parking.charging != null ? 
-                    Text("${parking.charging}") : 
-                    Text("0") 
+                  Text(dataToPrint(parking.charging)) 
                   ],
               ),
             ),

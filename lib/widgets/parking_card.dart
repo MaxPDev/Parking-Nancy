@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:nancy_stationnement/utils/hex_color.dart';
 import 'package:nancy_stationnement/services/gny_parking.dart';
@@ -21,14 +22,14 @@ class ParkingCard extends StatelessWidget {
   //? faire évoluer par charging/pmr/max si besoin d'autres conditions :
   //? discerner null et 0.
   static String dataToPrint(data) {
-    if(data == null) {
+    if((data == null) || (data == "null")) {
       return "-";
     }
     return data;
   }
 
   static String priceToPrint(price) {
-    if((price == null) || (price == "-")) {
+    if((price == null) || (price == "null") || (price == "-")) {
       return "-";
     }
     if(price == "free") {
@@ -38,7 +39,7 @@ class ParkingCard extends StatelessWidget {
   }
 
   static String typeToPrint(type) {
-    if(type == null) {
+    if((type == null) || (type == "null")) {
       return "_";
     }
     if(type == "underground") {
@@ -54,7 +55,7 @@ class ParkingCard extends StatelessWidget {
   }
 
   static String operatorToPrint(operator) {
-    if(operator == null) {
+    if(operator == null || operator == "null") {
       return "-";
     }
     return operator;
@@ -67,6 +68,11 @@ class ParkingCard extends StatelessWidget {
   Widget build(BuildContext context) {
     Parking parking = gny(context, listen: true).selectedParking!;
     inspect(parking);
+    late Uri _url;
+    if(parking.website != null) {
+      _url = Uri.parse(parking.website!);
+    }
+
     return SizedBox(
       height: 375,
       child: Column(
@@ -108,7 +114,7 @@ class ParkingCard extends StatelessWidget {
               Expanded(
                 flex: 2,
                 child: Column(
-                  children: [Text("Capacité :")],
+                  children: [Text("Capacité : ")],
                 ),
               ),
               // Capacité max
@@ -155,7 +161,7 @@ class ParkingCard extends StatelessWidget {
                 flex: 2,
                 child: Column(
                   children: [
-                    Text("Tarif :")
+                    Text("Tarif : ")
                   ],
                 ),
               ),
@@ -216,7 +222,7 @@ class ParkingCard extends StatelessWidget {
                 flex: 1,
                 child: Column(
                   children: [
-                    Text("Hauteur max: ${parking.maxHeight}")
+                    Text("Hauteur max : ${parking.maxHeight}")
                   ],
                 ),
               ),
@@ -226,53 +232,23 @@ class ParkingCard extends StatelessWidget {
                 flex: 1,
                 child: Column(
                   children: [
-                    Text("Type: " + typeToPrint(parking.type))
+                    Text("Type : " + typeToPrint(parking.type))
                   ],
                 ),
               ),
             ],
           ),
-          // Propriétaire
+
+          // Adresse
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              
-              // Type Hauteur
-              Expanded(
-                flex: 1,
-                child: Column(
-                  children: [
-                    Text("Propriétaire: " + operatorToPrint(parking.operator))
-                  ],
-                ),
-              ),
-            ],
-          ),
-          // Téléphone et adresse
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              
-              // Téléphone
-              Expanded(
-                flex: 1,
-                child: Row(
-                  children: [
-                    Icon(
-                      FontAwesomeIcons.phone,
-                      size: 18
-                    ),
-                    Text(dataToPrint(parking.phone))
-                  ],
-                ),
-              ),
 
               // Adresse
               Expanded(
                 flex: 1,
-                child: Row(
+                child: Column(
                   children: [
                     Icon(
                       FontAwesomeIcons.house,
@@ -287,6 +263,65 @@ class ParkingCard extends StatelessWidget {
                       style: TextStyle(
                         overflow: TextOverflow.clip
                       ),)
+                  ],
+                ),
+              ),
+            ],
+          ),
+          // Téléphone et Site Web
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              
+              // Téléphone
+              Expanded(
+                flex: 1,
+                child: Column(
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.phone,
+                      size: 18
+                    ),
+                    Text(dataToPrint(parking.phone))
+                  ],
+                ),
+              ),
+              
+              // Site Web
+              Expanded(
+                flex: 1,
+                child: Column(
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.globe,
+                      size: 18
+                    ),
+                    parking.website != null ? InkWell(
+                      child: Text('Site Web', style: TextStyle(color: Colors.blue),),
+                      onTap: () => launchUrl(_url),
+                    ) :
+                    Text("-")
+                  ],
+                ),
+              ),
+
+
+            ],
+          ),
+
+          // Propriétaire
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              
+              // Type Hauteur
+              Expanded(
+                flex: 1,
+                child: Column(
+                  children: [
+                    Text("Propriétaire: " + operatorToPrint(parking.operator))
                   ],
                 ),
               ),
