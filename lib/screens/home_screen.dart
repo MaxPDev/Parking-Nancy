@@ -73,6 +73,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    var isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+
     return Scaffold(
       // BottomBar
       //TODO: Doit être une search bar, ou celle-ci doit être en dessous.
@@ -153,6 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           AnimatedSize(
             duration: Duration(milliseconds: 400),
+            // reverseDuration: Duration(milliseconds: 0),
             curve: Curves.decelerate,
             child: Container(
               color: Color(0xFFE5E5E5),
@@ -186,6 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       // },
                       child: isParkCardSelected
                           ? ParkingCard()
+                          // ? isPortrait ? ParkingCard() : Text("from home")
                           : MinParkingCard()) //todo Gesture doctor : miniCard, onTruc : Card (column->row->column)
                   : Container(),
             ),
