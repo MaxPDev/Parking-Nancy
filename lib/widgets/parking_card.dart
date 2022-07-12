@@ -84,22 +84,34 @@ class ParkingCard extends StatelessWidget {
     }
 
     return SizedBox(
-      height: 375,
+      height: 300,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Nom du Parking et sa disponbilité
+          // Icone, Nom du Parking et sa disponbilité
           Row(
             mainAxisAlignment: MainAxisAlignment.center, 
             children: [
             Column(
               children: [
-                // Nom du parking
-                Text("${parking.name}",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                // Icone et Nom du parking
+                Row(
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.squareParking,
+                      size: 24,
+                      color: Colors.blue,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),                 
+                    Text("${parking.name}",
+                        style:
+                            TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                  ],
+                ),
                 // Disponibilité si info disponible
                 parking.available != "null"
                     ? Text(
@@ -124,7 +136,10 @@ class ParkingCard extends StatelessWidget {
               Expanded(
                 flex: 2,
                 child: Column(
-                  children: [Text("Capacité : ")],
+                  children: [
+                    Text("Capacité : ",
+                    style: TextStyle(fontWeight: FontWeight.bold))
+                  ],
                 ),
               ),
               // Capacité max
@@ -132,7 +147,8 @@ class ParkingCard extends StatelessWidget {
                 flex: 3,
                 child: Column(
                   children: [
-                    Text("Max."),
+                    Text("Max.",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
                     Text(dataToPrint(parking.capacity))
                   ],
                 ),
@@ -171,7 +187,8 @@ class ParkingCard extends StatelessWidget {
                 flex: 2,
                 child: Column(
                   children: [
-                    Text("Tarif : ")
+                    Text("Tarif : ",
+                    style: TextStyle(fontWeight: FontWeight.bold))
                   ],
                 ),
               ),
@@ -180,7 +197,8 @@ class ParkingCard extends StatelessWidget {
                 flex: 3,
                 child: Column(
                   children: [
-                    Text("30 min"),
+                    Text("30 min",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
                     Text(priceToPrint(parking.prices!['30']))
                   ],
                 ),
@@ -191,7 +209,8 @@ class ParkingCard extends StatelessWidget {
                 flex: 3,
                 child: Column(
                   children: [
-                    Text("1h"),
+                    Text("1h",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
                     Text(priceToPrint(parking.prices!['60']))
                   ],
                 ),
@@ -202,7 +221,8 @@ class ParkingCard extends StatelessWidget {
                 flex: 3,
                 child: Column(
                   children: [
-                    Text("2h"),
+                    Text("2h",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
                     Text(priceToPrint(parking.prices!['120']))
                   ],
                 ),
@@ -213,7 +233,8 @@ class ParkingCard extends StatelessWidget {
                 flex: 3,
                 child: Column(
                   children: [
-                    Text("4h"),
+                    Text("4h",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
                     Text(priceToPrint(parking.prices!['240']))
                   ],
                 ),
@@ -232,7 +253,9 @@ class ParkingCard extends StatelessWidget {
                 flex: 1,
                 child: Column(
                   children: [
-                    Text("Hauteur max : ${parking.maxHeight}")
+                    Text("Hauteur max : ",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text("${parking.maxHeight}"),
                   ],
                 ),
               ),
@@ -242,7 +265,9 @@ class ParkingCard extends StatelessWidget {
                 flex: 1,
                 child: Column(
                   children: [
-                    Text("Type : " + typeToPrint(parking.type))
+                    Text("Type : ",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(typeToPrint(parking.type))
                   ],
                 ),
               ),
