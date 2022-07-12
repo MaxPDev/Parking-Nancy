@@ -39,6 +39,7 @@ CREATE TABLE $tableParkings (
 
   ${ParkingFields.addressNumber} $textType,
   ${ParkingFields.addressStreet} $textType,
+  ${ParkingFields.address} $textType,
   ${ParkingFields.phone} $textType,
   ${ParkingFields.website} $textType,
 

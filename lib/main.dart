@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'package:nancy_stationnement/screens/home_screen.dart';
@@ -30,6 +31,11 @@ class NancyStationnementApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Bloquer l'appli en mode portrait //? Temporaire
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return const HomeScreen();
   }
 }
