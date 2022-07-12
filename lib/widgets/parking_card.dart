@@ -66,11 +66,21 @@ class ParkingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    // Parking détaillé dans la card
     Parking parking = gny(context, listen: true).selectedParking!;
     inspect(parking);
+    
+    // Conversion du lien du parking, si disponible, en Uri
     late Uri _url;
     if(parking.website != null) {
       _url = Uri.parse(parking.website!);
+    }
+
+    // Conversion du téléphone, si disponible, en Uri (url_launcher)
+    late Uri _tel;
+    if(parking.phone != null) {
+      _tel = Uri.parse("tel:" + parking.phone!);
     }
 
     return SizedBox(
@@ -283,7 +293,11 @@ class ParkingCard extends StatelessWidget {
                       FontAwesomeIcons.phone,
                       size: 18
                     ),
-                    Text(dataToPrint(parking.phone))
+                    parking.phone != null ? InkWell(
+                      child: Text('${parking.phone}', style: TextStyle(color: Colors.blue),),
+                      onTap: () => launchUrl(_tel),
+                    ) :
+                    Text("-"),
                   ],
                 ),
               ),
