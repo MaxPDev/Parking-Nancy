@@ -45,8 +45,15 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
           padding: const EdgeInsets.fromLTRB(5, 5, 0, 5),
           child: SearchBarAnimation(
             textEditingController: TextEditingController(),
-            isOriginalAnimation: false,
+            durationInMilliSeconds: 700,
+            isOriginalAnimation: true,
+            hintText: "Rechercher une adresses",
             searchBoxWidth: width * 0.70,
+            enableBoxBorder: true,
+            enableBoxShadow: true,
+            // enableButtonBorder: true,
+            // enableButtonShadow: true,
+            
           ),
         ),
         Padding(
