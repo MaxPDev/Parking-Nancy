@@ -49,7 +49,10 @@ CREATE TABLE $tableParkings (
   ${ParkingFields.type} $textType,
   ${ParkingFields.operator} $textType,
   ${ParkingFields.fee} $textType,
-  ${ParkingFields.prices} $textType
+  ${ParkingFields.prices} $textType,
+
+  ${ParkingFields.osmId} $textType,
+  ${ParkingFields.osmType} $textType
 )
 ''');
   }
@@ -114,6 +117,12 @@ CREATE TABLE $tableParkings (
     final db = await instance.database;
     final List<Map<String, Object?>> result = await db.query(tableParkings);
     return result.isEmpty;
+  }
+
+  // Reset
+  Future<void> resetParkingsTables() async {
+    final db = await instance.database;
+    await db.rawDelete('DELETE FROM $tableParkings');
   }
 
   // Delete database, every tables

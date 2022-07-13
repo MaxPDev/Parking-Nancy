@@ -21,7 +21,12 @@ class ParkingFields {
     operator,
 
     fee,
-    prices
+    prices,
+
+    //* For test purposes only
+    osmId,
+    osmType,
+
   ];
 
   // static final String osmId = "osmId";
@@ -44,6 +49,9 @@ class ParkingFields {
   static final String fee = "fee";
   static final String prices = "prices";
 
+  //* For test purposes only
+  static final String osmId = "osmId";
+  static final String osmType = "osmType";
 
 
   // static final String capacity = "capacity";
@@ -76,6 +84,10 @@ class Parking {
   // final String? price60Min;
   // final String? price120Min;
   // final String? price240Min;
+
+  //* For test purposes only
+  final String? osmId;
+  final String? osmType;
 
     
   // final String? maxStay;
@@ -118,6 +130,10 @@ class Parking {
     // this.price120Min,
     // this.price240Min,
 
+    //* For test purposes only
+    this.osmId,
+    this.osmType,
+
     // Dynamic data
     this.available,
     this.capacity,
@@ -152,6 +168,10 @@ class Parking {
   // String? price120Min,
   // String? price240Min,
 
+  //* For test purposes only
+  String? osmId,
+  String? osmType,
+
   //Dynamic data
   String? available,
   String? capacity,
@@ -185,6 +205,11 @@ class Parking {
     // price120Min: price120Min ?? this.price120Min,
     // price240Min: price240Min ?? this.price240Min,
 
+    //* For test purposes only
+    osmId: osmId ?? this.osmId,
+    osmType: osmType ?? this.osmType,
+
+    // Dynamic Data
     available: available ?? this.available,
     capacity: capacity ?? this.capacity,
     isClosed: isClosed,
@@ -222,6 +247,10 @@ class Parking {
       // price60Min: json["price60Min"] == null ? null : json["price60Min"],
       // price120Min: json["price120Min"] == null ? null : json["price120Min"],
       // price240Min: json["price240Min"] == null ? null : json["price240Min"],
+
+      //* For test purposes only
+      osmId: json["osm.id"] == null ? null : json["osm.id"].toString(),
+      osmType: json["osm.type"] == null ? null : json["osm.type"],
 
       // //* On récupère la partie dynamique, ce qui permet d'initialiser correctement les attributs une première fois
       // //* pour éviter des problème de cast
@@ -274,6 +303,10 @@ class Parking {
       // prices: json["prices"] == null ? null : Map.from(json["prices"]).map((k, v) => MapEntry<String, String>(k, v)),
       prices: json["prices"] == null ? null : Map.from(jsonDecode(json["prices"]).map((k, v) => MapEntry<String, String>(k, v))),
 
+      //* For test purposes only
+      osmId: json["osmId"] == null ? null : json["osmId"],
+      osmType: json["osmType"] == null ? null : json["osmType"],
+
     );
   }
 
@@ -297,6 +330,9 @@ class Parking {
 
     ParkingFields.fee: fee,
     ParkingFields.prices: jsonEncode(prices),
+
+    ParkingFields.osmId: osmId,
+    ParkingFields.osmType: osmType
   };
 
 

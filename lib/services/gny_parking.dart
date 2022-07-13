@@ -32,8 +32,19 @@ class GnyParking extends ChangeNotifier {
 
   // Prépare la liste de parking, génère les marqueur
   Future<void> initParkingAndGenerateMarkers() async {
-    // Supprime la database : pour tester le remplissage.
+    // Initialise les Parking
+    await initParking();
+
+    // Génère les marqueurs
+    generateParkingMarkers();
+  }
+
+    // Supprime la DB pour la remplir à nouveauPrépare la liste de parking, génère les marqueur
+  Future<void> reInitParkingAndGenerateMarkers() async {
+    //TODO; Try catch, ou mettre dans initParking a else
+    // // Supprime la database : pour tester le remplissage.
     // await DatabaseHandler.instance.deleteDatabase('parkings.db');
+    await DatabaseHandler.instance.resetParkingsTables();
 
     // Initialise les Parking
     await initParking();
