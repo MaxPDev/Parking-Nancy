@@ -49,7 +49,10 @@ CREATE TABLE $tableParkings (
   ${ParkingFields.type} $textType,
   ${ParkingFields.operator} $textType,
   ${ParkingFields.fee} $textType,
-  ${ParkingFields.prices} $textType
+  ${ParkingFields.prices} $textType,
+
+  ${ParkingFields.osmId} $textType,
+  ${ParkingFields.osmType} $textType
 )
 ''');
   }
