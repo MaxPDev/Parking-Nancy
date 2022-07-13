@@ -93,6 +93,7 @@ class ParkingCard extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
+    // TODO GLOBAL
     // Height (without SafeArea)
     var padding = MediaQuery.of(context).viewPadding;
     double height1 = height - padding.top - padding.bottom;
