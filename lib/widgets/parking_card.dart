@@ -40,7 +40,7 @@ class ParkingCard extends StatelessWidget {
 
   static String typeToPrint(type) {
     if((type == null) || (type == "null")) {
-      return "_";
+      return "-";
     }
     if(type == "underground") {
       return "souterrain";

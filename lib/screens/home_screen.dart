@@ -77,11 +77,24 @@ class _HomeScreenState extends State<HomeScreen> {
     var isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
 
     return Scaffold(
+      // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      // floatingActionButton: Icon(Icons.refresh),
+      // floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
       // BottomBar
       //TODO: Doit être une search bar, ou celle-ci doit être en dessous.
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.menu),
+          onPressed: () {},
+        ),
         //TODO: make and use global var/settings
         title: const Text("Nancy Stationnement Application"),
+        centerTitle: true,
+        backgroundColor: Color.fromARGB(255, 31, 77, 33),
+        actions: [
+          Icon(Icons.search),
+          Icon(Icons.location_on),
+        ],
       ),
 
       //? Container ?
