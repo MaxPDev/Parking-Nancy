@@ -41,6 +41,12 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Marker> _markers = [];
   bool isParkCardSelected = false;
 
+  final snackBarPopup = SnackBar(
+    content: Text("Disponibilités et marqueurs mis à jour (dev mode)"),
+    backgroundColor: Colors.green,
+    elevation: 5,
+  );
+
   // Initie les Parkings et leur marqueurs.
   _initParkingMarkers() {
     gny(context, listen: false)
@@ -54,11 +60,14 @@ class _HomeScreenState extends State<HomeScreen> {
             });
   }
 
-  // Lance mise à jour de la disponibilité des parkings
+
+  // Lance la mise à jour de la disponibilité des parkings
   _updatePopupParkings() {
     setState(() {
       print("updatePopuParking");
       _markers = gny(context, listen: false).getParkingsMarkers();
+
+      ScaffoldMessenger.of(context).showSnackBar(snackBarPopup);
     });
   }
 

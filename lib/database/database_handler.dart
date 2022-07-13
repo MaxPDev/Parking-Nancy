@@ -119,6 +119,12 @@ CREATE TABLE $tableParkings (
     return result.isEmpty;
   }
 
+  // Reset
+  Future<void> resetParkingsTables() async {
+    final db = await instance.database;
+    await db.rawDelete('DELETE FROM $tableParkings');
+  }
+
   // Delete database, every tables
   Future<void> deleteDatabase(String path) =>
       databaseFactory.deleteDatabase(path);
