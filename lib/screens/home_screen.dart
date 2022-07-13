@@ -7,11 +7,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
+import 'package:searchbar_animation/searchbar_animation.dart';
 
 import 'package:nancy_stationnement/widgets/main_bottom_app_bar.dart';
 import 'package:nancy_stationnement/widgets/parking_popup.dart';
 import 'package:nancy_stationnement/widgets/min_parking_card.dart';
 import 'package:nancy_stationnement/widgets/parking_card.dart';
+import 'package:nancy_stationnement/widgets/top_app_bar.dart';
 
 import 'package:nancy_stationnement/services/gny_parking.dart';
 
@@ -77,12 +79,12 @@ class _HomeScreenState extends State<HomeScreen> {
     var isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
 
     return Scaffold(
+      // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      // floatingActionButton: Icon(Icons.refresh),
+      // floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
       // BottomBar
       //TODO: Doit être une search bar, ou celle-ci doit être en dessous.
-      appBar: AppBar(
-        //TODO: make and use global var/settings
-        title: const Text("Nancy Stationnement Application"),
-      ),
+      appBar: TopAppBar(),
 
       //? Container ?
       body: Column(
@@ -214,3 +216,5 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+
