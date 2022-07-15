@@ -47,7 +47,7 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
             child: SearchBarAnimation(
               textEditingController: TextEditingController(),
               durationInMilliSeconds: 700,
-              isOriginalAnimation: true,
+              isOriginalAnimation: false,
               hintText: "Rechercher une adresses",
               searchBoxWidth: width * 0.70,
               enableBoxBorder: true,
