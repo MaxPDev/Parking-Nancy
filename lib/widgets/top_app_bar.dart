@@ -1,14 +1,24 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
 import 'package:searchbar_animation/searchbar_animation.dart';
+
+import 'package:nancy_stationnement/services/ban_service.dart';
 
 class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
   TopAppBar({
     Key? key,
   }) : super(key: key);
 
+  final ban = Provider.of<BanService>;
+
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+  // Note: This is a `GlobalKey<FormState>`,
+  // not a GlobalKey<MyCustomFormState>.
+  // final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +65,33 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
               // enableButtonBorder: true,
               // enableButtonShadow: true,
 
-              // onSaved: ,
+              onChanged: (String? value) {
+                if (kDebugMode) {
+                  print("on changed $value");
+                }
+              },
+
+              onSaved: (String? value) {
+                if (kDebugMode) {
+                  print("Saved now $value");
+                }
+              },
+
+              // onEditingComplete: (String? value) {
+              //   if (kDebugMode) {
+              //     print("EditingComplete now $value");
+              //   }
+              // },
+
+              onFieldSubmitted: (String? value) {
+                if (kDebugMode) {
+                  print("onfieldsubmitted now $value");
+                }
+
+                if (value != null) {
+                  ban(context, listen: false).fetchDataAdresseFromInput(value.trim().replaceAll(' ', '+'));
+                }
+              },
               
             ),
           ),

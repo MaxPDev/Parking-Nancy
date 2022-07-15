@@ -29,7 +29,9 @@ class GnyParking extends ChangeNotifier {
   // late SnackBar snackBarError;
 
   GnyParking() {
-    print("GnyParking constructor");
+    if (kDebugMode) {
+      print("GnyParking constructor");
+    }
   }
 
   // SnackBar errorToSnack(String message) {
@@ -119,7 +121,9 @@ class GnyParking extends ChangeNotifier {
       return data;
     } catch (e) {
       //todo : remonter les erreurs dans un affichage user
-      print('Caught error in GnyParking.fetchDataParking() : $e');
+      if (kDebugMode) {
+        print('Caught error in GnyParking.fetchDataParking() : $e');
+      }
       rethrow;
     }
   }
