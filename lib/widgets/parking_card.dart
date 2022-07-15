@@ -109,11 +109,11 @@ class ParkingCard extends StatelessWidget {
       padding: EdgeInsets.all(7),
 
       // Height for real App
-      // height: height3 * 0.54,
+      height: height3 * 0.54,
 
       //* Height for display more data for dev
       // height: height3 * 0.75,
-      height: 440,
+      // height: 440,
       
       decoration: BoxDecoration(
         border: Border(
@@ -370,17 +370,18 @@ class ParkingCard extends StatelessWidget {
                     // Text(dataToPrint(parking.addressStreet)),
                     // MGN
                     Text(
-                      "(mgn : ) " + dataToPrint(parking.address),
+                      dataToPrint(parking.address),
                       style: TextStyle(
                         overflow: TextOverflow.clip,
                         fontSize: normalTextCardFontSize
                       ),),
-                    Text(
-                      "(osmNb + osmStr : ) " + dataToPrint(parking.addressNumber) + " " + dataToPrint(parking.addressStreet), 
-                      style: TextStyle(
-                        overflow: TextOverflow.clip,
-                        fontSize: normalTextCardFontSize
-                      ),),
+                    //* OSM Data 
+                    // Text(
+                    //   "(osmNb + osmStr : ) " + dataToPrint(parking.addressNumber) + " " + dataToPrint(parking.addressStreet), 
+                    //   style: TextStyle(
+                    //     overflow: TextOverflow.clip,
+                    //     fontSize: normalTextCardFontSize
+                    //   ),),
                   ],
                 ),
               ),
@@ -459,32 +460,34 @@ class ParkingCard extends StatelessWidget {
             ],
           ),
 
-          Divider(
-            height: 7,
-            thickness: 1,
-            color: Color.fromRGBO(158, 158, 158, 0.3),
-            indent: width/4,
-            endIndent: width/4,
-          ),
+          //* Info OSM data si besoin pour le dev (à supprimer ?)
 
-          // Propriétaire
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
+          // Divider(
+          //   height: 7,
+          //   thickness: 1,
+          //   color: Color.fromRGBO(158, 158, 158, 0.3),
+          //   indent: width/4,
+          //   endIndent: width/4,
+          // ),
+
+          // // Propriétaire
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //   crossAxisAlignment: CrossAxisAlignment.center,
+          //   children: [
               
-              // Type Hauteur
-              Expanded(
-                flex: 1,
-                child: Column(
-                  children: [
-                    Text("OSM Type and OSM ID (dev mode) ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: normalTextCardFontSize),),
-                    Text(dataToPrint(parking.osmType) + " " + dataToPrint(parking.osmId), style: TextStyle(fontSize: normalTextCardFontSize))
-                  ],
-                ),
-              ),
-            ],
-          ),
+          //     // Type Hauteur
+          //     Expanded(
+          //       flex: 1,
+          //       child: Column(
+          //         children: [
+          //           Text("OSM Type and OSM ID (dev mode) ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: normalTextCardFontSize),),
+          //           Text(dataToPrint(parking.osmType) + " " + dataToPrint(parking.osmId), style: TextStyle(fontSize: normalTextCardFontSize))
+          //         ],
+          //       ),
+          //     ),
+          //   ],
+          // ),
         ],
       ),
     ) : 

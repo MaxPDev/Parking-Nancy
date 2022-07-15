@@ -55,25 +55,29 @@ class MainBottomAppBar extends StatelessWidget {
               onPressed: () {
                 if (kDebugMode) {
                   print("parking button pressed");
-                  gny(context, listen: false)
-                      .reInitParkingAndGenerateMarkers()
-                      .then((value) => {
-                            print("reInit Parking from P button"),
-                            ScaffoldMessenger.of(context).showSnackBar(snackBarParking)
-                          });
                 }
+                gny(context, listen: false)
+                    .reInitParkingAndGenerateMarkers()
+                    .then((value) => {
+                          print("reInit Parking from P button"),
+                          ScaffoldMessenger.of(context).showSnackBar(snackBarParking)
+                        });
               },
               icon: const Icon(Icons.local_parking)),
           IconButton(
               onPressed: () {
                 if (kDebugMode) {
                   print("MAJ Parkings");
-                  gny(context, listen: false).fetchDynamicDataParkings().then(
-                      (value) => {
-                            print("fetchDynamicData from MAJ button"),
-                            onUpdateTap()
-                          });
                 }
+                gny(context, listen: false).fetchDynamicDataParkings().then(
+                    (value) => {
+                          print("fetchDynamicData from MAJ button"),
+                          onUpdateTap()
+                });
+
+                //? Si utilisé, afficher si not null, vider la variable après affichage
+                //? ou créer un tableau. -> gestion d'erreur flutter ? équivalent slim: regarder
+                // ScaffoldMessenger.of(context).showSnackBar(gny(context, listen: false).snackBarError);
               },
               icon: const Icon(Icons.update)),
         ],
