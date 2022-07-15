@@ -26,10 +26,20 @@ class GnyParking extends ChangeNotifier {
   String uriGny =
       'https://go.g-ny.org/stationnement?output='; //TODO: Global uriGny
 
+  late SnackBar snackBarError;
+
   GnyParking() {
     print("GnyParking constructor");
   }
 
+  SnackBar errorToSnack(String message) {
+    return SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.red,
+      duration: Duration(seconds: 30),
+    );
+  }
+  
   // Prépare la liste de parking, génère les marqueur
   Future<void> initParkingAndGenerateMarkers() async {
     // Initialise les Parking
@@ -151,6 +161,7 @@ class GnyParking extends ChangeNotifier {
     } catch (e) {
       if (kDebugMode) {
         print('Caught error in GnyParking.fetchDynamicDataParking() : $e');
+        snackBarError = errorToSnack(e.toString());
       }
     }
   }
