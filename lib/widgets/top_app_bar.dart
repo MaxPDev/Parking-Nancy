@@ -89,7 +89,7 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
                 }
 
                 if (value != null) {
-                  ban(context, listen: false).fetchDataAdresseFromInput(value.trim().replaceAll(' ', '+'));
+                  ban(context, listen: false).initAddress(value.trim().replaceAll(' ', '+'));
                 }
               },
               

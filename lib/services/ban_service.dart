@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:nancy_stationnement/models/address.dart';
 
 class BanService extends ChangeNotifier {
   // URI de la Base Adresse Nationale
@@ -15,13 +16,24 @@ class BanService extends ChangeNotifier {
   // Recherche depuis des coordonnées (Géolocalisation)
   String uriBanFromCoordinates = 'https://api-adresse.data.gouv.fr/reverse/?';
 
+  static List<Address> addressList = [];
+
   BanService() {
     if (kDebugMode) {
       print("Ban serivce constructor");
     }
   }
 
-  Future<void> fetchDataAdresseFromInput(String? address) async {
+  // Récupérer les données depuis la saisie, vider la liste des adresse, 
+  // et générer les objets Address en les ajoutant à la liste
+  Future<void> initAddress(String? value) async {
+    var data = await fetchDataAdresseFromInput(value);
+    addressList.clear();
+    dataToAddressList(data);
+
+  }  
+
+  Future<Map<String, dynamic>> fetchDataAdresseFromInput(String? address) async {
     try {
       //? Taiter address avant ?
       // Récupère les données via l'API
@@ -29,7 +41,7 @@ class BanService extends ChangeNotifier {
       Response response = await get(uri);
       Map<String, dynamic> data = jsonDecode(response.body);
 
-      // inspect(data);
+      return data;
       //TODO inspect avec inspect la récupération avec les index de tableau
       //TODO bien penser les fonctions de ce fichier (créer objets etc, séparer)
       //TODO créer les objets, les stocker
@@ -40,12 +52,21 @@ class BanService extends ChangeNotifier {
       //TODO bouton ajouter départ
 
       //TODO faire géoloc
-      print(data);
     } catch (e) {
       if (kDebugMode) {
         print('Caught error in fetchDataAdressFromInput() : $e');
       }
+      rethrow; //todo gérer si null au lieu de ça ?
     }
+  }
+
+  Future<void> dataToAddressList(Map<String, dynamic> data) async {
+      for (var i = 0; i < data["features"].length; i++) {
+        addressList.add(
+          Address.fromAPIJson(data['features'][i])
+        );
+      }
+        inspect(addressList);
   }
 
   Future<void> fetchAddressFromCoordinates(String coordinates) async {
