@@ -10,11 +10,15 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
   TopAppBar({
     Key? key,
     // required this.onExpansionComplete
+    required this.onEdition,
+    required this.onClose
   }) : super(key: key);
 
   final ban = Provider.of<BanService>;
 
   // final Function onExpansionComplete;
+  final Function onEdition;
+  final Function onClose;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -81,6 +85,8 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
                 if (value != null) {
                   ban(context, listen: false).initAddress(value.trim().replaceAll(' ', '+'));
                 }
+
+                onEdition();
               },
 
               onSaved: (String? value) {
@@ -103,6 +109,12 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
                 if (value != null) {
                   ban(context, listen: false).initAddress(value.trim().replaceAll(' ', '+'));
                 }
+
+                onEdition();
+              },
+
+              onCollapseComplete: () {
+                onClose();
               },
               
             ),

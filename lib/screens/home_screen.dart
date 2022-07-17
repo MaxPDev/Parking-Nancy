@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Marker> _markers = [];
   bool isParkCardSelected = false;
-  bool isAddressFieldExpansinComplete = false;
+  bool isAddressFieldEditing = false;
 
   final snackBarPopup = SnackBar(
     content: Text("Disponibilités et marqueurs mis à jour (dev mode)"),
@@ -99,12 +99,21 @@ class _HomeScreenState extends State<HomeScreen> {
       //TODO: Doit être une search bar, ou celle-ci doit être en dessous.
       //TODO: Faire une fonction deselectParking si utilisable ailleurs //! Fait réduire la Parking Card lors d'une selection d'une icon : not wanted
       // appBar: TopAppBar(onExpansionComplete: () {isParkCardSelected = false;}), 
-      appBar: TopAppBar(), 
+      appBar: TopAppBar(
+        onEdition: () {setState(() {
+          isAddressFieldEditing = true;
+        });}, 
+        onClose: () {setState(() {
+          isAddressFieldEditing = false;
+        });},
+      ), 
 
       //? Container ?
       body: Column(
         children: [
-          isAddressFieldExpansinComplete ? Expanded(
+
+          // Affiche la liste de recherche d'adresse en fonction de l'action écoutée dans TopAppBar
+          isAddressFieldEditing ? Expanded(
             flex: 1,
             child: ListAddress(),
           ) : Container(),
