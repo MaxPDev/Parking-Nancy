@@ -13,19 +13,32 @@ class ListAddress extends StatelessWidget {
 
   // final BanService Function(BuildContext context, {bool listen}) ban;
 
-    final ban = Provider.of<BanService>;
+  final ban = Provider.of<BanService>;
 
   @override
   Widget build(BuildContext context) {
     List<Address> addressList = ban(context, listen: true).addressList;
 
-    return ListView.builder(
+    return addressList.length != null ? 
+    ListView.builder(
       itemCount: ban(context, listen: true).addressList.length,
       itemBuilder: (context, index) {
+
+        Address address = addressList[index];
+
+        //todo: listview divider + ascensor ? + number / street / city apparence
+        //todo: affichage list + probleme saisie
         return ListTile(
-          title: Text("${addressList[index].label}"),
+          title: Text("${address.label}"),
+          onTap: () => print("${address.id}"), //todo generate marker
+          tileColor: Color.fromARGB(255, 210, 236, 211),
+          selectedTileColor: Colors.green,
+          focusColor: Colors.red,
+          
         );
       }
-    );
+    )
+    :
+    Container();
   }
 }

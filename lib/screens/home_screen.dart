@@ -100,9 +100,13 @@ class _HomeScreenState extends State<HomeScreen> {
       //TODO: Faire une fonction deselectParking si utilisable ailleurs //! Fait réduire la Parking Card lors d'une selection d'une icon : not wanted
       // appBar: TopAppBar(onExpansionComplete: () {isParkCardSelected = false;}), 
       appBar: TopAppBar(
-        onEdition: () {setState(() {
-          isAddressFieldEditing = true;
-        });}, 
+        onEdition: () { 
+          if(!isAddressFieldEditing) {
+            setState(() {
+              isAddressFieldEditing = true;
+            });
+          }
+        }, 
         onClose: () {setState(() {
           isAddressFieldEditing = false;
         });},
@@ -114,8 +118,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
           // Affiche la liste de recherche d'adresse en fonction de l'action écoutée dans TopAppBar
           isAddressFieldEditing ? Expanded(
-            flex: 1,
-            child: ListAddress(),
+            flex: 2,
+            child: Container(
+              color: Color.fromARGB(0, 39, 23, 23),
+              child: ListAddress()
+            ),
           ) : Container(),
           Expanded(
             flex: 2,
