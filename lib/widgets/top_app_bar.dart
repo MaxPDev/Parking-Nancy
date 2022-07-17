@@ -55,6 +55,8 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
           padding: const EdgeInsets.fromLTRB(5, 5, 0, 5),
           child: Form(
             child: SearchBarAnimation(
+              textInputType: TextInputType.streetAddress,
+              enableKeyboardFocus: true,
               textEditingController: TextEditingController(),
               durationInMilliSeconds: 700,
               isOriginalAnimation: false,
@@ -68,6 +70,10 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
               onChanged: (String? value) {
                 if (kDebugMode) {
                   print("on changed $value");
+                }
+
+                if (value != null) {
+                  ban(context, listen: false).initAddress(value.trim().replaceAll(' ', '+'));
                 }
               },
 

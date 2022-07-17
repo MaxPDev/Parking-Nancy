@@ -28,6 +28,8 @@ class MinParkingCard extends StatelessWidget {
     return data;
   }
 
+  //! If parking is closed !
+
   @override
   Widget build(BuildContext context) {
   Parking parking = gny(context, listen: true).selectedParking!;

@@ -16,7 +16,7 @@ class BanService extends ChangeNotifier {
   // Recherche depuis des coordonnées (Géolocalisation)
   String uriBanFromCoordinates = 'https://api-adresse.data.gouv.fr/reverse/?';
 
-  static List<Address> addressList = [];
+  List<Address> addressList = [];
 
   BanService() {
     if (kDebugMode) {
@@ -30,6 +30,7 @@ class BanService extends ChangeNotifier {
     var data = await fetchDataAdresseFromInput(value);
     addressList.clear();
     dataToAddressList(data);
+    notifyListeners();
 
   }  
 
@@ -52,6 +53,8 @@ class BanService extends ChangeNotifier {
       //TODO bouton ajouter départ
 
       //TODO faire géoloc
+
+      //TODO input field number typed first doesn't work
     } catch (e) {
       if (kDebugMode) {
         print('Caught error in fetchDataAdressFromInput() : $e');

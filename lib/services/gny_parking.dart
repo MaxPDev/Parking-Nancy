@@ -216,7 +216,7 @@ class GnyParking extends ChangeNotifier {
     return parking;
   }
 
-    /**
+  /**
    * Récupère et rénvoie la propriété available depuis les coordonnées
    */
   //! Contournement
@@ -228,9 +228,10 @@ class GnyParking extends ChangeNotifier {
     return parkingPopup.available;
   }
 
-    /**
+  /**
    * Récupère et rénvoie la propriété uiColor_en depuis les coordonnées
    */
+  //! If parkings is closed color !
   //! Contournement
   static Color? getColorFromCoordinates(LatLng point) {
     Parking parkingPopup = _parkings.firstWhere((parking) =>

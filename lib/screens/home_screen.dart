@@ -16,6 +16,7 @@ import 'package:nancy_stationnement/widgets/parking_card.dart';
 import 'package:nancy_stationnement/widgets/top_app_bar.dart';
 
 import 'package:nancy_stationnement/services/gny_parking.dart';
+import 'package:nancy_stationnement/services/ban_service.dart';
 
 import 'package:nancy_stationnement/utils/hex_color.dart';
 
@@ -37,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Providers
   final gny = Provider.of<GnyParking>;
+  final ban = Provider.of<BanService>;
 
   List<Marker> _markers = [];
   bool isParkCardSelected = false;
@@ -99,6 +101,19 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         children: [
           Expanded(
+            flex: 1,
+            child: ListView.builder(
+              itemCount: ban(context, listen: true).addressList.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text("${ban(context, listen: true).addressList[index].label}"),
+                );
+              }
+            )
+        
+          ),
+          Expanded(
+            flex: 2,
             child: FlutterMap(
               mapController: _mapController,
 

@@ -64,6 +64,8 @@ class ParkingCard extends StatelessWidget {
   //? Mettre les conditions sur les colonnes plutôt que 0 ? Dans certains cas ?
   //? Voir en fonction de la réalité...
 
+  //! If parking is closed !
+
   @override
   Widget build(BuildContext context) {
 
