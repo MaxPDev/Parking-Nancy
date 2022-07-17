@@ -106,12 +106,13 @@ class ParkingCard extends StatelessWidget {
     // Height (without status and toolbar)
     double height3 = height - padding.top - kToolbarHeight;
 
-    return isPortrait ?
+    // return isPortrait ?
+    return
     Container(
       padding: EdgeInsets.all(7),
 
       // Height for real App
-      height: height3 * 0.54,
+      // height: height3 * 0.54,
 
       //* Height for display more data for dev
       // height: height3 * 0.75,
@@ -492,7 +493,10 @@ class ParkingCard extends StatelessWidget {
           // ),
         ],
       ),
-    ) : 
+    ) 
+    ;
+    // Si landscape, condition 2 :
+    // : 
 
     // Affichage Landscape
     //! PROBLEME LORSQUE JE REMPLIE AVEC PLUS D'AUTRE CONTENU : RENDER FLEX. PARCEQUE SCROLLABLE ?

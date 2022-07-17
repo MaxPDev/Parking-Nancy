@@ -41,10 +41,10 @@ class NancyStationnementApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Bloquer l'appli en mode portrait //? Temporaire
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.portraitUp,
+    //   DeviceOrientation.portraitDown,
+    // ]);
     return const HomeScreen();
   }
 }

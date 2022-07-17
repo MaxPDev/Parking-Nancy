@@ -9,9 +9,12 @@ import 'package:nancy_stationnement/services/ban_service.dart';
 class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
   TopAppBar({
     Key? key,
+    // required this.onExpansionComplete
   }) : super(key: key);
 
   final ban = Provider.of<BanService>;
+
+  // final Function onExpansionComplete;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -66,6 +69,9 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
               enableBoxShadow: true,
               // enableButtonBorder: true,
               // enableButtonShadow: true,
+
+              // onExpansionComplete: onExpansionComplete(),
+              
 
               onChanged: (String? value) {
                 if (kDebugMode) {
