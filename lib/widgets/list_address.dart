@@ -10,11 +10,14 @@ import 'package:nancy_stationnement/widgets/items.dart';
 class ListAddress extends StatelessWidget {
   const ListAddress({
     Key? key,
+    required this.onAddressTap,
   }) : super(key: key);
 
   // final BanService Function(BuildContext context, {bool listen}) ban;
 
+  // Serivce ban depuis le provider
   final ban = Provider.of<BanService>;
+  final Function onAddressTap;
 
   double roundDistanceInKm(distanceInMeters) {
     return double.parse((distanceInMeters/100).toStringAsFixed(2));
@@ -23,6 +26,8 @@ class ListAddress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
   double width = MediaQuery.of(context).size.width;
+
+    // liste des adresses depuis le service ban
     List<Address> addressList = ban(context, listen: true).addressList;
 
     return addressList.length != null ? 
@@ -46,7 +51,11 @@ class ListAddress extends StatelessWidget {
           title: Text("${address.name}"),
           trailing: Text("${roundDistanceInKm(address.distance)} km", style: TextStyle(fontStyle: FontStyle.italic),),
 
-          onTap: () => print("${address.id}"), //todo generate marker
+          onTap: () {
+            ban(context, listen: false).selectedDestinationAddress = address;
+            ban(context, listen: false).generateDistinationAdresseMarker();
+            onAddressTap();
+          } ,
           // onLongPress: ,(//todo generate marker too ?)
 
           tileColor: Color.fromARGB(255, 210, 236, 211),

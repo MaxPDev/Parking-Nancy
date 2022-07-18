@@ -67,7 +67,7 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
               textEditingController: TextEditingController(),
               durationInMilliSeconds: 700,
               isOriginalAnimation: false,
-              hintText: "Rechercher une adresses",
+              hintText: "Destination...",
               searchBoxWidth: width * 0.70,
               enableBoxBorder: true,
               enableBoxShadow: true,

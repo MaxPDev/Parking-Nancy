@@ -75,6 +75,14 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  // Affiche le marqueur de la destination
+  _displayDestinationMarker() {
+    setState(() {
+      _markers.add(ban(context, listen: false).selectedDestinationMarker);
+      print("should not be here");
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -131,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
 
               ),
-              child: ListAddress()
+              child: ListAddress(onAddressTap: _displayDestinationMarker,)
             ),
           ) : Container(),
           Expanded(

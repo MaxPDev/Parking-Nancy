@@ -1,9 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:flutter_map/flutter_map.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart';
+import 'package:latlong2/latlong.dart';
+
 import 'package:nancy_stationnement/models/address.dart';
 
 class BanService extends ChangeNotifier {
@@ -17,6 +21,8 @@ class BanService extends ChangeNotifier {
   String uriBanFromCoordinates = 'https://api-adresse.data.gouv.fr/reverse/?';
 
   List<Address> addressList = [];
+  Address? selectedDestinationAddress;
+  late Marker selectedDestinationMarker;
 
   BanService() {
     if (kDebugMode) {
@@ -89,4 +95,20 @@ class BanService extends ChangeNotifier {
   }
 
   //TODO: Marker generator
+
+  void generateDistinationAdresseMarker() {
+    selectedDestinationMarker = new Marker(
+      point: LatLng(selectedDestinationAddress!.lat, selectedDestinationAddress!.long), 
+      width: 40,
+      height: 40,
+      builder: (context) => Icon( //? gesturedocore pour faire apparait l'adresse dans la barre de recherche, ou afficher détail de l'adresse ?
+        FontAwesomeIcons.locationPin,
+        size: 40,
+        color: Colors.orange,
+       )
+      
+      );
+
+    inspect(selectedDestinationMarker);
+  }
 }
