@@ -83,19 +83,17 @@ class _HomeScreenState extends State<HomeScreen> {
     _markers.forEach((marker) {
       if(marker.key == ObjectKey("address_marker")) {
         _markers.remove(marker);
-        print("sould not be there");
+        print("sould not be there first time");
       }
     });
 
     setState(() {
-      _markers.add(ban(context, listen: false).selectedDestinationMarker);
-      print("should not be here");
+      _markers.add(ban(context, listen: false).selectedDestinationMarker);;
     });
 
     _markers.forEach((marker) {
       if(marker.key == ObjectKey("address_marker")) {
-        _markers.remove(marker);
-        print("sould not be here once");
+        print("sould not here once");
       }
     });
 
@@ -229,10 +227,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         popupSnap: PopupSnap.markerTop,
                         //todo: rajouter des conditions comme dans proto en fonction du service selectionné
                         popupController:
-                            PopupController(initiallySelectedMarkers: _markers),
+                        // Affiche les popup sauf pour les marqueur d'adresse
+                            PopupController(initiallySelectedMarkers: _markers.where((marker) => marker.key != ObjectKey("address_marker")).toList()),
                         popupBuilder: (_, marker) {
-                          return ParkingPopup(
-                              markers: _markers, marker: marker);
+                          //TODO: faire une fonction switch case de popup qui gère tout les type de popup
+                          if (marker.key != ObjectKey("address_marker")) {
+                            return ParkingPopup(
+                                markers: _markers, marker: marker);
+                          }
+                          return Container();
                         }),
                     builder: (context, markers) {
                       // Affichage du Widget du Cluster
