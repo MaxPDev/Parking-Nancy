@@ -61,6 +61,8 @@ class BanService extends ChangeNotifier {
       //TODO faire géoloc
 
       //TODO input field number typed first doesn't work
+
+      //TODO: limit
     } catch (e) {
       if (kDebugMode) {
         print('Caught error in fetchDataAdressFromInput() : $e');
@@ -98,6 +100,7 @@ class BanService extends ChangeNotifier {
 
   void generateDistinationAdresseMarker() {
     selectedDestinationMarker = new Marker(
+      key: ObjectKey("address_marker"),
       point: LatLng(selectedDestinationAddress!.lat, selectedDestinationAddress!.long), 
       width: 40,
       height: 40,

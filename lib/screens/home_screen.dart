@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -78,6 +80,12 @@ class _HomeScreenState extends State<HomeScreen> {
   // Affiche le marqueur de la destination
   _displayDestinationMarker() {
     setState(() {
+    _markers.forEach((marker) {
+      if(marker.key == "address_marker") {
+        print("marker keyed :");
+        inspect(marker);
+      }
+    });
       _markers.add(ban(context, listen: false).selectedDestinationMarker);
       print("should not be here");
     });
@@ -165,6 +173,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
                 // //TODO: Make hide popup when tap map work
                 // onTap: (_, __) => _popupController.hidePopupsOnlyFor(_markers)
+                onTap: (_, __) {setState(() {
+                  // isParkCardSelected = false;
+                  isParkCardSelected ? isParkCardSelected = false : gny(context, listen: false).selectedParking = null;
+                  isAddressFieldEditing = false;
+                });
+                }
               ),
               layers: [
                 TileLayerOptions(
@@ -229,7 +243,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     AnimatedSize(
                       duration: Duration(milliseconds: 400),
-                      // reverseDuration: Duration(milliseconds: 0),
+                      reverseDuration: Duration(milliseconds: 0),
                       curve: Curves.decelerate,
                       child: Container(
                         color: Color(0xFFE5E5E5),
