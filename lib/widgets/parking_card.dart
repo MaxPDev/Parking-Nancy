@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:nancy_stationnement/utils/hex_color.dart';
 import 'package:nancy_stationnement/services/gny_parking.dart';
 import 'package:nancy_stationnement/models/parking.dart';
+import 'package:nancy_stationnement/widgets/items.dart';
 
 class ParkingCard extends StatelessWidget {
   const ParkingCard({
@@ -171,13 +172,7 @@ class ParkingCard extends StatelessWidget {
             )
           ]),
 
-          Divider(
-            height: 7,
-            thickness: 1,
-            color: Color.fromRGBO(158, 158, 158, 0.3),
-            indent: width/4,
-            endIndent: width/4,
-          ),
+          DividerQuart(width: width),
 
           // Capacité Max, PMR et Bornes de recharge électrique
           Row(
@@ -232,13 +227,7 @@ class ParkingCard extends StatelessWidget {
             ],
           ),
 
-          Divider(
-            height: 7,
-            thickness: 1,
-            color: Color.fromRGBO(158, 158, 158, 0.3),
-            indent: width/4,
-            endIndent: width/4,
-          ),
+          DividerQuart(width: width),
           // Tarifs
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -305,13 +294,7 @@ class ParkingCard extends StatelessWidget {
             ],
           ),
 
-          Divider(
-            height: 7,
-            thickness: 1,
-            color: Color.fromRGBO(158, 158, 158, 0.3),
-            indent: width/4,
-            endIndent: width/4,
-          ),
+          DividerQuart(width: width),
 
           // Type et Haute du parking
           Row(
@@ -345,13 +328,7 @@ class ParkingCard extends StatelessWidget {
             ],
           ),
 
-          Divider(
-            height: 7,
-            thickness: 1,
-            color: Color.fromRGBO(158, 158, 158, 0.3),
-            indent: width/4,
-            endIndent: width/4,
-          ),
+          DividerQuart(width: width),
 
           // Adresse
           Row(
@@ -436,13 +413,7 @@ class ParkingCard extends StatelessWidget {
             ],
           ),
 
-          Divider(
-            height: 7,
-            thickness: 1,
-            color: Color.fromRGBO(158, 158, 158, 0.3),
-            indent: width/4,
-            endIndent: width/4,
-          ),
+          DividerQuart(width: width),
 
           // Propriétaire
           Row(

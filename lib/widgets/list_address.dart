@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import 'package:nancy_stationnement/services/ban_service.dart';
 import 'package:nancy_stationnement/models/address.dart';
+import 'package:nancy_stationnement/widgets/items.dart';
 
 class ListAddress extends StatelessWidget {
   const ListAddress({
@@ -17,17 +18,20 @@ class ListAddress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+  double width = MediaQuery.of(context).size.width;
     List<Address> addressList = ban(context, listen: true).addressList;
 
     return addressList.length != null ? 
-    ListView.builder(
+    ListView.separated(
       itemCount: ban(context, listen: true).addressList.length,
+      separatorBuilder: (context, index) => DividerQuart(width: width),
       itemBuilder: (context, index) {
 
         Address address = addressList[index];
 
         //todo: listview divider + ascensor ? + number / street / city apparence
-        //todo: affichage list + probleme saisie
+        //todo: affichage list + probleme saisie + garder le texte saisie dans le champ
+        //todo divier et height width en global
         return ListTile(
           title: Text("${address.label}"),
           onTap: () => print("${address.id}"), //todo generate marker
