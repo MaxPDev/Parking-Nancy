@@ -119,15 +119,6 @@ class ParkingCard extends StatelessWidget {
       // height: height3 * 0.75,
       // height: 440,
       
-      decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(
-            color: Colors.grey,
-            width: 3.0
-          ),
-        ),
-
-      ),
       child: 
       Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,

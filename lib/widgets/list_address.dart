@@ -16,6 +16,10 @@ class ListAddress extends StatelessWidget {
 
   final ban = Provider.of<BanService>;
 
+  double roundDistanceInKm(distanceInMeters) {
+    return double.parse((distanceInMeters/100).toStringAsFixed(2));
+  }
+
   @override
   Widget build(BuildContext context) {
   double width = MediaQuery.of(context).size.width;
@@ -23,6 +27,7 @@ class ListAddress extends StatelessWidget {
 
     return addressList.length != null ? 
     ListView.separated(
+      // shrinkWrap: true,
       itemCount: ban(context, listen: true).addressList.length,
       separatorBuilder: (context, index) => DividerQuart(width: width),
       itemBuilder: (context, index) {
@@ -33,11 +38,30 @@ class ListAddress extends StatelessWidget {
         //todo: affichage list + probleme saisie + garder le texte saisie dans le champ
         //todo divier et height width en global
         return ListTile(
-          title: Text("${address.label}"),
+
+          isThreeLine: true,
+
+          // leading: Text("${address.housenumber}"),
+          subtitle: Text("${address.postcode} ${address.city}"),
+          title: Text("${address.name}"),
+          trailing: Text("${roundDistanceInKm(address.distance)} km", style: TextStyle(fontStyle: FontStyle.italic),),
+
           onTap: () => print("${address.id}"), //todo generate marker
+          // onLongPress: ,(//todo generate marker too ?)
+
           tileColor: Color.fromARGB(255, 210, 236, 211),
           selectedTileColor: Colors.green,
-          focusColor: Colors.red,
+          focusColor: Colors.greenAccent,
+
+          shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(21)),
+
+          dense: false,
+          visualDensity: VisualDensity(vertical: -4),
+          // contentPadding: EdgeInsets.fromLTRB(7, 7, 7, 7),
+
+          // horizontalTitleGap: 10,
+          // minVerticalPadding: 10,
+          // minLeadingWidth: ,
           
         );
       }

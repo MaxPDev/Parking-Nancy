@@ -120,7 +120,17 @@ class _HomeScreenState extends State<HomeScreen> {
           isAddressFieldEditing ? Expanded(
             flex: 2,
             child: Container(
-              color: Color.fromARGB(0, 39, 23, 23),
+              // height: 1,
+              // color: Color.fromARGB(0, 39, 23, 23),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Colors.grey,
+                    width: 3.0
+                  ),
+                ),
+
+              ),
               child: ListAddress()
             ),
           ) : Container(),
@@ -192,53 +202,66 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
+
+          //TODO: to fix : Bug affichage quand Up et white screen quand down
           Expanded(
             flex: isParkCardSelected ? 3 : 0,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  AnimatedSize(
-                    duration: Duration(milliseconds: 400),
-                    // reverseDuration: Duration(milliseconds: 0),
-                    curve: Curves.decelerate,
-                    child: Container(
-                      color: Color(0xFFE5E5E5),
-                      // mainAxisAlignment: MainAxisAlignment.start,
-                      // crossAxisAlignment: CrossAxisAlignment.center,
-                      child: gny(context, listen: true).selectedParking != null
-                          ? GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onPanUpdate: (details) {
-                                if (details.delta.dy < 1) {
-                                  print("dragup");
-                                  if (!isParkCardSelected) {
-                                    setState(() {
-                                      isParkCardSelected = true;
-                                    });
-                                  }
-                                } else {
-                                  print("drag down");
-                                  if (isParkCardSelected) {
-                                    setState(() {
-                                      isParkCardSelected = false;
-                                    });
-                                  }
-                                }
-                              },
-                              // onTap: () {
-                              //   setState(() {
-                              //     isParkCardSelected =
-                              //         isParkCardSelected == false ? true : false;
-                              //   });
-                              // },
-                              child: isParkCardSelected
-                                  ? ParkingCard()
-                                  // ? isPortrait ? ParkingCard() : Text("from home")
-                                  : MinParkingCard()) //todo Gesture doctor : miniCard, onTruc : Card (column->row->column)
-                          : Container(),
-                    ),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    color: Colors.grey,
+                    width: 3.0
                   ),
-                ],
+                ),
+
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    AnimatedSize(
+                      duration: Duration(milliseconds: 400),
+                      // reverseDuration: Duration(milliseconds: 0),
+                      curve: Curves.decelerate,
+                      child: Container(
+                        color: Color(0xFFE5E5E5),
+                        // mainAxisAlignment: MainAxisAlignment.start,
+                        // crossAxisAlignment: CrossAxisAlignment.center,
+                        child: gny(context, listen: true).selectedParking != null
+                            ? GestureDetector(
+                                behavior: HitTestBehavior.translucent,
+                                onPanUpdate: (details) {
+                                  if (details.delta.dy < 1) {
+                                    print("dragup");
+                                    if (!isParkCardSelected) {
+                                      setState(() {
+                                        isParkCardSelected = true;
+                                      });
+                                    }
+                                  } else {
+                                    print("drag down");
+                                    if (isParkCardSelected) {
+                                      setState(() {
+                                        isParkCardSelected = false;
+                                      });
+                                    }
+                                  }
+                                },
+                                // onTap: () {
+                                //   setState(() {
+                                //     isParkCardSelected =
+                                //         isParkCardSelected == false ? true : false;
+                                //   });
+                                // },
+                                child: isParkCardSelected
+                                    ? ParkingCard()
+                                    // ? isPortrait ? ParkingCard() : Text("from home")
+                                    : MinParkingCard()) //todo Gesture doctor : miniCard, onTruc : Card (column->row->column)
+                            : Container(),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           )
