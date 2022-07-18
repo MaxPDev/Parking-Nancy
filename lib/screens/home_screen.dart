@@ -79,16 +79,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Affiche le marqueur de la destination
   _displayDestinationMarker() {
-    setState(() {
+
     _markers.forEach((marker) {
-      if(marker.key == "address_marker") {
-        print("marker keyed :");
-        inspect(marker);
+      if(marker.key == ObjectKey("address_marker")) {
+        _markers.remove(marker);
+        print("sould not be there");
       }
     });
+
+    setState(() {
       _markers.add(ban(context, listen: false).selectedDestinationMarker);
       print("should not be here");
     });
+
+    _markers.forEach((marker) {
+      if(marker.key == ObjectKey("address_marker")) {
+        _markers.remove(marker);
+        print("sould not be here once");
+      }
+    });
+
   }
 
   @override
@@ -134,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
           // Affiche la liste de recherche d'adresse en fonction de l'action écoutée dans TopAppBar
           isAddressFieldEditing ? Expanded(
-            flex: 2,
+            flex: 1,
             child: Container(
               // height: 1,
               // color: Color.fromARGB(0, 39, 23, 23),
@@ -173,10 +183,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
                 // //TODO: Make hide popup when tap map work
                 // onTap: (_, __) => _popupController.hidePopupsOnlyFor(_markers)
+                //TODO: placer destination avec un onLongPress: ,
                 onTap: (_, __) {setState(() {
-                  // isParkCardSelected = false;
-                  isParkCardSelected ? isParkCardSelected = false : gny(context, listen: false).selectedParking = null;
-                  isAddressFieldEditing = false;
+                  // S'il y la petite card de parking et la liste d'adresse, réduit la petite card.
+                  // S'il n'y a que la liste d'adresse, la réduit
+                    if(isAddressFieldEditing) {
+                      if(gny(context, listen: false).selectedParking != null) {
+                        if(isParkCardSelected) {
+                          isParkCardSelected = false;
+                        } else {
+                          gny(context, listen: false).selectedParking = null;
+                        }
+                       } else {
+                        isAddressFieldEditing = false;
+                       }
+                  } else {
+                    // Si la grande "card" de Parking est affichée, la réduit, et c'est la petit, l'enlève
+                    isParkCardSelected ? isParkCardSelected = false : gny(context, listen: false).selectedParking = null;
+                  }
+
                 });
                 }
               ),

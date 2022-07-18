@@ -207,7 +207,7 @@ class GnyParking extends ChangeNotifier {
   }
 
    // Récupère Parking depuis les coordonnées
-  //! Contournement?
+  //! Contournement? FAIRE AVEC LES OBJECTKEY
   static Parking getParkingFromCoordinates(LatLng point) {
     Parking parking = _parkings.firstWhere((parking) =>
         parking.coordinates[1] == point.latitude &&
@@ -219,7 +219,7 @@ class GnyParking extends ChangeNotifier {
   /**
    * Récupère et rénvoie la propriété available depuis les coordonnées
    */
-  //! Contournement
+  //! Contournement FAIRE AVEC LES OBJECTKEY
   static String? getAvailableFromCoordinates(LatLng point) {
     Parking parkingPopup = _parkings.firstWhere((parking) =>
         parking.coordinates[1] == point.latitude &&
@@ -232,7 +232,7 @@ class GnyParking extends ChangeNotifier {
    * Récupère et rénvoie la propriété uiColor_en depuis les coordonnées
    */
   //! If parkings is closed color !
-  //! Contournement
+  //! Contournement FAIRE AVEC LES OBJECTKEY
   static Color? getColorFromCoordinates(LatLng point) {
     Parking parkingPopup = _parkings.firstWhere((parking) =>
         parking.coordinates[1] == point.latitude &&
