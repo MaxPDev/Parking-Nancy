@@ -6,7 +6,7 @@ import 'package:searchbar_animation/searchbar_animation.dart';
 
 import 'package:nancy_stationnement/services/ban_service.dart';
 
-class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
+class TopAppBar extends StatefulWidget implements PreferredSizeWidget {
   TopAppBar({
     Key? key,
     // required this.onExpansionComplete
@@ -14,21 +14,30 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.onClose
   }) : super(key: key);
 
-  final ban = Provider.of<BanService>;
-
-  // final Function onExpansionComplete;
   final Function onEdition;
   final Function onClose;
 
   @override
+  State<TopAppBar> createState() => _TopAppBarState();
+  
+  @override
+  // // TODO: implement preferredSize
+  // Size get preferredSize => throw UnimplementedError();
+  @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+class _TopAppBarState extends State<TopAppBar> {
+  final ban = Provider.of<BanService>;
+
+  final textController = TextEditingController();
+
+  static String textSave = "";
 
   // Note: This is a `GlobalKey<FormState>`,
-  // not a GlobalKey<MyCustomFormState>.
-  // final _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
+
 
     // Variables de hauteurs d'écrans
     // Full screen width and height
@@ -64,7 +73,7 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
             child: SearchBarAnimation(
               textInputType: TextInputType.streetAddress,
               enableKeyboardFocus: true,
-              textEditingController: TextEditingController(),
+              textEditingController: textController,
               durationInMilliSeconds: 700,
               isOriginalAnimation: false,
               hintText: "Destination...",
@@ -82,9 +91,14 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
                   print("on changed $value");
                 }
 
-                if (value != null && value.length > 3) {
+                if (value != null && value.length > 5) {
                   ban(context, listen: false).initAddress(value.trim().replaceAll(' ', '+'));
-                  onEdition();
+                  if (value.length > 5) {
+                  textSave = value;
+                  widget.onEdition();
+                  textController.text = textSave;
+                  textController.selection = TextSelection.collapsed(offset: textSave.length);
+                  }
                 }
 
               },
@@ -112,7 +126,7 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
               },
 
               onCollapseComplete: () {
-                onClose();
+                widget.onClose();
               },
               
             ),

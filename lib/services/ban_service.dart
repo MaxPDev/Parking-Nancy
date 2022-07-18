@@ -33,10 +33,13 @@ class BanService extends ChangeNotifier {
   // Récupérer les données depuis la saisie, vider la liste des adresse, 
   // et générer les objets Address en les ajoutant à la liste
   Future<void> initAddress(String? value) async {
-    var data = await fetchDataAdresseFromInput(value);
-    addressList.clear();
-    dataToAddressList(data);
-    notifyListeners();
+    if (value != null && value.length > 3 ) {
+      var data = await fetchDataAdresseFromInput(value);
+      addressList.clear();
+      dataToAddressList(data);
+      notifyListeners();
+
+    }
 
   }  
 
