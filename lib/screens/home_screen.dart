@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Marker> _markers = [];
   bool isParkCardSelected = false;
   bool isAddressFieldEditing = false;
-  Map areParkingTitleVisible = <String, bool>{'three': true, 'six': false};
+  Map areParkingTitleVisible = {'three': true, 'six': false};
 
   final snackBarPopup = SnackBar(
     content: Text("Disponibilités et marqueurs mis à jour (dev mode)"),
