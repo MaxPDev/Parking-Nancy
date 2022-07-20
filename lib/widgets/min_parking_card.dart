@@ -129,7 +129,7 @@ class MinParkingCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text("(distance)", style: TextStyle(fontStyle: FontStyle.italic),), 
+                      Text("", style: TextStyle(fontStyle: FontStyle.italic),), 
                       SizedBox(
                         height: sizedBoxHeighMiddle,
                       ),

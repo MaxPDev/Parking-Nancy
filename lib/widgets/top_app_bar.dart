@@ -61,7 +61,7 @@ class _TopAppBarState extends State<TopAppBar> {
       ),
       //TODO: make and use global var/settings
       title: const Text(
-        "Nancy Stationnement",
+        "Parking Nancy",
         style: TextStyle(fontSize: 18, overflow: TextOverflow.visible),
       ),
       // centerTitle: true,
