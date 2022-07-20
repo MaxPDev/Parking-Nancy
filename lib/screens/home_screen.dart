@@ -116,6 +116,19 @@ class _HomeScreenState extends State<HomeScreen> {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _initParkingMarkers();
     });
+
+    // AlertDialog(
+    //   title: Text("Avertissement"),
+    //   content: Text("Ne pas utilisez le téléphone en conduisante (...)"),
+    //   actions: [
+    //     TextButton(
+    //       onPressed: () {
+    //         print("test");
+    //       }, 
+    //       child: Icon(Icons.close)
+    //     )
+    //   ]
+    // );
   }
 
   @override

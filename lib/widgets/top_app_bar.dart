@@ -91,7 +91,7 @@ class _TopAppBarState extends State<TopAppBar> {
                   print("on changed $value");
                 }
 
-                if (value != null && value.length >= 4) {
+                if (value != null && value.length > 3) {
                   ban(context, listen: false).initAddress(value.trim().replaceAll(' ', '+'));
                   if (value.length > 5) {
                   textSave = value;
