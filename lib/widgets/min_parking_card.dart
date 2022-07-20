@@ -6,9 +6,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nancy_stationnement/models/parking.dart';
 import 'package:nancy_stationnement/utils/hex_color.dart';
 import 'package:nancy_stationnement/services/gny_parking.dart';
+import 'package:nancy_stationnement/widgets/items.dart';
 
 class MinParkingCard extends StatelessWidget {
-  const MinParkingCard({
+  MinParkingCard({
     Key? key,
     // required this.gny,
   }) : super(key: key);
@@ -28,91 +29,128 @@ class MinParkingCard extends StatelessWidget {
     return data;
   }
 
+  double? sizedBoxHeighMiddle = 7;
+  double? sizedBoxHeighBottom = 9;
+
   //! If parking is closed !
 
   @override
   Widget build(BuildContext context) {
   Parking parking = gny(context, listen: true).selectedParking!;
+  double width = MediaQuery.of(context).size.width;
     return SizedBox(
-        height: 54,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        // height: 54,
+        child: Column(
           children: [
-            // Nom de du Parking
-            Expanded(
-              flex: 2,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    FontAwesomeIcons.squareParking,
-                    size: 24,
-                    color: Colors.blue,
-                  ), 
-                  Text(
-                    "${parking.name}",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      overflow: TextOverflow.ellipsis
-                    ),),
-                  ],
-              ),
+            // Flèche d'agrandissement
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 12,
+                  child: Icon(
+                    Icons.keyboard_arrow_up,
+                    size: 20),
+                ),
+              ],
             ),
-            // Affichage place PMR
-            Expanded(
-              flex: 1,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    FontAwesomeIcons.wheelchair,
-                    size: 18
-                  ), 
-                  Text(dataToPrint(parking.disabled)) 
-                  ],
-              ),
+            DividerQuart(width: width),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Nom de du Parking
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        FontAwesomeIcons.squareParking,
+                        size: 24,
+                        color: Colors.blue,
+                      ),
+                      SizedBox(
+                        height: sizedBoxHeighMiddle,
+                      ),
+                      Text(
+                        "${parking.name}",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          overflow: TextOverflow.ellipsis
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // Affichage place PMR
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        FontAwesomeIcons.wheelchair,
+                        size: 18
+                      ),
+                      SizedBox(
+                        height: sizedBoxHeighMiddle,
+                      ), 
+                      Text(dataToPrint(parking.disabled)) 
+                      ],
+                  ),
+                ),
+                // Affichage borne de recharge electrique
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        FontAwesomeIcons.chargingStation,
+                        size: 18
+                      ),
+                      SizedBox(
+                        height: sizedBoxHeighMiddle,
+                      ), 
+                      Text(dataToPrint(parking.charging)) 
+                      ],
+                  ),
+                ),
+                // Affichage Disponibilité
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text("(distance)", style: TextStyle(fontStyle: FontStyle.italic),), 
+                      SizedBox(
+                        height: sizedBoxHeighMiddle,
+                      ),
+                      parking.available != "null" ? 
+                      Text(
+                        "${parking.available} places",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          //! Prévoir un cas nullable pour ne pas être bloquant
+                          color: HexColor(parking.colorHexa!),
+                        ),) :
+                        Text(""),
+                      ],
+                  ),
+                ),
+              ],
             ),
-            // Affichage borne de recharge electrique
-            Expanded(
-              flex: 1,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    FontAwesomeIcons.chargingStation,
-                    size: 18
-                  ), 
-                  Text(dataToPrint(parking.charging)) 
-                  ],
-              ),
+            SizedBox(
+              height: sizedBoxHeighBottom,
             ),
-            // Affichage Disponibilité
-            Expanded(
-              flex: 2,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(""), 
-                  parking.available != "null" ? 
-                  Text(
-                    "${parking.available} places",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      //! Prévoir un cas nullable pour ne pas être bloquant
-                      color: HexColor(parking.colorHexa!),
-                    ),) :
-                    Text(""),
-                  ],
-              ),
-            )
           ],
         ),
       );

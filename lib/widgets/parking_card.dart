@@ -110,7 +110,7 @@ class ParkingCard extends StatelessWidget {
     // return isPortrait ?
     return
     Container(
-      padding: EdgeInsets.all(7),
+      padding: EdgeInsets.fromLTRB(7, 0, 7, 4),
 
       // Height for real App
       // height: height3 * 0.54,
@@ -125,6 +125,19 @@ class ParkingCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          // Flèche de réduction
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 12,
+                child: Icon(
+                  Icons.keyboard_arrow_down,
+                  size: 20),
+              ),
+            ],
+          ),
+          DividerQuart(width: width),
           // Icone, Nom du Parking et sa disponbilité
           Row(
             mainAxisAlignment: MainAxisAlignment.center, 

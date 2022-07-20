@@ -74,7 +74,7 @@ class _TopAppBarState extends State<TopAppBar> {
               textInputType: TextInputType.streetAddress,
               enableKeyboardFocus: true,
               textEditingController: textController,
-              durationInMilliSeconds: 700,
+              durationInMilliSeconds: 421,
               isOriginalAnimation: false,
               hintText: "Destination...",
               searchBoxWidth: width * 0.70,
@@ -91,7 +91,7 @@ class _TopAppBarState extends State<TopAppBar> {
                   print("on changed $value");
                 }
 
-                if (value != null && value.length > 5) {
+                if (value != null && value.length >= 4) {
                   ban(context, listen: false).initAddress(value.trim().replaceAll(' ', '+'));
                   if (value.length > 5) {
                   textSave = value;

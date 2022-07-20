@@ -99,6 +99,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   }
 
+  // // Switch de la mini card Parking à la grand card Parking
+  // switchParkCardSelected() {
+  //   // setState(() {
+  //   //   isParkCardSelected ? isParkCardSelected = false : isParkCardSelected = true;
+  //   // });
+  //   print("test");
+  // }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -255,7 +263,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
           //TODO: to fix : Bug affichage quand Up et white screen quand down
           Expanded(
-            flex: isParkCardSelected ? 3 : 0,
+            flex: isParkCardSelected ? isPortrait ? 0 : 3 : 0,
             child: Container(
               decoration: BoxDecoration(
                 border: Border(
@@ -271,8 +279,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     AnimatedSize(
                       duration: Duration(milliseconds: 400),
-                      reverseDuration: Duration(milliseconds: 0),
-                      curve: Curves.decelerate,
+                      // reverseDuration: Duration(milliseconds: 0),
+                      curve: Curves.linear,
                       child: Container(
                         color: Color(0xFFE5E5E5),
                         // mainAxisAlignment: MainAxisAlignment.start,
