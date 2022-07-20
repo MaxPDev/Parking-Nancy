@@ -7,13 +7,15 @@ import 'package:nancy_stationnement/services/gny_parking.dart';
 
 class ParkingPopup extends StatelessWidget {
   ParkingPopup(
-      {Key? key, required List<Marker> markers, required Marker marker})
+      {Key? key, required List<Marker> markers, required Marker marker, required Map<String, bool> parkingTitle})
       : _markers = markers,
         _marker = marker,
+        _parkingTitle = parkingTitle,
         super(key: key);
 
   final List<Marker> _markers;
   final Marker _marker;
+  final Map <String, bool> _parkingTitle;
 
   late String? available;
 

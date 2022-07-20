@@ -46,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Marker> _markers = [];
   bool isParkCardSelected = false;
   bool isAddressFieldEditing = false;
+  Map areParkingTitleVisible = <String, bool>{'three': true, 'six': false};
 
   final snackBarPopup = SnackBar(
     content: Text("Disponibilités et marqueurs mis à jour (dev mode)"),
@@ -200,6 +201,28 @@ class _HomeScreenState extends State<HomeScreen> {
                 plugins: [
                   MarkerClusterPlugin(),
                 ],
+                //todo Au Zoom 14, afficher titre de 3 parkings, 15 : 3 de +
+                onPositionChanged: (MapPosition position, bool hasGesture) {
+
+                  if (position.zoom != null) {
+                    if(position.zoom! >= 15) {
+                      areParkingTitleVisible['six'] = true;
+                    }
+               
+                  if(position.zoom! >= 14 && position.zoom! <15) {
+                      areParkingTitleVisible['three'] = true;
+                      areParkingTitleVisible['six'] = false;
+                   } 
+
+              
+                  if (position.zoom! < 14) {
+                      areParkingTitleVisible['three'] = false;
+                      areParkingTitleVisible['six'] = false;
+                  }
+
+                  }
+                },
+
                 // //TODO: Make hide popup when tap map work
                 // onTap: (_, __) => _popupController.hidePopupsOnlyFor(_markers)
                 //TODO: placer destination avec un onLongPress: ,
@@ -226,8 +249,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               layers: [
                 TileLayerOptions(
-                  minZoom: 1, //? Global?
-                  maxZoom: 18, //? Global?
+                  minZoom: 1, //? Global? ? 1 ?
+                  maxZoom: 19, //? Global? 18 ?
                   backgroundColor: Colors.black,
                   urlTemplate:
                       "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -254,7 +277,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           //TODO: faire une fonction switch case de popup qui gère tout les type de popup
                           if (marker.key != ObjectKey("address_marker")) {
                             return ParkingPopup(
-                                markers: _markers, marker: marker);
+                                markers: _markers, marker: marker, parkingTitle: areParkingTitleVisible);
                           }
                           return Container();
                         }),
