@@ -75,12 +75,16 @@ class MinParkingCard extends StatelessWidget {
                       SizedBox(
                         height: sizedBoxHeighMiddle,
                       ),
-                      Text(
-                        "${parking.name}",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          overflow: TextOverflow.ellipsis
+                      LimitedBox(
+                        child: Text(
+                          "${parking.name}",
+                          textAlign: TextAlign.center,
+                          maxLines: 3,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            overflow: TextOverflow.ellipsis
+                          ),
                         ),
                       ),
                     ],

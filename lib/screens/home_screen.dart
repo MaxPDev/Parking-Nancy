@@ -223,7 +223,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         areParkingTitleVisible['six'] = false;
                     } 
 
-                
                     if (position.zoom! < 13.5) {
                         areParkingTitleVisible['three'] = false;
                         areParkingTitleVisible['six'] = false;
