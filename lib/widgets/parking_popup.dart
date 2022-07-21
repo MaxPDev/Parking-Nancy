@@ -33,10 +33,7 @@ class ParkingPopup extends StatelessWidget {
     // Sinon, un container est créé pour afficher une popup avec available
     if (available == "null") {
       if (_parkingTitle['all']) {
-        return PopupName(
-          parking: parking, 
-          marker: _marker, 
-          markers: _markers);
+        return PopupName(parking: parking, marker: _marker, markers: _markers);
       } else {
         return Container();
       }
@@ -62,10 +59,10 @@ class ParkingPopup extends StatelessWidget {
             available: available);
       } else if (_parkingTitle['all']) {
         return PopupNameAndAvailable(
-          parking: parking, 
-          marker: _marker, 
-          markers: _markers, 
-          available: available);
+            parking: parking,
+            marker: _marker,
+            markers: _markers,
+            available: available);
       } else {
         return PopupAvailable(
             marker: _marker, markers: _markers, available: available);
@@ -93,26 +90,35 @@ class PopupNameAndAvailable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      alignment: Alignment.center,
-      height: 54,
+      alignment: Alignment.bottomCenter,
+      // height: 90,
       // width: 154,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Align(
-            child: Container(
-              height: 24,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Color.fromRGBO(216, 212, 212, 0.54),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Align(
+                child: Container(
+                  // height: 24,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Color.fromRGBO(216, 212, 212, 0.54),
+                  ),
+                  child: LimitedBox(
+                    maxHeight: double.infinity,
+                    maxWidth: 100,
+                    child: Text("  ${parking.name!}  ",
+                        maxLines: 3,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold)),
+                  ),
+                ),
               ),
-              child: Text("  ${parking.name!}  ", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            ),
+            ],
           ),
-        ],
-      ),
           Container(
               alignment: Alignment.center,
               height: 30,
@@ -187,21 +193,34 @@ class PopupName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      alignment: Alignment.center,
-      height: 29,
+      alignment: Alignment.bottomCenter,
+      // height: 100,
       // width: 154,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Align(
-            child: Container(
-              height: 24,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Color.fromRGBO(216, 212, 212, 0.54),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Align(
+                child: Container(
+                  // height: 24,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Color.fromRGBO(216, 212, 212, 0.54),
+                  ),
+                  child: LimitedBox(
+                        maxHeight: double.infinity,
+                        maxWidth: 100,
+                        child: Text("  ${parking.name!}  ",
+                            maxLines: 3,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold)),
+                      ),
+                ),
               ),
-              child: Text("  ${parking.name!}  ", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            ),
+            ],
           ),
         ],
       ),
