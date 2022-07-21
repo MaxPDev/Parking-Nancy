@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Marker> _markers = [];
   bool isParkCardSelected = false;
   bool isAddressFieldEditing = false;
-  Map areParkingTitleVisible = {'three': true, 'six': false};
+  Map areParkingTitleVisible = {'three': false, 'six': false};
 
   final snackBarPopup = SnackBar(
     content: Text("Disponibilités et marqueurs mis à jour (dev mode)"),
@@ -116,6 +116,8 @@ class _HomeScreenState extends State<HomeScreen> {
     // Charge l'initialisation des marqueur de Parkings au permiers chargement
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _initParkingMarkers();
+      // areParkingTitleVisible["three"] = false;
+      // areParkingTitleVisible["six"] = false;
     });
 
     // AlertDialog(
@@ -205,17 +207,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPositionChanged: (MapPosition position, bool hasGesture) {
 
                   if (position.zoom != null) {
-                    if(position.zoom! >= 15) {
+                    if(position.zoom! >= 14.5) {
                       areParkingTitleVisible['six'] = true;
                     }
                
-                  if(position.zoom! >= 14 && position.zoom! <15) {
+                  if(position.zoom! >= 13.5 && position.zoom! < 14.5) {
                       areParkingTitleVisible['three'] = true;
                       areParkingTitleVisible['six'] = false;
                    } 
 
               
-                  if (position.zoom! < 14) {
+                  if (position.zoom! < 13.5) {
                       areParkingTitleVisible['three'] = false;
                       areParkingTitleVisible['six'] = false;
                   }
