@@ -32,7 +32,14 @@ class ParkingPopup extends StatelessWidget {
     // Si la donnée available est à null, un container vide est retournée
     // Sinon, un container est créé pour afficher une popup avec available
     if (available == "null") {
-      return Container();
+      if (_parkingTitle['all']) {
+        return PopupName(
+          parking: parking, 
+          marker: _marker, 
+          markers: _markers);
+      } else {
+        return Container();
+      }
     } else {
       if (_parkingTitle['three'] &&
           (parking.name == "Place des Vosges" ||
@@ -53,6 +60,12 @@ class ParkingPopup extends StatelessWidget {
             marker: _marker,
             markers: _markers,
             available: available);
+      } else if (_parkingTitle['all']) {
+        return PopupNameAndAvailable(
+          parking: parking, 
+          marker: _marker, 
+          markers: _markers, 
+          available: available);
       } else {
         return PopupAvailable(
             marker: _marker, markers: _markers, available: available);
@@ -82,18 +95,24 @@ class PopupNameAndAvailable extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       height: 54,
-      width: 200,
+      // width: 154,
       child: Column(
         children: [
-          Container(
-            alignment: Alignment.center,
-            height: 24,
-            width: 200,
-            decoration: BoxDecoration(
-              
+          Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Align(
+            child: Container(
+              height: 24,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Color.fromRGBO(216, 212, 212, 0.54),
+              ),
+              child: Text("  ${parking.name!}  ", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             ),
-            child: Text(parking.name!, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           ),
+        ],
+      ),
           Container(
               alignment: Alignment.center,
               height: 30,
@@ -148,5 +167,44 @@ class PopupAvailable extends StatelessWidget {
             style: TextStyle(color: Colors.white, fontSize: 10),
           ),
         ));
+  }
+}
+
+class PopupName extends StatelessWidget {
+  const PopupName({
+    Key? key,
+    required this.parking,
+    required Marker marker,
+    required List<Marker> markers,
+  })  : _marker = marker,
+        _markers = markers,
+        super(key: key);
+
+  final Parking parking;
+  final Marker _marker;
+  final List<Marker> _markers;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      height: 29,
+      // width: 154,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Align(
+            child: Container(
+              height: 24,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Color.fromRGBO(216, 212, 212, 0.54),
+              ),
+              child: Text("  ${parking.name!}  ", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
