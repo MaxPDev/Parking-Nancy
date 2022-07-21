@@ -14,7 +14,7 @@
         </intent>
     </queries>
    <application
-        android:label="Nancy Stationnement"
+        android:label="Parking Nancy"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -3,22 +3,27 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 // import 'package:latlong2/latlong.dart';
 
+import 'package:nancy_stationnement/models/parking.dart';
 import 'package:nancy_stationnement/services/gny_parking.dart';
 
 class ParkingPopup extends StatelessWidget {
   ParkingPopup(
-      {Key? key, required List<Marker> markers, required Marker marker})
+      {Key? key, required List<Marker> markers, required Marker marker, required Map parkingTitle})
       : _markers = markers,
         _marker = marker,
+        _parkingTitle = parkingTitle,
         super(key: key);
 
   final List<Marker> _markers;
   final Marker _marker;
+  final Map _parkingTitle;
 
   late String? available;
 
   @override
   Widget build(BuildContext context) {
+    Parking parking = GnyParking.getParkingFromCoordinates(_marker.point);
+
     available = GnyParking.getAvailableFromCoordinates(_marker.point);
 
     // Si la donnée available est à null, un container vide est retournée
@@ -26,22 +31,27 @@ class ParkingPopup extends StatelessWidget {
     if (available == "null") {
       return Container();
     } else {
-      return Container(
-          alignment: Alignment.center,
-          height: 30,
-          width: 30,
-          decoration: BoxDecoration(
-              color: GnyParking.getColorFromCoordinates(_marker.point),
-              shape: BoxShape.circle),
-          child: GestureDetector(
-            onTap: () =>
-                PopupController(initiallySelectedMarkers: _markers), //! ou pas
-            child: Text(
-              // penser à mettre à jour ceci, alors que marker sont fixe (mise à jour plus rarement, et ceux affichés doivent être issues de la BD)
-              "${available}",
-              style: TextStyle(color: Colors.white, fontSize: 10),
-            ),
-          ));
+      // if (_parkingTitle['three'] && !_parkingTitle['six']) {
+        if (false) {
+        // if(parking.name == )
+      } else {
+        return Container(
+            alignment: Alignment.center,
+            height: 30,
+            width: 30,
+            decoration: BoxDecoration(
+                color: GnyParking.getColorFromCoordinates(_marker.point),
+                shape: BoxShape.circle),
+            child: GestureDetector(
+              onTap: () =>
+                  PopupController(initiallySelectedMarkers: _markers), //! ou pas
+              child: Text(
+                // penser à mettre à jour ceci, alors que marker sont fixe (mise à jour plus rarement, et ceux affichés doivent être issues de la BD)
+                "${available}",
+                style: TextStyle(color: Colors.white, fontSize: 10),
+              ),
+            ));
+      }
     }
   }
 }

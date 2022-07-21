@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:nancy_stationnement/utils/hex_color.dart';
 import 'package:nancy_stationnement/services/gny_parking.dart';
 import 'package:nancy_stationnement/models/parking.dart';
+import 'package:nancy_stationnement/widgets/items.dart';
 
 class ParkingCard extends StatelessWidget {
   const ParkingCard({
@@ -64,6 +65,8 @@ class ParkingCard extends StatelessWidget {
   //? Mettre les conditions sur les colonnes plutôt que 0 ? Dans certains cas ?
   //? Voir en fonction de la réalité...
 
+  //! If parking is closed !
+
   @override
   Widget build(BuildContext context) {
 
@@ -104,32 +107,37 @@ class ParkingCard extends StatelessWidget {
     // Height (without status and toolbar)
     double height3 = height - padding.top - kToolbarHeight;
 
-    return isPortrait ?
+    // return isPortrait ?
+    return
     Container(
-      padding: EdgeInsets.all(7),
+      padding: EdgeInsets.fromLTRB(7, 0, 7, 4),
 
       // Height for real App
-      height: height3 * 0.54,
+      // height: height3 * 0.54,
 
       //* Height for display more data for dev
       // height: height3 * 0.75,
       // height: 440,
       
-      decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(
-            color: Colors.grey,
-            width: 3.0
-          ),
-        ),
-
-      ),
       child: 
       Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          // Flèche de réduction
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 12,
+                child: Icon(
+                  Icons.keyboard_arrow_down,
+                  size: 20),
+              ),
+            ],
+          ),
+          DividerQuart(width: width),
           // Icone, Nom du Parking et sa disponbilité
           Row(
             mainAxisAlignment: MainAxisAlignment.center, 
@@ -168,13 +176,7 @@ class ParkingCard extends StatelessWidget {
             )
           ]),
 
-          Divider(
-            height: 7,
-            thickness: 1,
-            color: Color.fromRGBO(158, 158, 158, 0.3),
-            indent: width/4,
-            endIndent: width/4,
-          ),
+          DividerQuart(width: width),
 
           // Capacité Max, PMR et Bornes de recharge électrique
           Row(
@@ -229,13 +231,7 @@ class ParkingCard extends StatelessWidget {
             ],
           ),
 
-          Divider(
-            height: 7,
-            thickness: 1,
-            color: Color.fromRGBO(158, 158, 158, 0.3),
-            indent: width/4,
-            endIndent: width/4,
-          ),
+          DividerQuart(width: width),
           // Tarifs
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -302,13 +298,7 @@ class ParkingCard extends StatelessWidget {
             ],
           ),
 
-          Divider(
-            height: 7,
-            thickness: 1,
-            color: Color.fromRGBO(158, 158, 158, 0.3),
-            indent: width/4,
-            endIndent: width/4,
-          ),
+          DividerQuart(width: width),
 
           // Type et Haute du parking
           Row(
@@ -342,13 +332,7 @@ class ParkingCard extends StatelessWidget {
             ],
           ),
 
-          Divider(
-            height: 7,
-            thickness: 1,
-            color: Color.fromRGBO(158, 158, 158, 0.3),
-            indent: width/4,
-            endIndent: width/4,
-          ),
+          DividerQuart(width: width),
 
           // Adresse
           Row(
@@ -433,13 +417,7 @@ class ParkingCard extends StatelessWidget {
             ],
           ),
 
-          Divider(
-            height: 7,
-            thickness: 1,
-            color: Color.fromRGBO(158, 158, 158, 0.3),
-            indent: width/4,
-            endIndent: width/4,
-          ),
+          DividerQuart(width: width),
 
           // Propriétaire
           Row(
@@ -490,7 +468,10 @@ class ParkingCard extends StatelessWidget {
           // ),
         ],
       ),
-    ) : 
+    ) 
+    ;
+    // Si landscape, condition 2 :
+    // : 
 
     // Affichage Landscape
     //! PROBLEME LORSQUE JE REMPLIE AVEC PLUS D'AUTRE CONTENU : RENDER FLEX. PARCEQUE SCROLLABLE ?
