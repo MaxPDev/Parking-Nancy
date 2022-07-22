@@ -48,6 +48,7 @@ CREATE TABLE $tableParkings (
   ${ParkingFields.maxHeight} $textType,
   ${ParkingFields.type} $textType,
   ${ParkingFields.operator} $textType,
+  ${ParkingFields.zone} $textType,
   ${ParkingFields.fee} $textType,
   ${ParkingFields.prices} $textType,
 

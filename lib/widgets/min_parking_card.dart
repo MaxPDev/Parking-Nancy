@@ -55,6 +55,23 @@ class MinParkingCard extends StatelessWidget {
               ],
             ),
             DividerQuart(width: width),
+           parking.zone != null ? Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  parking.zone != "Parking Relais" ? "${parking.zone}" : "${parking.zone}",
+                  textAlign: TextAlign.center,
+                  maxLines: 3,
+                  style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontStyle: FontStyle.italic,
+                    fontSize: 16,
+                    overflow: TextOverflow.ellipsis
+                  ),
+                ),
+              ],
+            ) : Container(),
+            parking.zone != null ? DividerQuart(width: width) : Container(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               mainAxisSize: MainAxisSize.max,

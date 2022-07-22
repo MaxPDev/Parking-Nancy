@@ -19,6 +19,7 @@ class ParkingFields {
     maxHeight,
     type,
     operator,
+    zone,
 
     fee,
     prices,
@@ -45,6 +46,7 @@ class ParkingFields {
   static final String maxHeight = "maxHeight";
   static final String type = "type";
   static final String operator = "operator";
+  static final String zone = "zone";
 
   static final String fee = "fee";
   static final String prices = "prices";
@@ -77,6 +79,7 @@ class Parking {
   final String? maxHeight;
   final String? type; // souterrain, multi étage etc...
   final String? operator;
+  final String? zone;
 
   final String? fee; //? useless ?
   final Map<String, String>? prices;
@@ -122,6 +125,7 @@ class Parking {
     this.maxHeight,
     this.type,
     this.operator,
+    this.zone,
 
     this.fee,
     this.prices, //* via mgn mais via osm avant
@@ -160,6 +164,7 @@ class Parking {
   String? maxHeight,
   String? type, // souterrain, multi étage etc...
   String? operator,
+  String? zone,
 
   String? fee,
   Map<String, String>? prices,
@@ -198,6 +203,7 @@ class Parking {
     type: type ?? this.type,
     operator: operator ?? this.operator,
     fee: fee ?? this.fee,
+    zone: zone ?? this.zone,
 
     prices: prices ?? this.prices,
     // price30Min: price30Min ?? this.price30Min,
@@ -240,6 +246,7 @@ class Parking {
       maxHeight: json["maxheight"] == null ? null : json["maxheight"],
       type: json["parking"] == null ? null : json["parking"],
       operator: json["operator"] == null ? null : json["operator"],
+      zone: json["mgn:zone"] == null ? null : json["mgn:zone"],
 
       fee: json["fee"] == null ? null : json["fee"],
       prices: json["mgn:prices"] == null ? {"prices":"no_data"} : Map.from(json["mgn:prices"]).map((k, v) => MapEntry<String, String>(k, v)), //todo: map fonction to have key: horaire, value: price ?
@@ -302,6 +309,7 @@ class Parking {
       //   jsonDecode(json["prices"]).map((x) => x.toString())),
       // prices: json["prices"] == null ? null : Map.from(json["prices"]).map((k, v) => MapEntry<String, String>(k, v)),
       prices: json["prices"] == null ? null : Map.from(jsonDecode(json["prices"]).map((k, v) => MapEntry<String, String>(k, v))),
+      zone: json["zone"] == null ? null : json["zone"],
 
       //* For test purposes only
       osmId: json["osmId"] == null ? null : json["osmId"],
@@ -330,6 +338,7 @@ class Parking {
 
     ParkingFields.fee: fee,
     ParkingFields.prices: jsonEncode(prices),
+    ParkingFields.zone: zone,
 
     ParkingFields.osmId: osmId,
     ParkingFields.osmType: osmType
