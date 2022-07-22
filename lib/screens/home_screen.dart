@@ -207,23 +207,24 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPositionChanged: (MapPosition position, bool hasGesture) {
 
                   if (position.zoom != null) {
+                    print(position.zoom);
                     
-                    if (position.zoom! >= 15.75) {
+                    if (position.zoom! >= 15.60) {
                       areParkingTitleVisible['all'] = true;
                     } else {
                       areParkingTitleVisible['all'] = false;
                     }
 
-                    if(position.zoom! >= 14.5) {
+                    if(position.zoom! >= 15.00) {
                       areParkingTitleVisible['six'] = true;
                     }
                 
-                    if(position.zoom! >= 13.5 && position.zoom! < 14.5) {
+                    if(position.zoom! >= 14.3 && position.zoom! < 15.00) {
                         areParkingTitleVisible['three'] = true;
                         areParkingTitleVisible['six'] = false;
                     } 
 
-                    if (position.zoom! < 13.5) {
+                    if (position.zoom! < 14.3) {
                         areParkingTitleVisible['three'] = false;
                         areParkingTitleVisible['six'] = false;
                     }

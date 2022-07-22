@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
+import 'package:indexed/indexed.dart';
 // import 'package:latlong2/latlong.dart';
 
 import 'package:nancy_stationnement/models/parking.dart';
@@ -141,41 +142,6 @@ class PopupNameAndAvailable extends StatelessWidget {
   }
 }
 
-class PopupAvailable extends StatelessWidget {
-  const PopupAvailable({
-    Key? key,
-    required Marker marker,
-    required List<Marker> markers,
-    required this.available,
-  })  : _marker = marker,
-        _markers = markers,
-        super(key: key);
-
-  final Marker _marker;
-  final List<Marker> _markers;
-  final String? available;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        alignment: Alignment.center,
-        height: 30,
-        width: 30,
-        decoration: BoxDecoration(
-            color: GnyParking.getColorFromCoordinates(_marker.point),
-            shape: BoxShape.circle),
-        child: GestureDetector(
-          onTap: () =>
-              PopupController(initiallySelectedMarkers: _markers), //! ou pas
-          child: Text(
-            // penser à mettre à jour ceci, alors que marker sont fixe (mise à jour plus rarement, et ceux affichés doivent être issues de la BD)
-            "${available}",
-            style: TextStyle(color: Colors.white, fontSize: 10),
-          ),
-        ));
-  }
-}
-
 class PopupName extends StatelessWidget {
   const PopupName({
     Key? key,
@@ -210,14 +176,14 @@ class PopupName extends StatelessWidget {
                     color: Color.fromRGBO(216, 212, 212, 0.54),
                   ),
                   child: LimitedBox(
-                        maxHeight: double.infinity,
-                        maxWidth: 100,
-                        child: Text("  ${parking.name!}  ",
-                            maxLines: 3,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold)),
-                      ),
+                    maxHeight: double.infinity,
+                    maxWidth: 100,
+                    child: Text("  ${parking.name!}  ",
+                        maxLines: 3,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold)),
+                  ),
                 ),
               ),
             ],
@@ -225,5 +191,40 @@ class PopupName extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class PopupAvailable extends StatelessWidget {
+  const PopupAvailable({
+    Key? key,
+    required Marker marker,
+    required List<Marker> markers,
+    required this.available,
+  })  : _marker = marker,
+        _markers = markers,
+        super(key: key);
+
+  final Marker _marker;
+  final List<Marker> _markers;
+  final String? available;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        alignment: Alignment.center,
+        height: 30,
+        width: 30,
+        decoration: BoxDecoration(
+            color: GnyParking.getColorFromCoordinates(_marker.point),
+            shape: BoxShape.circle),
+        child: GestureDetector(
+          onTap: () =>
+              PopupController(initiallySelectedMarkers: _markers), //! ou pas
+          child: Text(
+            // penser à mettre à jour ceci, alors que marker sont fixe (mise à jour plus rarement, et ceux affichés doivent être issues de la BD)
+            "${available}",
+            style: TextStyle(color: Colors.white, fontSize: 10),
+          ),
+        ));
   }
 }
