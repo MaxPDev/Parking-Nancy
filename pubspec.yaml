@@ -45,6 +45,7 @@ dependencies:
   intl: ^0.17.0
   url_launcher: ^6.1.4
   searchbar_animation: ^0.0.2
+  indexed: ^0.0.8
 
 dependency_overrides:
   flutter_map_marker_cluster:

@@ -160,6 +160,23 @@ class ParkingCard extends StatelessWidget {
                             TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
                   ],
                 ),
+                // Zone
+                parking.zone != null ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        parking.zone != "Parking Relais" ? "${parking.zone}" : "${parking.zone}",
+                        textAlign: TextAlign.center,
+                        maxLines: 3,
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontStyle: FontStyle.italic,
+                          fontSize: 16,
+                          overflow: TextOverflow.ellipsis
+                        ),
+                      ),
+                    ],
+                  ) : Container(),
                 // Disponibilité si info disponible
                 parking.available != "null"
                     ? Text(
