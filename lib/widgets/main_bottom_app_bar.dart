@@ -51,7 +51,10 @@ class MainBottomAppBar extends StatelessWidget {
                 if (kDebugMode) {
                   print("Velo button pressed");
                 }
-                bikeStations(context, listen: false).fetchDataStations();
+                bikeStations(context, listen: false).initStations();
+                bikeStations(context, listen: false).fetchDynamicDataStation(33);
+
+                
               },
               icon: const Icon(Icons.directions_bike)),
           IconButton(

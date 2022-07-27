@@ -20,6 +20,7 @@ import 'package:nancy_stationnement/widgets/list_address.dart';
 
 import 'package:nancy_stationnement/services/gny_parking.dart';
 import 'package:nancy_stationnement/services/ban_service.dart';
+import 'package:nancy_stationnement/services/jcdecaux_velostan.dart';
 
 import 'package:nancy_stationnement/utils/hex_color.dart';
 
@@ -42,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // Providers
   final gny = Provider.of<GnyParking>;
   final ban = Provider.of<BanService>;
+  final velo = Provider.of<JcdecauxVelostan>;
 
   List<Marker> _markers = [];
   bool isParkCardSelected = false;

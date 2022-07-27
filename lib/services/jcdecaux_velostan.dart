@@ -32,8 +32,9 @@ class JcdecauxVelostan extends ChangeNotifier {
 
   void initStations() async {
     String data = await fetchDataStations();
-    notifyListeners();
     stationList = stationFromMap(data);
+    notifyListeners();
+    // inspect(stationList);
   }
   
   List<Station> stationFromMap(String str) 
@@ -44,7 +45,8 @@ class JcdecauxVelostan extends ChangeNotifier {
       // Récupère les données via l'API
       var uri = Uri.parse('$uriJcdecaux?contract=$contractName&apiKey=$apiKey');
       Response response = await get(uri);
-      String data = jsonDecode(response.body);
+      // String data = jsonDecode(response.body);
+      String data = response.body;
       
       return data;
     } catch (e) {
@@ -55,13 +57,20 @@ class JcdecauxVelostan extends ChangeNotifier {
     }
   }
 
-  Future<String> fetchDynamicDataStation(String stationNumber) async {
+  Future<void> fetchDynamicDataStation(int stationNumber) async {
     try {
       var uri = Uri.parse('$uriJcdecaux/$stationNumber?contract=$contractName&apiKey=$apiKey');
       Response response = await get(uri);
-      String data = jsonDecode(response.body);
+      var data = jsonDecode(response.body);
 
-      return data;
+      inspect(data['totalStands']['availabilities']['bikes']);
+      inspect(data['totalStands']['availabilities']['stands']);
+
+      stationList.firstWhere((station) => station.id == stationNumber).bikes = data['totalStands']['availabilities']['bikes'];
+      stationList.firstWhere((station) => station.id == stationNumber).stands = data['totalStands']['availabilities']['stands'];
+
+      inspect(stationList);
+
     } catch(e) {
       if (kDebugMode) {
         print('Caught error in fetchDynamicDataStation() : $e');
