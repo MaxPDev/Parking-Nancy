@@ -5,9 +5,10 @@ import 'dart:io';
 import 'package:http/http.dart';
 
 import 'package:nancy_stationnement/screens/home_screen.dart';
-import 'package:nancy_stationnement/services/gny_parking.dart';
 
+import 'package:nancy_stationnement/services/gny_parking.dart';
 import 'package:nancy_stationnement/services/ban_service.dart';
+import 'package:nancy_stationnement/services/jcdecaux_velostan.dart';
 
 ///
 /// Fonction main
@@ -22,6 +23,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (context) => BanService(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => JcdecauxVelostan(),
         )
       ],
       child: const MaterialApp(

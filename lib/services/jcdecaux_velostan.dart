@@ -8,6 +8,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart';
 import 'package:latlong2/latlong.dart';
 
+import 'package:nancy_stationnement/models/station.dart';
+
 class JcdecauxVelostan extends ChangeNotifier {
   // https://developer.jcdecaux.com/#/opendata/vls?page=dynamic&contract=nancy
 
@@ -20,19 +22,30 @@ class JcdecauxVelostan extends ChangeNotifier {
   // API Key
   String apiKey = "526c2bc0188fdb797a47511c029cec761757a838";
 
+  List<Station> stationList = [];
+
   JcdecauxVelostan() {
     if (kDebugMode) {
-      print("JCdecauxVelostan constructor")
+      print("JCdecauxVelostan constructor");
     }
   }
 
-  Future<Map<String, dynamic>> fetchDataStations() async {
+  void initStations() async {
+    String data = await fetchDataStations();
+    notifyListeners();
+    stationList = stationFromMap(data);
+  }
+  
+  List<Station> stationFromMap(String str) 
+    => List<Station>.from(json.decode(str).map((x) => Station.fromAPIJson(x)));
+
+  Future<String> fetchDataStations() async {
     try {
       // Récupère les données via l'API
       var uri = Uri.parse('$uriJcdecaux?contract=$contractName&apiKey=$apiKey');
       Response response = await get(uri);
-      Map<String, dynamic> data = jsonDecode(response.body);
-
+      String data = jsonDecode(response.body);
+      
       return data;
     } catch (e) {
       if (kDebugMode) {
@@ -42,17 +55,19 @@ class JcdecauxVelostan extends ChangeNotifier {
     }
   }
 
-  Future<void> fetchDynamicDataStation(String stationNumber) async {
+  Future<String> fetchDynamicDataStation(String stationNumber) async {
     try {
       var uri = Uri.parse('$uriJcdecaux/$stationNumber?contract=$contractName&apiKey=$apiKey');
       Response response = await get(uri);
-      Map<String, dynamic> data = jsonDecode(response.body);
+      String data = jsonDecode(response.body);
 
-      inspect(data);
+      return data;
     } catch(e) {
       if (kDebugMode) {
         print('Caught error in fetchDynamicDataStation() : $e');
       }
+      rethrow;
     }
   }
+
 }

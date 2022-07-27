@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:nancy_stationnement/services/gny_parking.dart';
+import 'package:nancy_stationnement/services/jcdecaux_velostan.dart';
 
 class MainBottomAppBar extends StatelessWidget {
   const MainBottomAppBar({Key? key, required this.onUpdateTap
@@ -13,6 +14,7 @@ class MainBottomAppBar extends StatelessWidget {
   // final GnyParking Function(BuildContext context, {bool listen}) gny;
   // Providers
   final gny = Provider.of<GnyParking>;
+  final bikeStations = Provider.of<JcdecauxVelostan>;
 
   final Function onUpdateTap;
 
@@ -47,8 +49,9 @@ class MainBottomAppBar extends StatelessWidget {
           IconButton(
               onPressed: () {
                 if (kDebugMode) {
-                  print("button");
+                  print("Velo button pressed");
                 }
+                bikeStations(context, listen: false).fetchDataStations();
               },
               icon: const Icon(Icons.directions_bike)),
           IconButton(
