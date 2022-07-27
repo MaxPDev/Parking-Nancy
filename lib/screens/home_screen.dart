@@ -43,12 +43,13 @@ class _HomeScreenState extends State<HomeScreen> {
   // Providers
   final gny = Provider.of<GnyParking>;
   final ban = Provider.of<BanService>;
-  final velo = Provider.of<JcdecauxVelostan>;
+  final bikeStations = Provider.of<JcdecauxVelostan>;
 
   List<Marker> _markers = [];
   bool isParkCardSelected = false;
   bool isAddressFieldEditing = false;
   Map areParkingTitleVisible = {'three': false, 'six': false, 'all': false};
+  // String selectedMarkers = "parkings";
 
   final snackBarPopup = SnackBar(
     content: Text("Disponibilités et marqueurs mis à jour (dev mode)"),
@@ -69,6 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
             });
   }
 
+
   // Lance la mise à jour de la disponibilité des parkings
   _updatePopupParkings() {
     setState(() {
@@ -77,6 +79,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
       ScaffoldMessenger.of(context).showSnackBar(snackBarPopup);
     });
+  }
+
+    // Initie les stations de vélos.
+  _initBikeStations() {
+    bikeStations(context, listen: false).initStations()
+      .then((value) {
+        bikeStations(context, listen: false).generateStationsMarker();
+      });
+  }
+
+  // Active les marques des stations de vélos
+  _setBikeStationsMarkers() {
+    _markers = bikeStations(context, listen: false).stationMarkers;
   }
 
   // Affiche le marqueur de la destination
@@ -116,6 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // Charge l'initialisation des marqueur de Parkings au permiers chargement
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _initParkingMarkers();
+      _initBikeStations();
       // areParkingTitleVisible["three"] = false;
       // areParkingTitleVisible["six"] = false;
     });
@@ -280,16 +296,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         popupSnap: PopupSnap.markerTop,
                         //todo: rajouter des conditions comme dans proto en fonction du service selectionné
                         popupController:
-                            // Affiche les popup sauf pour les marqueur d'adresse
+                            // Affiche les popup sauf pour les marqueur d'adresse et les stations de vélo
                             PopupController(
                                 initiallySelectedMarkers: _markers
                                     .where((marker) =>
-                                        marker.key !=
-                                        ObjectKey("address_marker"))
+                                        marker.key != ObjectKey("address_marker") && 
+                                        marker.key != ObjectKey("bikeStation_marker"))
                                     .toList()),
                         popupBuilder: (_, marker) {
                           //TODO: faire une fonction switch case de popup qui gère tout les type de popup
-                          if (marker.key != ObjectKey("address_marker")) {
+                          if (marker.key != ObjectKey("address_marker") && 
+                              marker.key != ObjectKey("bikeStation_marker")) {
                             return ParkingPopup(
                                 markers: _markers,
                                 marker: marker,
@@ -391,7 +408,20 @@ class _HomeScreenState extends State<HomeScreen> {
       // TODO: This must be a Widget
       //? Better Icon ? Global ?
       //! attention, appellé une méthode avec (),n'est pas comme la passer en paramètre
-      bottomNavigationBar: MainBottomAppBar(onUpdateTap: _updatePopupParkings),
+      bottomNavigationBar: MainBottomAppBar(onUpdateTap: (String selectedMarkers) {
+        setState(() {
+          //todo repenser actio botto : deuxieme presse = mise à jour static ? dynamic ?
+          switch (selectedMarkers) {
+            case "parkings":
+              _updatePopupParkings();
+              break;
+            case "bikeStations":
+              _setBikeStationsMarkers();
+              break;
+            default:
+          }
+        });
+      }),
     );
   }
 }

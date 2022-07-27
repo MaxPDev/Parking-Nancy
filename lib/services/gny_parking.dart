@@ -174,7 +174,7 @@ class GnyParking extends ChangeNotifier {
   }
 
   //
-  // Construit les marker depuis les objets parking
+  // Construit les markers depuis les objets parking
   //
   void generateParkingMarkers() {
     List<Marker> markers = [];
@@ -201,6 +201,7 @@ class GnyParking extends ChangeNotifier {
                 ),
           )));
     }
+    _markers.clear(); //? useless ?
     _markers = markers;
   }
 

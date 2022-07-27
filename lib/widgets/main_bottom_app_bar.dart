@@ -51,8 +51,7 @@ class MainBottomAppBar extends StatelessWidget {
                 if (kDebugMode) {
                   print("Velo button pressed");
                 }
-                bikeStations(context, listen: false).initStations();
-                bikeStations(context, listen: false).fetchDynamicDataStation(33);
+                onUpdateTap("bikeStations");
 
                 
               },
@@ -66,6 +65,7 @@ class MainBottomAppBar extends StatelessWidget {
                     .reInitParkingAndGenerateMarkers()
                     .then((value) => {
                           print("reInit Parking from P button"),
+                          onUpdateTap("parkings"),
                           ScaffoldMessenger.of(context).showSnackBar(snackBarParking)
                         });
               },
@@ -78,7 +78,7 @@ class MainBottomAppBar extends StatelessWidget {
                 gny(context, listen: false).fetchDynamicDataParkings().then(
                     (value) => {
                           print("fetchDynamicData from MAJ button"),
-                          onUpdateTap()
+                          onUpdateTap("parkings")
                 });
 
                 //? Si utilisé, afficher si not null, vider la variable après affichage

@@ -9,6 +9,7 @@ import 'package:http/http.dart';
 import 'package:latlong2/latlong.dart';
 
 import 'package:nancy_stationnement/models/station.dart';
+import 'package:path/path.dart';
 
 class JcdecauxVelostan extends ChangeNotifier {
   // https://developer.jcdecaux.com/#/opendata/vls?page=dynamic&contract=nancy
@@ -24,13 +25,15 @@ class JcdecauxVelostan extends ChangeNotifier {
 
   List<Station> stationList = [];
 
+  List<Marker> stationMarkers = [];
+
   JcdecauxVelostan() {
     if (kDebugMode) {
       print("JCdecauxVelostan constructor");
     }
   }
 
-  void initStations() async {
+  Future<void> initStations() async {
     String data = await fetchDataStations();
     stationList = stationFromMap(data);
     notifyListeners();
@@ -63,9 +66,6 @@ class JcdecauxVelostan extends ChangeNotifier {
       Response response = await get(uri);
       var data = jsonDecode(response.body);
 
-      inspect(data['totalStands']['availabilities']['bikes']);
-      inspect(data['totalStands']['availabilities']['stands']);
-
       stationList.firstWhere((station) => station.id == stationNumber).bikes = data['totalStands']['availabilities']['bikes'];
       stationList.firstWhere((station) => station.id == stationNumber).stands = data['totalStands']['availabilities']['stands'];
 
@@ -77,6 +77,33 @@ class JcdecauxVelostan extends ChangeNotifier {
       }
       rethrow;
     }
+  }
+
+  //
+  // Construit les markers depuis les objets station
+  //
+  void generateStationsMarker() {
+    List<Marker>markers = [];
+    for (Station station in stationList) {
+      markers.add(
+        new Marker(
+          key: ObjectKey("bikeStation_marker"),
+          point: LatLng(
+            station.lat,
+            station.long
+          ),
+          width: 30,
+          height: 30,
+          builder: (context) => Icon(
+            FontAwesomeIcons.bicycle,
+            size: 30,
+            color: Color.fromARGB(255, 9, 148, 81),
+          )
+        )
+      );
+    }
+    stationMarkers = markers;
+    inspect(stationMarkers);
   }
 
 }
