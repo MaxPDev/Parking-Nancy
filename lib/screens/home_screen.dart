@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isParkCardSelected = false;
   bool isAddressFieldEditing = false;
   Map areParkingTitleVisible = {'three': false, 'six': false, 'all': false};
-  // String selectedMarkers = "parkings";
+  String _selectedMarkers = "parkings"; // useless ??
 
   final snackBarPopup = SnackBar(
     content: Text("Disponibilités et marqueurs mis à jour (dev mode)"),
@@ -79,6 +79,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
       ScaffoldMessenger.of(context).showSnackBar(snackBarPopup);
     });
+  }
+
+  _setParkingsMarkers() {
+    _markers = gny(context, listen: false).getParkingsMarkers();
   }
 
     // Initie les stations de vélos.
@@ -221,17 +225,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   //todo Au Zoom 14, afficher titre de 3 parkings, 15 : 3 de +
                   onPositionChanged: (MapPosition position, bool hasGesture) {
                     if (position.zoom != null) {
-                      if (position.zoom! >= 15.60) {
+                      if (position.zoom! >= 15.50) {
                         areParkingTitleVisible['all'] = true;
                       } else {
                         areParkingTitleVisible['all'] = false;
                       }
 
-                      if (position.zoom! >= 15.00) {
+                      if (position.zoom! >= 14.90) {
                         areParkingTitleVisible['six'] = true;
                       }
 
-                      if (position.zoom! >= 14.3 && position.zoom! < 15.00) {
+                      if (position.zoom! >= 14.3 && position.zoom! < 14.90) {
                         areParkingTitleVisible['three'] = true;
                         areParkingTitleVisible['six'] = false;
                       }
@@ -304,15 +308,27 @@ class _HomeScreenState extends State<HomeScreen> {
                                         marker.key != ObjectKey("bikeStation_marker"))
                                     .toList()),
                         popupBuilder: (_, marker) {
-                          //TODO: faire une fonction switch case de popup qui gère tout les type de popup
-                          if (marker.key != ObjectKey("address_marker") && 
-                              marker.key != ObjectKey("bikeStation_marker")) {
+
+                          if (marker.key == const ObjectKey("parking_marker")) {
                             return ParkingPopup(
                                 markers: _markers,
                                 marker: marker,
                                 parkingTitle: areParkingTitleVisible);
                           }
+                          if (marker.key == const ObjectKey("bikeStation_marker")) {
+                            return Container(child: Text("Velo Popup"),);
+                          }
                           return Container();
+
+                          // //TODO: faire une fonction switch case de popup qui gère tout les type de popup
+                          // if (marker.key != ObjectKey("address_marker") && 
+                          //     marker.key != ObjectKey("bikeStation_marker")) {
+                          //   return ParkingPopup(
+                          //       markers: _markers,
+                          //       marker: marker,
+                          //       parkingTitle: areParkingTitleVisible);
+                          // }
+                          // return Container();
                         }),
                     builder: (context, markers) {
                       // Affichage du Widget du Cluster
@@ -413,9 +429,14 @@ class _HomeScreenState extends State<HomeScreen> {
           //todo repenser actio botto : deuxieme presse = mise à jour static ? dynamic ?
           switch (selectedMarkers) {
             case "parkings":
+            if(_selectedMarkers == "parkings") {
               _updatePopupParkings();
+            }
+            _selectedMarkers == "parkings";
+            // _setParkingsMarkers();
               break;
             case "bikeStations":
+             _selectedMarkers == "bikeStations";
               _setBikeStationsMarkers();
               break;
             default:

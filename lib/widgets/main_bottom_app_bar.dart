@@ -61,13 +61,14 @@ class MainBottomAppBar extends StatelessWidget {
                 if (kDebugMode) {
                   print("parking button pressed");
                 }
-                gny(context, listen: false)
-                    .reInitParkingAndGenerateMarkers()
-                    .then((value) => {
-                          print("reInit Parking from P button"),
-                          onUpdateTap("parkings"),
-                          ScaffoldMessenger.of(context).showSnackBar(snackBarParking)
-                        });
+                onUpdateTap("parkings");
+                // gny(context, listen: false)
+                //     .reInitParkingAndGenerateMarkers()
+                //     .then((value) => {
+                //           print("reInit Parking from P button"),
+                //           onUpdateTap("parkings"),
+                //           ScaffoldMessenger.of(context).showSnackBar(snackBarParking)
+                //         });
               },
               icon: const Icon(Icons.local_parking)),
           IconButton(

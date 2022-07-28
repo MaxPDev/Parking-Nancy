@@ -181,6 +181,7 @@ class GnyParking extends ChangeNotifier {
     for (var parking in _parkings) {
       //todo récupérer depuis db
       markers.add(Marker(
+          key: const ObjectKey("parking_marker"),
           point: LatLng(parking.coordinates[1],
               parking.coordinates[0]), //? refaire en parking.lat et.long ?
           width: 30,

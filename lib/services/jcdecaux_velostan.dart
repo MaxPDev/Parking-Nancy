@@ -87,7 +87,7 @@ class JcdecauxVelostan extends ChangeNotifier {
     for (Station station in stationList) {
       markers.add(
         new Marker(
-          key: ObjectKey("bikeStation_marker"),
+          key: ObjectKey("bikeStation_marker"), //?vlue key avec type + id, pour parse le début quand besoin de détecter le type ?
           point: LatLng(
             station.lat,
             station.long
