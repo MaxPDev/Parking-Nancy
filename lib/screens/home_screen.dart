@@ -228,17 +228,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   //todo Au Zoom 14, afficher titre de 3 parkings, 15 : 3 de +
                   onPositionChanged: (MapPosition position, bool hasGesture) {
                     if (position.zoom != null) {
-                      if (position.zoom! >= 15.50) {
+                      if (position.zoom! >= 15.42) {
                         areParkingTitleVisible['all'] = true;
                       } else {
                         areParkingTitleVisible['all'] = false;
                       }
 
-                      if (position.zoom! >= 14.90) {
+                      if (position.zoom! >= 14.80) {
                         areParkingTitleVisible['six'] = true;
                       }
 
-                      if (position.zoom! >= 14.3 && position.zoom! < 14.90) {
+                      if (position.zoom! >= 14.3 && position.zoom! < 14.80) {
                         areParkingTitleVisible['three'] = true;
                         areParkingTitleVisible['six'] = false;
                       }
@@ -321,8 +321,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           }
                           if (marker.key == const ObjectKey("bikeStation_marker")) {
                             return BikestationPopup(
-                              key: ValueKey("test"),
-                              // bikeStationId: marker.objectId
+                              marker: marker
                             );
                           }
                           return Container();

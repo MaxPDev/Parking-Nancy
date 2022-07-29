@@ -28,6 +28,7 @@ class ParkingPopup extends StatelessWidget {
   Widget build(BuildContext context) {
     Parking parking = GnyParking.getParkingFromCoordinates(_marker.point);
 
+    //TODO: inutile !! available déjà dans parking. Nettoyer, contrôler
     available = GnyParking.getAvailableFromCoordinates(_marker.point);
 
     // Si la donnée available est à null, un container vide est retournée

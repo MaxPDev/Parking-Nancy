@@ -88,7 +88,7 @@ class JcdecauxVelostan extends ChangeNotifier {
     for (Station station in stationList) {
       markers.add(
         Marker(
-          key: ObjectKey("bikeStation_marker"), //?vlue key avec type + id, pour parse le début quand besoin de détecter le type ?
+          key: const ObjectKey("bikeStation_marker"), //?vlue key avec type + id, pour parse le début quand besoin de détecter le type ?
           // objectId: station.id,
           // key: ValueKey("bikeStation_${station.id}"),
           point: LatLng(
@@ -107,6 +107,15 @@ class JcdecauxVelostan extends ChangeNotifier {
     }
     stationMarkers = markers;
     inspect(stationMarkers);
+  }
+
+  // Récupère un station depuis les coordoonées
+  //! Contournement
+  Station getStationFromCoordinates(LatLng point) {
+    //? singlewhere ou firstWhere ?
+    return stationList.singleWhere((station) =>
+    station.lat == point.latitude &&
+    station.long == point.longitude);
   }
 
 }

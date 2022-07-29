@@ -216,17 +216,18 @@ class GnyParking extends ChangeNotifier {
    // Récupère Parking depuis les coordonnées
   //! Contournement? FAIRE AVEC LES OBJECTKEY
   static Parking getParkingFromCoordinates(LatLng point) {
-    Parking parking = _parkings.firstWhere((parking) =>
+    return _parkings.firstWhere((parking) =>
         parking.coordinates[1] == point.latitude &&
         parking.coordinates[0] == point.longitude);
     // notifyListeners();
-    return parking;
+    // return parking;
   }
 
   /**
    * Récupère et rénvoie la propriété available depuis les coordonnées
    */
   //! Contournement FAIRE AVEC LES OBJECTKEY
+  //TODO: optimisiation : return directement, + . availabe
   static String? getAvailableFromCoordinates(LatLng point) {
     Parking parkingPopup = _parkings.firstWhere((parking) =>
         parking.coordinates[1] == point.latitude &&
