@@ -22,9 +22,15 @@ class BikestationPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Station bikeStation = bikeStations(context, listen: false).getStationFromCoordinates(_marker.point);
-    inspect(bikeStation);
+    Station bikeStation = new Station(id: 1, name: "", address: "", long: 0, lat: 0, status: "", banking: false);
+    bikeStations(context, listen: false).getStationWithDynamicDataFromCoordinates(_marker.point).then((value) {
+      bikeStation = bikeStations(context, listen: false).selectedStation;
+    });
 
-    return Container(child: Text("Velo Popup"));
+    // futurebuilder
+
+    inspect(bikeStation);
+    return Container(child: Text("${bikeStation.name} bike : ${bikeStation.bikes} stands : ${bikeStation.stands}"));
+
   }
 }

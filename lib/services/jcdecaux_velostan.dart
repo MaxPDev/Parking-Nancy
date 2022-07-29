@@ -27,6 +27,8 @@ class JcdecauxVelostan extends ChangeNotifier {
   List<Station> stationList = [];
 
   List<Marker> stationMarkers = [];
+  
+  late Station selectedStation;
 
   JcdecauxVelostan() {
     if (kDebugMode) {
@@ -109,13 +111,19 @@ class JcdecauxVelostan extends ChangeNotifier {
     inspect(stationMarkers);
   }
 
+
   // Récupère un station depuis les coordoonées
   //! Contournement
-  Station getStationFromCoordinates(LatLng point) {
+  Future<void> getStationWithDynamicDataFromCoordinates(LatLng point) async {
     //? singlewhere ou firstWhere ?
-    return stationList.singleWhere((station) =>
+    int stationID = stationList.singleWhere((station) =>
     station.lat == point.latitude &&
-    station.long == point.longitude);
+    station.long == point.longitude).id;
+
+    await fetchDynamicDataStation(stationID);
+
+    selectedStation = stationList.singleWhere((station) => station.id == stationID);
+
   }
 
 }
