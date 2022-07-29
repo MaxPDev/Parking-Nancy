@@ -13,6 +13,7 @@ import 'package:searchbar_animation/searchbar_animation.dart';
 
 import 'package:nancy_stationnement/widgets/main_bottom_app_bar.dart';
 import 'package:nancy_stationnement/widgets/parking_popup.dart';
+import 'package:nancy_stationnement/widgets/bikestation_popup.dart';
 import 'package:nancy_stationnement/widgets/min_parking_card.dart';
 import 'package:nancy_stationnement/widgets/parking_card.dart';
 import 'package:nancy_stationnement/widgets/top_app_bar.dart';
@@ -22,6 +23,8 @@ import 'package:nancy_stationnement/services/gny_parking.dart';
 import 'package:nancy_stationnement/services/ban_service.dart';
 import 'package:nancy_stationnement/services/jcdecaux_velostan.dart';
 
+// import 'package:nancy_stationnement/utils/marker_with_value.dart';
+// import 'package:nancy_stationnement/utils/marker_with_value_cluster_layer_options.dart';
 import 'package:nancy_stationnement/utils/hex_color.dart';
 
 ///
@@ -309,6 +312,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     .toList()),
                         popupBuilder: (_, marker) {
 
+                          //todo test sur key value ?
                           if (marker.key == const ObjectKey("parking_marker")) {
                             return ParkingPopup(
                                 markers: _markers,
@@ -316,7 +320,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 parkingTitle: areParkingTitleVisible);
                           }
                           if (marker.key == const ObjectKey("bikeStation_marker")) {
-                            return Container(child: Text("Velo Popup"),);
+                            return BikestationPopup(
+                              key: ValueKey("test"),
+                              // bikeStationId: marker.objectId
+                            );
                           }
                           return Container();
 

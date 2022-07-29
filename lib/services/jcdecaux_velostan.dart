@@ -7,9 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:path/path.dart';
 
 import 'package:nancy_stationnement/models/station.dart';
-import 'package:path/path.dart';
+import 'package:nancy_stationnement/utils/marker_with_value.dart';
 
 class JcdecauxVelostan extends ChangeNotifier {
   // https://developer.jcdecaux.com/#/opendata/vls?page=dynamic&contract=nancy
@@ -86,8 +87,10 @@ class JcdecauxVelostan extends ChangeNotifier {
     List<Marker>markers = [];
     for (Station station in stationList) {
       markers.add(
-        new Marker(
+        Marker(
           key: ObjectKey("bikeStation_marker"), //?vlue key avec type + id, pour parse le début quand besoin de détecter le type ?
+          // objectId: station.id,
+          // key: ValueKey("bikeStation_${station.id}"),
           point: LatLng(
             station.lat,
             station.long

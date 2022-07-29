@@ -13,6 +13,7 @@ import 'package:nancy_stationnement/models/parking.dart';
 import 'package:nancy_stationnement/database/database_handler.dart';
 import 'package:nancy_stationnement/services/check_connection.dart';
 import 'package:nancy_stationnement/utils/hex_color.dart';
+import 'package:nancy_stationnement/utils/marker_with_value.dart';
 
 class GnyParking extends ChangeNotifier {
   bool isGnyConnection = false;
@@ -182,6 +183,7 @@ class GnyParking extends ChangeNotifier {
       //todo récupérer depuis db
       markers.add(Marker(
           key: const ObjectKey("parking_marker"),
+          // objectId: parking.id,
           point: LatLng(parking.coordinates[1],
               parking.coordinates[0]), //? refaire en parking.lat et.long ?
           width: 30,
