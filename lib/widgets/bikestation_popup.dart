@@ -47,7 +47,7 @@ class _BikestationPopupState extends State<BikestationPopup> {
 
     // futurebuilder
 
-    inspect(bikeStation);
+    // inspect(bikeStation);
 
     return StationPopup(
       bikeStation: bikeStations(context, listen: false)

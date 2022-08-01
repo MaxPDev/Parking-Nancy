@@ -68,8 +68,13 @@ class _MainBottomAppBarState extends State<MainBottomAppBar> {
                   setState(() {
                     selectedButton = "bikestation";
                   });
-                  widget.onUpdateTap("bikeStations");
-          
+
+                  //! changer init un fetch qui ne rempli pas la DB
+                  bikeStations(context, listen: false).initStations().then((value)
+                   => {
+                    print("initStations form bike button"),
+                    widget.onUpdateTap("bikeStations")
+                   });
                   
                 },
                 icon: const Icon(Icons.directions_bike)),
@@ -86,6 +91,7 @@ class _MainBottomAppBarState extends State<MainBottomAppBar> {
                   setState(() {
                     selectedButton = "parkings";
                   });
+
                   widget.onUpdateTap("parkings");
                   // gny(context, listen: false)
                   //     .reInitParkingAndGenerateMarkers()
