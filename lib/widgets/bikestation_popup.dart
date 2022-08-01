@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 // import 'package:latlong2/latlong.dart';
 
@@ -9,7 +10,7 @@ import 'package:nancy_stationnement/models/station.dart';
 import 'package:nancy_stationnement/services/jcdecaux_velostan.dart';
 import 'package:provider/provider.dart';
 
-class BikestationPopup extends StatelessWidget {
+class BikestationPopup extends StatefulWidget {
   const BikestationPopup({
     Key? key,
     required Marker marker
@@ -18,7 +19,14 @@ class BikestationPopup extends StatelessWidget {
 
   final Marker _marker;
 
+  @override
+  State<BikestationPopup> createState() => _BikestationPopupState();
+}
+
+class _BikestationPopupState extends State<BikestationPopup> {
   final bikeStations = Provider.of<JcdecauxVelostan>;
+
+  bool bigPopup = false;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +35,7 @@ class BikestationPopup extends StatelessWidget {
 
     Future<void> _initStationDataPopup() async {
       await bikeStations(context, listen: false).
-        getStationWithDynamicDataFromCoordinates(_marker.point).
+        getStationWithDynamicDataFromCoordinates(widget._marker.point).
         then((value) {
           bikeStation = bikeStations(context, listen: false).selectedStation;
         },);
@@ -40,36 +48,90 @@ class BikestationPopup extends StatelessWidget {
     // futurebuilder
 
     inspect(bikeStation);
-    return Column(
-      //TODO: Rattrape le mauvaise placement de la popup : center au lieu de markerTop
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        GestureDetector(
-          onTap: () => inspect(bikeStation),
-          child: FutureBuilder(
-            future : _initStationDataPopup(),
-            builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
-              }
-              if (snapshot.hasError) {
-                return Text('Main Error: ${snapshot.error}');
-              }
+    return bikeStation.id < 1 ? 
+    GestureDetector(
+      onTap: () {
+        setState(() {
+          bigPopup ? bigPopup = false : bigPopup = true;
+        });
+      },
+      child: FutureBuilder(
+        future : _initStationDataPopup(),
+        builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }
+          if (snapshot.hasError) {
+            return Text('Main Error: ${snapshot.error}');
+          }
 
-              return StationPopup(bikeStation: bikeStation);
-            }
-          )
-        )
-      ],
-    );
+          return bigPopup ? StationPopupBig(bikeStation: bikeStation): 
+          StationPopup(bikeStation: bikeStation);
+        }
+      )
+    )
+    :
+    StationPopup(bikeStation: bikeStation);
 
   }
 }
 
 class StationPopup extends StatelessWidget {
   const StationPopup({
+    Key? key,
+    required this.bikeStation,
+  }) : super(key: key);
+
+  final Station bikeStation;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 30,
+      width: 100,
+      color: Color.fromRGBO(216, 212, 212, 0.54),
+      alignment: Alignment.center,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("${bikeStation.bikes}", style: TextStyle(fontSize: 14)),
+              SizedBox(
+                width: 4,
+              ),
+              Icon(
+                FontAwesomeIcons.bicycle,
+                size: 12
+              ),
+
+              SizedBox(
+                width: 7,
+              ),
+    
+              Text("${bikeStation.stands}", style: TextStyle(fontSize: 14)),
+              SizedBox(
+                width: 4,
+              ),
+              Icon(
+                FontAwesomeIcons.checkToSlot,
+                size: 12,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+
+
+
+class StationPopupBig extends StatelessWidget {
+  const StationPopupBig({
     Key? key,
     required this.bikeStation,
   }) : super(key: key);

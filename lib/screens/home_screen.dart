@@ -300,6 +300,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Colors.black12,
                         borderStrokeWidth: 3),
                     popupOptions: PopupOptions(
+                      // markerTapBehavior: MarkerTapBehavior.togglePopupAndHideRest(),
                         popupSnap: PopupSnap.markerTop,
                         //todo: rajouter des conditions comme dans proto en fonction du service selectionné
                         popupController:
@@ -307,9 +308,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             PopupController(
                                 initiallySelectedMarkers: _markers
                                     .where((marker) =>
-                                        marker.key != ObjectKey("address_marker") && 
-                                        marker.key != ObjectKey("bikeStation_marker"))
-                                    .toList()),
+                                        marker.key != ObjectKey("address_marker") 
+                                        // && marker.key != ObjectKey("bikeStation_marker"))
+                            ).toList()),
                         popupBuilder: (_, marker) {
 
                           //todo test sur key value ?
