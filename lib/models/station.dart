@@ -73,6 +73,10 @@ class Station {
       lat: json["position"]["latitude"],
       status: json["status"], 
       banking: json["banking"],
+
+      //? à garder ?
+      bikes: json['totalStands']['availabilities']['bikes'],
+      stands: json['totalStands']['availabilities']['stands'],
     );
   }
 

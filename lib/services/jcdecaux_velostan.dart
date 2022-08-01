@@ -111,6 +111,11 @@ class JcdecauxVelostan extends ChangeNotifier {
     inspect(stationMarkers);
   }
 
+  Station getStationFromCoordinates(LatLng point) {
+    return stationList.singleWhere((station) =>
+      station.lat == point.latitude &&
+      station.long == point.longitude);
+  }
 
   // Récupère un station depuis les coordoonées
   //! Contournement

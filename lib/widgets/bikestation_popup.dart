@@ -48,30 +48,36 @@ class _BikestationPopupState extends State<BikestationPopup> {
     // futurebuilder
 
     inspect(bikeStation);
-    return bikeStation.id < 1 ? 
-    GestureDetector(
-      onTap: () {
-        setState(() {
-          bigPopup ? bigPopup = false : bigPopup = true;
-        });
-      },
-      child: FutureBuilder(
-        future : _initStationDataPopup(),
-        builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
-          }
-          if (snapshot.hasError) {
-            return Text('Main Error: ${snapshot.error}');
-          }
 
-          return bigPopup ? StationPopupBig(bikeStation: bikeStation): 
-          StationPopup(bikeStation: bikeStation);
-        }
-      )
-    )
-    :
-    StationPopup(bikeStation: bikeStation);
+    return StationPopup(
+      bikeStation: bikeStations(context, listen: false)
+                    .getStationFromCoordinates(widget._marker.point));
+
+
+    // return bikeStation.id < 1 ? 
+    // GestureDetector(
+    //   onTap: () {
+    //     setState(() {
+    //       bigPopup ? bigPopup = false : bigPopup = true;
+    //     });
+    //   },
+    //   child: FutureBuilder(
+    //     future : _initStationDataPopup(),
+    //     builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+    //       if (snapshot.connectionState == ConnectionState.waiting) {
+    //         return CircularProgressIndicator();
+    //       }
+    //       if (snapshot.hasError) {
+    //         return Text('Main Error: ${snapshot.error}');
+    //       }
+
+    //       return bigPopup ? StationPopupBig(bikeStation: bikeStation): 
+    //       StationPopup(bikeStation: bikeStation);
+    //     }
+    //   )
+    // )
+    // :
+    // StationPopup(bikeStation: bikeStation);
 
   }
 }
