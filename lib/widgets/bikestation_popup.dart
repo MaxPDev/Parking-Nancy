@@ -13,11 +13,14 @@ import 'package:provider/provider.dart';
 class BikestationPopup extends StatefulWidget {
   const BikestationPopup({
     Key? key,
-    required Marker marker
-  }) : _marker = marker, 
+    required Marker marker,
+    required bool isBikeMinPopupVisible
+  }) : _marker = marker,
+      _isBikeMinPopupVisible = isBikeMinPopupVisible,
       super(key: key);
 
   final Marker _marker;
+  final bool _isBikeMinPopupVisible;
 
   @override
   State<BikestationPopup> createState() => _BikestationPopupState();
@@ -49,9 +52,18 @@ class _BikestationPopupState extends State<BikestationPopup> {
 
     // inspect(bikeStation);
 
-    return StationPopup(
+    return bigPopup ?
+      StationPopupBig(bikeStation: bikeStation) :
+
+      widget._isBikeMinPopupVisible ? StationPopup(
       bikeStation: bikeStations(context, listen: false)
-                    .getStationFromCoordinates(widget._marker.point));
+                    .getStationFromCoordinates(widget._marker.point))
+                    :
+                    InkWell(
+                      onTap: () {
+                        bigPopup ? bigPopup = false : bigPopup = true;
+                      },
+                    );
 
 
     // return bikeStation.id < 1 ? 
@@ -94,37 +106,45 @@ class StationPopup extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 30,
-      width: 100,
-      color: Color.fromRGBO(216, 212, 212, 0.54),
+      width: 90,
+      // color: Color.fromRGBO(216, 212, 212, 0.54),
       alignment: Alignment.center,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("${bikeStation.bikes}", style: TextStyle(fontSize: 14)),
-              SizedBox(
-                width: 4,
-              ),
-              Icon(
-                FontAwesomeIcons.bicycle,
-                size: 12
-              ),
-
-              SizedBox(
-                width: 7,
-              ),
-    
-              Text("${bikeStation.stands}", style: TextStyle(fontSize: 14)),
-              SizedBox(
-                width: 4,
-              ),
-              Icon(
-                FontAwesomeIcons.checkToSlot,
-                size: 12,
-              ),
-            ],
+          Container(
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(9, 148, 81, 0.70),
+              shape: BoxShape.rectangle
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("${bikeStation.bikes}", style: TextStyle(fontSize: 14, color: Colors.white70)),
+                SizedBox(
+                  width: 4,
+                ),
+                Icon(
+                  FontAwesomeIcons.bicycle,
+                  color: Colors.white70,
+                  size: 12
+                ),
+          
+                SizedBox(
+                  width: 7,
+                ),
+              
+                Text("${bikeStation.stands}", style: TextStyle(fontSize: 14, color: Colors.white70)),
+                SizedBox(
+                  width: 4,
+                ),
+                Icon(
+                  FontAwesomeIcons.checkToSlot,
+                  color: Colors.white70,
+                  size: 12,
+                ),
+              ],
+            ),
           ),
         ],
       ),

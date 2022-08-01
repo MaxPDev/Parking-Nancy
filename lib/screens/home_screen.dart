@@ -51,6 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Marker> _markers = [];
   bool isParkCardSelected = false;
   bool isAddressFieldEditing = false;
+  bool isBikeMinPopupVisible = false;
   Map areParkingTitleVisible = {'three': false, 'six': false, 'all': false};
   String _selectedMarkers = "parkings"; // useless ??
 
@@ -241,11 +242,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       if (position.zoom! >= 14.3 && position.zoom! < 14.80) {
                         areParkingTitleVisible['three'] = true;
                         areParkingTitleVisible['six'] = false;
+                        isBikeMinPopupVisible = true;
                       }
 
                       if (position.zoom! < 14.3) {
                         areParkingTitleVisible['three'] = false;
                         areParkingTitleVisible['six'] = false;
+                        isBikeMinPopupVisible = false;
                       }
                     }
                   },
@@ -322,7 +325,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           }
                           if (marker.key == const ObjectKey("bikeStation_marker")) {
                             return BikestationPopup(
-                              marker: marker
+                              marker: marker,
+                              isBikeMinPopupVisible: isBikeMinPopupVisible
                             );
                           }
                           return Container();
