@@ -22,15 +22,80 @@ class BikestationPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Station bikeStation = new Station(id: 1, name: "", address: "", long: 0, lat: 0, status: "", banking: false);
-    bikeStations(context, listen: false).getStationWithDynamicDataFromCoordinates(_marker.point).then((value) {
-      bikeStation = bikeStations(context, listen: false).selectedStation;
-    });
+    Station bikeStation = 
+      new Station(id: 0, name: "", address: "", long: 0, lat: 0, status: "", banking: false);
+
+    Future<void> _initStationDataPopup() async {
+      await bikeStations(context, listen: false).
+        getStationWithDynamicDataFromCoordinates(_marker.point).
+        then((value) {
+          bikeStation = bikeStations(context, listen: false).selectedStation;
+        },);
+    }
+
+    // bikeStations(context, listen: false).getStationWithDynamicDataFromCoordinates(_marker.point).then((value) {
+    //   bikeStation = bikeStations(context, listen: false).selectedStation;
+    // });
 
     // futurebuilder
 
     inspect(bikeStation);
-    return Container(child: Text("${bikeStation.name} bike : ${bikeStation.bikes} stands : ${bikeStation.stands}"));
+    return Column(
+      //TODO: Rattrape le mauvaise placement de la popup : center au lieu de markerTop
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        GestureDetector(
+          onTap: () => inspect(bikeStation),
+          child: FutureBuilder(
+            future : _initStationDataPopup(),
+            builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              }
+              if (snapshot.hasError) {
+                return Text('Main Error: ${snapshot.error}');
+              }
 
+              return StationPopup(bikeStation: bikeStation);
+            }
+          )
+        )
+      ],
+    );
+
+  }
+}
+
+class StationPopup extends StatelessWidget {
+  const StationPopup({
+    Key? key,
+    required this.bikeStation,
+  }) : super(key: key);
+
+  final Station bikeStation;
+
+  @override
+  Widget build(BuildContext context) {
+    return SimpleDialog(
+      backgroundColor: Color.fromARGB(255, 161, 219, 176),
+      title: Text(
+        "${bikeStation.name}",
+        textDirection: TextDirection.ltr,
+        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+      ),
+      children: <Widget>[
+        SimpleDialogOption(
+          child: Text(
+            "Velo disponible : ${bikeStation.bikes}",
+            style: TextStyle(color: Colors.black),
+          ),
+        ),
+        SimpleDialogOption(
+          child: Text("Emplacements libre : ${bikeStation.stands}"),
+        )
+      ],
+    );
   }
 }
