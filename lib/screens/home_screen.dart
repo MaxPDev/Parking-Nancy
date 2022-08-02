@@ -53,13 +53,14 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isAddressFieldEditing = false;
   bool isBikeMinPopupVisible = false;
   Map areParkingTitleVisible = {'three': false, 'six': false, 'all': false};
-  String _selectedMarkers = "parkings"; // useless ??
-
+  
   final snackBarPopup = SnackBar(
     content: Text("Disponibilités et marqueurs mis à jour (dev mode)"),
     backgroundColor: Colors.green,
     elevation: 5,
   );
+
+  /// Parkings
 
   // Initie les Parkings et leur marqueurs.
   _initParkingMarkers() {
@@ -89,6 +90,8 @@ class _HomeScreenState extends State<HomeScreen> {
     _markers = gny(context, listen: false).getParkingsMarkers();
   }
 
+  /// Stations de Vélo
+
     // Initie les stations de vélos.
   _initBikeStations() {
     bikeStations(context, listen: false).initStations()
@@ -101,6 +104,8 @@ class _HomeScreenState extends State<HomeScreen> {
   _setBikeStationsMarkers() {
     _markers = bikeStations(context, listen: false).stationMarkers;
   }
+
+  /// Marqueur de localisation / d'adresse
 
   // Affiche le marqueur de la destination
   _displayDestinationMarker() {
@@ -161,6 +166,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+    String _selectedMarkers = ""; // useless ??
+
 
     return Scaffold(
       // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -442,9 +449,11 @@ class _HomeScreenState extends State<HomeScreen> {
             case "parkings":
             if(_selectedMarkers == "parkings") {
               _updatePopupParkings();
+            } else {
+              _selectedMarkers == "parkings";
+              _setParkingsMarkers();
+
             }
-            _selectedMarkers == "parkings";
-            // _setParkingsMarkers();
               break;
             case "bikeStations":
              _selectedMarkers == "bikeStations";

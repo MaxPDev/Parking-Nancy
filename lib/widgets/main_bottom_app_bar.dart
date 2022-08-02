@@ -88,6 +88,13 @@ class _MainBottomAppBarState extends State<MainBottomAppBar> {
                   if (kDebugMode) {
                     print("parking button pressed");
                   }
+
+                  // Si le boutton est appuyé une deuxième :
+                  //MAJ des données dynamic
+                  if (selectedButton == "parkings") {
+                    
+                  }
+
                   setState(() {
                     selectedButton = "parkings";
                   });

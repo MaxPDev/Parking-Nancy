@@ -106,16 +106,18 @@ class StationPopup extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 30,
-      width: 90,
+      width: 80,
       // color: Color.fromRGBO(216, 212, 212, 0.54),
       alignment: Alignment.center,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Container(
+            padding: EdgeInsets.fromLTRB(0, 2, 0, 2),
             decoration: BoxDecoration(
               color: Color.fromRGBO(9, 148, 81, 0.70),
-              shape: BoxShape.rectangle
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.all(Radius.circular(20))
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -131,7 +133,7 @@ class StationPopup extends StatelessWidget {
                 ),
           
                 SizedBox(
-                  width: 7,
+                  width: 10,
                 ),
               
                 Text("${bikeStation.stands}", style: TextStyle(fontSize: 14, color: Colors.white70)),

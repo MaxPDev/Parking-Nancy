@@ -131,4 +131,12 @@ class JcdecauxVelostan extends ChangeNotifier {
 
   }
 
+
+  @override
+  void removeListener(VoidCallback listener) {
+    // TODO: implement removeListener
+    super.removeListener(listener);
+    print("removeListener here");
+  }
+
 }
