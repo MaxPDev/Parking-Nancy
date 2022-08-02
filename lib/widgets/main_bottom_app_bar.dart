@@ -69,12 +69,7 @@ class _MainBottomAppBarState extends State<MainBottomAppBar> {
                     selectedButton = "bikestation";
                   });
 
-                  //! changer init un fetch qui ne rempli pas la DB
-                  bikeStations(context, listen: false).initStations().then((value)
-                   => {
-                    print("initStations form bike button"),
-                    widget.onUpdateTap("bikeStations")
-                   });
+                  widget.onUpdateTap("bikeStations");
                   
                 },
                 icon: const Icon(Icons.directions_bike)),

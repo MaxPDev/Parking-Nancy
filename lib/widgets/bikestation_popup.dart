@@ -14,13 +14,13 @@ class BikestationPopup extends StatefulWidget {
   const BikestationPopup({
     Key? key,
     required Marker marker,
-    required bool isBikeMinPopupVisible
+    // required bool isBikeMinPopupVisible
   }) : _marker = marker,
-      _isBikeMinPopupVisible = isBikeMinPopupVisible,
+      // _isBikeMinPopupVisible = isBikeMinPopupVisible,
       super(key: key);
 
   final Marker _marker;
-  final bool _isBikeMinPopupVisible;
+  // final bool _isBikeMinPopupVisible;
 
   @override
   State<BikestationPopup> createState() => _BikestationPopupState();
@@ -29,20 +29,23 @@ class BikestationPopup extends StatefulWidget {
 class _BikestationPopupState extends State<BikestationPopup> {
   final bikeStations = Provider.of<JcdecauxVelostan>;
 
-  bool bigPopup = false;
+  // bool bigPopup = false;
 
   @override
   Widget build(BuildContext context) {
-    Station bikeStation = 
-      new Station(id: 0, name: "", address: "", long: 0, lat: 0, status: "", banking: false);
 
-    Future<void> _initStationDataPopup() async {
-      await bikeStations(context, listen: false).
-        getStationWithDynamicDataFromCoordinates(widget._marker.point).
-        then((value) {
-          bikeStation = bikeStations(context, listen: false).selectedStation;
-        },);
-    }
+      Station bikeStation = 
+        bikeStations(context, listen: false).getStationFromCoordinates(widget._marker.point);
+
+      Future<void> _initStationDataPopup() async {
+        await bikeStations(context, listen: false).
+          getStationWithDynamicDataFromCoordinates(widget._marker.point).
+          then((value) {
+            bikeStation = bikeStations(context, listen: false).selectedStation;
+          },);
+      }
+
+    return StationPopup(bikeStation: bikeStation);
 
     // bikeStations(context, listen: false).getStationWithDynamicDataFromCoordinates(_marker.point).then((value) {
     //   bikeStation = bikeStations(context, listen: false).selectedStation;
@@ -52,18 +55,18 @@ class _BikestationPopupState extends State<BikestationPopup> {
 
     // inspect(bikeStation);
 
-    return bigPopup ?
-      StationPopupBig(bikeStation: bikeStation) :
+    // return bigPopup ?
+    //   StationPopupBig(bikeStation: bikeStation) :
 
-      widget._isBikeMinPopupVisible ? StationPopup(
-      bikeStation: bikeStations(context, listen: false)
-                    .getStationFromCoordinates(widget._marker.point))
-                    :
-                    InkWell(
-                      onTap: () {
-                        bigPopup ? bigPopup = false : bigPopup = true;
-                      },
-                    );
+    //   widget._isBikeMinPopupVisible ? StationPopup(
+    //   bikeStation: bikeStations(context, listen: false)
+    //                 .getStationFromCoordinates(widget._marker.point))
+    //                 :
+    //                 InkWell(
+    //                   onTap: () {
+    //                     bigPopup ? bigPopup = false : bigPopup = true;
+    //                   },
+    //                 );
 
 
     // return bikeStation.id < 1 ? 
@@ -104,70 +107,6 @@ class StationPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 30,
-      width: 80,
-      // color: Color.fromRGBO(216, 212, 212, 0.54),
-      alignment: Alignment.center,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Container(
-            padding: EdgeInsets.fromLTRB(0, 2, 0, 2),
-            decoration: BoxDecoration(
-              color: Color.fromRGBO(9, 148, 81, 0.70),
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.all(Radius.circular(20))
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("${bikeStation.bikes}", style: TextStyle(fontSize: 14, color: Colors.white70)),
-                SizedBox(
-                  width: 4,
-                ),
-                Icon(
-                  FontAwesomeIcons.bicycle,
-                  color: Colors.white70,
-                  size: 12
-                ),
-          
-                SizedBox(
-                  width: 10,
-                ),
-              
-                Text("${bikeStation.stands}", style: TextStyle(fontSize: 14, color: Colors.white70)),
-                SizedBox(
-                  width: 4,
-                ),
-                Icon(
-                  FontAwesomeIcons.checkToSlot,
-                  color: Colors.white70,
-                  size: 12,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-
-
-
-
-class StationPopupBig extends StatelessWidget {
-  const StationPopupBig({
-    Key? key,
-    required this.bikeStation,
-  }) : super(key: key);
-
-  final Station bikeStation;
-
-  @override
-  Widget build(BuildContext context) {
     return SimpleDialog(
       backgroundColor: Color.fromARGB(255, 161, 219, 176),
       title: Text(
@@ -189,3 +128,67 @@ class StationPopupBig extends StatelessWidget {
     );
   }
 }
+
+// class StationPopupMin extends StatelessWidget {
+//   const StationPopupMin({
+//     Key? key,
+//     required this.bikeStation,
+//   }) : super(key: key);
+
+//   final Station bikeStation;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       height: 30,
+//       width: 80,
+//       // color: Color.fromRGBO(216, 212, 212, 0.54),
+//       alignment: Alignment.center,
+//       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.end,
+//         children: [
+//           Container(
+//             padding: EdgeInsets.fromLTRB(0, 2, 0, 2),
+//             decoration: BoxDecoration(
+//               color: Color.fromRGBO(9, 148, 81, 0.70),
+//               shape: BoxShape.rectangle,
+//               borderRadius: BorderRadius.all(Radius.circular(20))
+//             ),
+//             child: Row(
+//               mainAxisAlignment: MainAxisAlignment.center,
+//               children: [
+//                 Text("${bikeStation.bikes}", style: TextStyle(fontSize: 14, color: Colors.white70)),
+//                 SizedBox(
+//                   width: 4,
+//                 ),
+//                 Icon(
+//                   FontAwesomeIcons.bicycle,
+//                   color: Colors.white70,
+//                   size: 12
+//                 ),
+          
+//                 SizedBox(
+//                   width: 10,
+//                 ),
+              
+//                 Text("${bikeStation.stands}", style: TextStyle(fontSize: 14, color: Colors.white70)),
+//                 SizedBox(
+//                   width: 4,
+//                 ),
+//                 Icon(
+//                   FontAwesomeIcons.checkToSlot,
+//                   color: Colors.white70,
+//                   size: 12,
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+
+
+

@@ -10,7 +10,8 @@ import 'package:latlong2/latlong.dart';
 import 'package:path/path.dart';
 
 import 'package:nancy_stationnement/models/station.dart';
-import 'package:nancy_stationnement/utils/marker_with_value.dart';
+import 'package:nancy_stationnement/widgets/bikestation_min_popup.dart';
+// import 'package:nancy_stationnement/utils/marker_with_value.dart';
 
 class JcdecauxVelostan extends ChangeNotifier {
   // https://developer.jcdecaux.com/#/opendata/vls?page=dynamic&contract=nancy
@@ -39,7 +40,7 @@ class JcdecauxVelostan extends ChangeNotifier {
   Future<void> initStations() async {
     String data = await fetchDataStations();
     stationList = stationFromMap(data);
-    notifyListeners();
+    // notifyListeners();
     // inspect(stationList);
   }
   
@@ -97,18 +98,25 @@ class JcdecauxVelostan extends ChangeNotifier {
             station.lat,
             station.long
           ),
-          width: 30,
-          height: 30,
-          builder: (context) => Icon(
-            FontAwesomeIcons.bicycle,
-            size: 30,
-            color: Color.fromARGB(255, 9, 148, 81),
+          width: 120,
+          height: 120,
+          builder: (context) => 
+          Column(
+            children: [
+              BikestationMinPopup(station: station),
+              Icon(
+                FontAwesomeIcons.bicycle,
+                size: 30,
+                color: Color.fromARGB(255, 9, 148, 81),
+              ),
+            ],
           )
         )
       );
     }
     stationMarkers = markers;
     inspect(stationMarkers);
+    notifyListeners();
   }
 
   Station getStationFromCoordinates(LatLng point) {
@@ -140,3 +148,4 @@ class JcdecauxVelostan extends ChangeNotifier {
   }
 
 }
+

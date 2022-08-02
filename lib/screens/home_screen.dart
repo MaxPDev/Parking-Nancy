@@ -55,12 +55,21 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isAddressFieldEditing = false;
   bool isBikeMinPopupVisible = false;
   Map areParkingTitleVisible = {'three': false, 'six': false, 'all': false};
-  
-  final snackBarPopup = SnackBar(
-    content: Text("Disponibilités et marqueurs mis à jour (dev mode)"),
-    backgroundColor: Colors.green,
+
+  final snackBarPopupParking = SnackBar(
+    content: Text("Disponibilités des parkings mis à jour"),
+    backgroundColor: Colors.blue,
+    duration: const Duration(seconds: 3),
     elevation: 5,
   );
+
+  final snackBarPopupBikeStation = SnackBar(
+    content: Text("Disponibilités des stations de vélo mis à jour"),
+    backgroundColor: Colors.green,
+    duration: const Duration(seconds: 3),
+    elevation: 5,
+  );
+
 
   /// Parkings
 
@@ -78,14 +87,18 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
 
+
   // Lance la mise à jour de la disponibilité des parkings
   _updatePopupParkings() {
-    setState(() {
-      print("updatePopuParking");
-      _markers = gny(context, listen: false).getParkingsMarkers();
-
-      ScaffoldMessenger.of(context).showSnackBar(snackBarPopup);
-    });
+    gny(context, listen: false)
+      .initParkingAndGenerateMarkers()
+      .then((value) => {
+        setState(() {
+          print("updatePopuParking");
+          _markers = gny(context, listen: false).getParkingsMarkers();
+        }),
+        ScaffoldMessenger.of(context).showSnackBar(snackBarPopupParking),
+      });
   }
 
   _setParkingsMarkers() {
@@ -94,11 +107,23 @@ class _HomeScreenState extends State<HomeScreen> {
 
   /// Stations de Vélo
 
-    // Initie les stations de vélos.
+  // Initie les stations de vélos.
   _initBikeStations() {
     bikeStations(context, listen: false).initStations()
       .then((value) {
         bikeStations(context, listen: false).generateStationsMarker();
+      });
+  }
+
+  // Met à jour les données des vélos.
+  _updateBikeStations() {
+    bikeStations(context, listen: false).initStations()
+      .then((value) {
+        bikeStations(context, listen: false).generateStationsMarker();
+        setState(() {
+          _markers = bikeStations(context, listen: false).stationMarkers;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(snackBarPopupBikeStation);
       });
   }
 
@@ -289,7 +314,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       }
                     });
                   },
-                  
+
                   ),
               layers: [
                 TileLayerOptions(
@@ -320,9 +345,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             PopupController(
                                 initiallySelectedMarkers: _markers
                                     .where((marker) =>
-                                        marker.key != ObjectKey("address_marker") 
-                                        // && marker.key != ObjectKey("bikeStation_marker"))
-                            ).toList()),
+                                        marker.key != ObjectKey("address_marker")
+                                        && marker.key != ObjectKey("bikeStation_marker")).toList()),
+                            // ).toList()),
                         popupBuilder: (_, marker) {
 
                           //todo test sur key value ?
@@ -335,13 +360,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           if (marker.key == const ObjectKey("bikeStation_marker")) {
                             return BikestationPopup(
                               marker: marker,
-                              isBikeMinPopupVisible: isBikeMinPopupVisible
+                              // isBikeMinPopupVisible: isBikeMinPopupVisible
                             );
                           }
                           return Container();
 
                           // //TODO: faire une fonction switch case de popup qui gère tout les type de popup
-                          // if (marker.key != ObjectKey("address_marker") && 
+                          // if (marker.key != ObjectKey("address_marker") &&
                           //     marker.key != ObjectKey("bikeStation_marker")) {
                           //   return ParkingPopup(
                           //       markers: _markers,
@@ -441,7 +466,9 @@ class _HomeScreenState extends State<HomeScreen> {
         setState(() {
           //todo repenser actio botto : deuxieme presse = mise à jour static ? dynamic ?
           switch (selectedMarkers) {
+
             case "parkings":
+            // Si parkings est déjà sélectionné : mis à jour des données dynamiques (disponibilité dans popup)
             if(store(context, listen: false).userSelection == "parkings") {
               _updatePopupParkings();
             } else {
@@ -449,11 +476,20 @@ class _HomeScreenState extends State<HomeScreen> {
               _setParkingsMarkers();
             }
               break;
+
             case "bikeStations":
-             store(context, listen: false).userSelection = "bikeStations";
+            // Si parkings est déjà sélectionné : mis à jour des données dynamiques (disponibilité dans popup)
+            if(store(context, listen: false).userSelection == "bikeStations") {
+              //?prévoir un update et mettre le scaffold dedans ?
+              _updateBikeStations();
+              
+            } else {
+              store(context, listen: false).userSelection = "bikeStations";
               _setBikeStationsMarkers();
+            }
               break;
             default:
+            // TODO : parking si app accès sur parking, sinon autre
           }
         });
       }),
