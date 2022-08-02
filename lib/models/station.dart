@@ -1,3 +1,5 @@
+import "dart:convert" show utf8;
+
 class Station {
 
   // Données statiques
@@ -67,7 +69,7 @@ class Station {
     return Station(
       id: json["number"], 
       name: json["name"], 
-      address: json["address"], 
+      address: utf8.decode(json["address"].runes.toList()) , 
       // position: List<double>.from(json["position"].map(x)), 
       long: json["position"]["longitude"],
       lat: json["position"]["latitude"],
