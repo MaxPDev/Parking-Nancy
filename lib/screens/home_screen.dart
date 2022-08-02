@@ -19,6 +19,7 @@ import 'package:nancy_stationnement/widgets/parking_card.dart';
 import 'package:nancy_stationnement/widgets/top_app_bar.dart';
 import 'package:nancy_stationnement/widgets/list_address.dart';
 
+import 'package:nancy_stationnement/services/store.dart';
 import 'package:nancy_stationnement/services/gny_parking.dart';
 import 'package:nancy_stationnement/services/ban_service.dart';
 import 'package:nancy_stationnement/services/jcdecaux_velostan.dart';
@@ -44,6 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final MapController _mapController = MapController();
 
   // Providers
+  final store = Provider.of<Store>;
   final gny = Provider.of<GnyParking>;
   final ban = Provider.of<BanService>;
   final bikeStations = Provider.of<JcdecauxVelostan>;
@@ -430,16 +432,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
 
-      // Text("${gny(context, listen: true).selectedParking!.name} :
-      // PMR: ${gny(context, listen: true).selectedParking!.disabled},
-      // Charging: ${gny(context, listen: true).selectedParking!.charging},
-      // dispo: ${gny(context, listen: true).selectedParking!.available}")
-
       ///
       /// Bar de selection des icones sur la map
       ///
-      ///
-      // TODO: This must be a Widget
       //? Better Icon ? Global ?
       //! attention, appellé une méthode avec (),n'est pas comme la passer en paramètre
       bottomNavigationBar: MainBottomAppBar(onUpdateTap: (String selectedMarkers) {
@@ -447,16 +442,15 @@ class _HomeScreenState extends State<HomeScreen> {
           //todo repenser actio botto : deuxieme presse = mise à jour static ? dynamic ?
           switch (selectedMarkers) {
             case "parkings":
-            if(_selectedMarkers == "parkings") {
+            if(store(context, listen: false).userSelection == "parkings") {
               _updatePopupParkings();
             } else {
-              _selectedMarkers == "parkings";
+              store(context, listen: false).userSelection = "parkings";
               _setParkingsMarkers();
-
             }
               break;
             case "bikeStations":
-             _selectedMarkers == "bikeStations";
+             store(context, listen: false).userSelection = "bikeStations";
               _setBikeStationsMarkers();
               break;
             default:

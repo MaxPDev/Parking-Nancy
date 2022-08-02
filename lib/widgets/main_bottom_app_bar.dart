@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:nancy_stationnement/services/store.dart';
 import 'package:nancy_stationnement/services/gny_parking.dart';
 import 'package:nancy_stationnement/services/jcdecaux_velostan.dart';
 
@@ -18,9 +19,8 @@ class MainBottomAppBar extends StatefulWidget {
 }
 
 class _MainBottomAppBarState extends State<MainBottomAppBar> {
-  // final GnyParking Function(BuildContext context, {bool listen}) gny;
+  final store = Provider.of<Store>;
   final gny = Provider.of<GnyParking>;
-
   final bikeStations = Provider.of<JcdecauxVelostan>;
 
   String selectedButton = "parkings";
@@ -89,13 +89,8 @@ class _MainBottomAppBarState extends State<MainBottomAppBar> {
                     print("parking button pressed");
                   }
 
-                  // Si le boutton est appuyé une deuxième :
-                  //MAJ des données dynamic
-                  if (selectedButton == "parkings") {
-                    
-                  }
-
                   setState(() {
+                    //? Relier au provider ?
                     selectedButton = "parkings";
                   });
 
