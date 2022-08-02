@@ -13,8 +13,8 @@ class BikestationMinPopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-          height: 30,
-          width: 80,
+          height: 60,
+          width: 40,
           // color: Color.fromRGBO(216, 212, 212, 0.54),
           alignment: Alignment.center,
           child: Column(
@@ -25,41 +25,46 @@ class BikestationMinPopup extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Color.fromRGBO(9, 148, 81, 0.70),
                   shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.all(Radius.circular(20))
+                  borderRadius: BorderRadius.all(Radius.circular(5))
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(
                   children: [
-                    Text("${station.bikes}", 
-                    style: TextStyle(
-                      fontSize: 14, 
-                      color: Colors.white70,
-                      fontWeight: FontWeight.bold)),
-                    SizedBox(
-                      width: 4,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Icon(
+                          FontAwesomeIcons.bicycle,
+                          color: Colors.white70,
+                          size: 12
+                        ),
+                        // SizedBox(
+                        //   width: 4,
+                        // ),
+                        Text("${station.bikes}", 
+                        style: TextStyle(
+                          fontSize: 14, 
+                          color: Colors.white70,
+                          fontWeight: FontWeight.bold)),
+                      ],
                     ),
-                    Icon(
-                      FontAwesomeIcons.bicycle,
-                      color: Colors.white70,
-                      size: 12
-                    ),
-              
-                    SizedBox(
-                      width: 10,
-                    ),
-                  
-                    Text("${station.stands}", 
-                    style: TextStyle(
-                      fontSize: 14, 
-                      color: Colors.white70,
-                      fontWeight: FontWeight.bold)),
-                    SizedBox(
-                      width: 4,
-                    ),
-                    Icon(
-                      FontAwesomeIcons.checkToSlot,
-                      color: Colors.white70,
-                      size: 12,
+                                        Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+
+                        Icon(
+                          FontAwesomeIcons.checkToSlot,
+                          color: Colors.white70,
+                          size: 12,
+                        ),
+                        // SizedBox(
+                        //   width: 4,
+                        // ),
+                        Text("${station.stands}", 
+                        style: TextStyle(
+                          fontSize: 14, 
+                          color: Colors.white70,
+                          fontWeight: FontWeight.bold)),
+                      ],
                     ),
                   ],
                 ),

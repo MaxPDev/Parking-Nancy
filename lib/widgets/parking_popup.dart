@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
-import 'package:indexed/indexed.dart';
+// import 'package:indexed/indexed.dart';
 // import 'package:latlong2/latlong.dart';
 
 import 'package:nancy_stationnement/models/parking.dart';
