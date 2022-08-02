@@ -39,7 +39,7 @@ class _BikestationPopupState extends State<BikestationPopup> {
 
     Future<void> _initStationDataPopup() async {
       await bikeStations(context, listen: false)
-          .getStationWithDynamicDataFromCoordinates(widget._marker.point)
+          .getStationWithDynamicDataFromStationId(bikeStation.id)
           .then(
         (value) {
           bikeStation = bikeStations(context, listen: false).selectedStation;
@@ -47,7 +47,36 @@ class _BikestationPopupState extends State<BikestationPopup> {
       );
     }
 
-    return StationPopup(bikeStation: bikeStation);
+    void refresh() {
+      setState(() {
+        
+      });
+    }
+
+    return SizedBox(
+      width: 300,
+      height: 200,
+      child: FutureBuilder(
+        future: _initStationDataPopup(),
+          builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return SizedBox(
+                width: 30,
+                height: 30,
+                child: CircularProgressIndicator()
+                );
+            }
+            if (snapshot.hasError) {
+              return Text('Main Error: ${snapshot.error}');
+              // If got data
+            }
+            // In this case, future methode is void, so homeScreen
+            // = hasData()
+            return StationPopup(bikeStation: bikeStation, update: refresh,);
+          },
+      ),
+    );
+    // return StationPopup(bikeStation: bikeStation);
   }
 }
 
@@ -55,9 +84,11 @@ class StationPopup extends StatelessWidget {
   const StationPopup({
     Key? key,
     required this.bikeStation,
+    required this.update
   }) : super(key: key);
 
   final Station bikeStation;
+  final Function update;
 
   // Traite le texte de titre pour enlever le numéro de station et la mention "CB"
   String bikeStationNameToShorter(name) {
@@ -159,6 +190,19 @@ class StationPopup extends StatelessWidget {
                     maxLines: 3,
                   ),
                 )
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                InkWell(
+                  onTap: (() {
+                    update();
+                  }),
+                  child: Icon(Icons.update,
+                      color: Colors.black, size: 18),
+                ),
+
               ],
             )
           ],

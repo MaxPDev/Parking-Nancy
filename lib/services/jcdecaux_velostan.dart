@@ -139,6 +139,14 @@ class JcdecauxVelostan extends ChangeNotifier {
 
   }
 
+  // Récupère une station depuis l'id de la station
+  //! Contournement
+  Future<void> getStationWithDynamicDataFromStationId(int stationID) async {
+    await fetchDynamicDataStation(stationID);
+    selectedStation = stationList.singleWhere((station) => station.id == stationID);
+
+  }
+
 
   @override
   void removeListener(VoidCallback listener) {
