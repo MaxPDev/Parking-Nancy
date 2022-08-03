@@ -177,6 +177,19 @@ class ParkingCard extends StatelessWidget {
                       ),
                     ],
                   ) : Container(),
+
+                // Parking fermé
+                parking.isClosed != null ?
+                  parking.isClosed == true ?
+                    Text(
+                      "Parking fermé", 
+                      style: TextStyle(
+                        color: Colors.red, 
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold))
+                    : Container()
+                : Container(),
+
                 // Disponibilité si info disponible
                 parking.available != "null"
                     ? Text(

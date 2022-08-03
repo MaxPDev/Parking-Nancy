@@ -196,7 +196,9 @@ class GnyParking extends ChangeNotifier {
             child: Icon(
                   FontAwesomeIcons.squareParking,
                   size: 30,
-                  color: Colors.blue,
+                  color: parking.isClosed != null ?
+                    !parking.isClosed! ? Colors.blue : Colors.red
+                    : Colors.blue,
                 ),
           )));
     }

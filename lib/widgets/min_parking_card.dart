@@ -72,6 +72,19 @@ class MinParkingCard extends StatelessWidget {
               ],
             ) : Container(),
             parking.zone != null ? DividerQuart(width: width) : Container(),
+
+            // Affichage si parking fermé
+            parking.isClosed != null ?
+              parking.isClosed == true ?
+                Text(
+                  "Parking fermé", 
+                  style: TextStyle(
+                    color: Colors.red, 
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold))
+                : Container()
+            : Container(),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               mainAxisSize: MainAxisSize.max,
