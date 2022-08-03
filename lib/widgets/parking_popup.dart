@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
-import 'package:indexed/indexed.dart';
+// import 'package:indexed/indexed.dart';
 // import 'package:latlong2/latlong.dart';
 
 import 'package:nancy_stationnement/models/parking.dart';
@@ -28,6 +28,7 @@ class ParkingPopup extends StatelessWidget {
   Widget build(BuildContext context) {
     Parking parking = GnyParking.getParkingFromCoordinates(_marker.point);
 
+    //TODO: inutile !! available déjà dans parking. Nettoyer, contrôler
     available = GnyParking.getAvailableFromCoordinates(_marker.point);
 
     // Si la donnée available est à null, un container vide est retournée

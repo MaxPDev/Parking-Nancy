@@ -13,6 +13,7 @@ import 'package:nancy_stationnement/models/parking.dart';
 import 'package:nancy_stationnement/database/database_handler.dart';
 import 'package:nancy_stationnement/services/check_connection.dart';
 import 'package:nancy_stationnement/utils/hex_color.dart';
+import 'package:nancy_stationnement/utils/marker_with_value.dart';
 
 class GnyParking extends ChangeNotifier {
   bool isGnyConnection = false;
@@ -45,11 +46,9 @@ class GnyParking extends ChangeNotifier {
   // Prépare la liste de parking, génère les marqueur
   Future<void> initParkingAndGenerateMarkers() async {
     //* Delete database : only for dev test, or implement if fulling database doesn't work
-    await DatabaseHandler.instance.deleteDatabase("parkings.db");
-
+    // await DatabaseHandler.instance.deleteDatabase("parkings.db");
     // Initialise les Parking
     await initParking();
-
     // Génère les marqueurs
     generateParkingMarkers();
   }
@@ -60,10 +59,8 @@ class GnyParking extends ChangeNotifier {
     // // Supprime la database : pour tester le remplissage.
     // await DatabaseHandler.instance.deleteDatabase('parkings.db');
     await DatabaseHandler.instance.resetParkingsTables();
-
     // Initialise les Parking
     await initParking();
-
     // Génère les marqueurs
     generateParkingMarkers();
   }
@@ -174,13 +171,15 @@ class GnyParking extends ChangeNotifier {
   }
 
   //
-  // Construit les marker depuis les objets parking
+  // Construit les markers depuis les objets parking
   //
   void generateParkingMarkers() {
     List<Marker> markers = [];
     for (var parking in _parkings) {
       //todo récupérer depuis db
       markers.add(Marker(
+          key: const ObjectKey("parking_marker"),
+          // objectId: parking.id,
           point: LatLng(parking.coordinates[1],
               parking.coordinates[0]), //? refaire en parking.lat et.long ?
           width: 30,
@@ -197,10 +196,13 @@ class GnyParking extends ChangeNotifier {
             child: Icon(
                   FontAwesomeIcons.squareParking,
                   size: 30,
-                  color: Colors.blue,
+                  color: parking.isClosed != null ?
+                    !parking.isClosed! ? Colors.blue : Colors.red
+                    : Colors.blue,
                 ),
           )));
     }
+    _markers.clear(); //? useless ?
     _markers = markers;
   }
 
@@ -212,17 +214,18 @@ class GnyParking extends ChangeNotifier {
    // Récupère Parking depuis les coordonnées
   //! Contournement? FAIRE AVEC LES OBJECTKEY
   static Parking getParkingFromCoordinates(LatLng point) {
-    Parking parking = _parkings.firstWhere((parking) =>
+    return _parkings.firstWhere((parking) =>
         parking.coordinates[1] == point.latitude &&
         parking.coordinates[0] == point.longitude);
     // notifyListeners();
-    return parking;
+    // return parking;
   }
 
   /**
    * Récupère et rénvoie la propriété available depuis les coordonnées
    */
   //! Contournement FAIRE AVEC LES OBJECTKEY
+  //TODO: optimisiation : return directement, + . availabe
   static String? getAvailableFromCoordinates(LatLng point) {
     Parking parkingPopup = _parkings.firstWhere((parking) =>
         parking.coordinates[1] == point.latitude &&

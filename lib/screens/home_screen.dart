@@ -13,14 +13,19 @@ import 'package:searchbar_animation/searchbar_animation.dart';
 
 import 'package:nancy_stationnement/widgets/main_bottom_app_bar.dart';
 import 'package:nancy_stationnement/widgets/parking_popup.dart';
+import 'package:nancy_stationnement/widgets/bikestation_popup.dart';
 import 'package:nancy_stationnement/widgets/min_parking_card.dart';
 import 'package:nancy_stationnement/widgets/parking_card.dart';
 import 'package:nancy_stationnement/widgets/top_app_bar.dart';
 import 'package:nancy_stationnement/widgets/list_address.dart';
 
+import 'package:nancy_stationnement/services/store.dart';
 import 'package:nancy_stationnement/services/gny_parking.dart';
 import 'package:nancy_stationnement/services/ban_service.dart';
+import 'package:nancy_stationnement/services/jcdecaux_velostan.dart';
 
+// import 'package:nancy_stationnement/utils/marker_with_value.dart';
+// import 'package:nancy_stationnement/utils/marker_with_value_cluster_layer_options.dart';
 import 'package:nancy_stationnement/utils/hex_color.dart';
 
 ///
@@ -40,19 +45,33 @@ class _HomeScreenState extends State<HomeScreen> {
   final MapController _mapController = MapController();
 
   // Providers
+  final store = Provider.of<Store>;
   final gny = Provider.of<GnyParking>;
   final ban = Provider.of<BanService>;
+  final bikeStations = Provider.of<JcdecauxVelostan>;
 
   List<Marker> _markers = [];
   bool isParkCardSelected = false;
   bool isAddressFieldEditing = false;
+  bool isBikeMinPopupVisible = false;
   Map areParkingTitleVisible = {'three': false, 'six': false, 'all': false};
 
-  final snackBarPopup = SnackBar(
-    content: Text("Disponibilités et marqueurs mis à jour (dev mode)"),
-    backgroundColor: Colors.green,
+  final snackBarPopupParking = SnackBar(
+    content: Text("Disponibilités des parkings mis à jour"),
+    backgroundColor: Colors.blue,
+    duration: const Duration(seconds: 3),
     elevation: 5,
   );
+
+  final snackBarPopupBikeStation = SnackBar(
+    content: Text("Disponibilités des stations de vélo mis à jour"),
+    backgroundColor: Colors.green,
+    duration: const Duration(seconds: 3),
+    elevation: 5,
+  );
+
+
+  /// Parkings
 
   // Initie les Parkings et leur marqueurs.
   _initParkingMarkers() {
@@ -67,15 +86,53 @@ class _HomeScreenState extends State<HomeScreen> {
             });
   }
 
+
+
   // Lance la mise à jour de la disponibilité des parkings
   _updatePopupParkings() {
-    setState(() {
-      print("updatePopuParking");
-      _markers = gny(context, listen: false).getParkingsMarkers();
-
-      ScaffoldMessenger.of(context).showSnackBar(snackBarPopup);
-    });
+    gny(context, listen: false)
+      .initParkingAndGenerateMarkers()
+      .then((value) => {
+        setState(() {
+          print("updatePopuParking");
+          _markers = gny(context, listen: false).getParkingsMarkers();
+        }),
+        ScaffoldMessenger.of(context).showSnackBar(snackBarPopupParking),
+      });
   }
+
+  _setParkingsMarkers() {
+    _markers = gny(context, listen: false).getParkingsMarkers();
+  }
+
+  /// Stations de Vélo
+
+  // Initie les stations de vélos.
+  _initBikeStations() {
+    bikeStations(context, listen: false).initStations()
+      .then((value) {
+        bikeStations(context, listen: false).generateStationsMarker();
+      });
+  }
+
+  // Met à jour les données des vélos.
+  _updateBikeStations() {
+    bikeStations(context, listen: false).initStations()
+      .then((value) {
+        bikeStations(context, listen: false).generateStationsMarker();
+        setState(() {
+          _markers = bikeStations(context, listen: false).stationMarkers;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(snackBarPopupBikeStation);
+      });
+  }
+
+  // Active les marques des stations de vélos
+  _setBikeStationsMarkers() {
+    _markers = bikeStations(context, listen: false).stationMarkers;
+  }
+
+  /// Marqueur de localisation / d'adresse
 
   // Affiche le marqueur de la destination
   _displayDestinationMarker() {
@@ -114,6 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // Charge l'initialisation des marqueur de Parkings au permiers chargement
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _initParkingMarkers();
+      _initBikeStations();
       // areParkingTitleVisible["three"] = false;
       // areParkingTitleVisible["six"] = false;
     });
@@ -135,6 +193,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+    String _selectedMarkers = ""; // useless ??
+
 
     return Scaffold(
       // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -203,24 +263,26 @@ class _HomeScreenState extends State<HomeScreen> {
                   //todo Au Zoom 14, afficher titre de 3 parkings, 15 : 3 de +
                   onPositionChanged: (MapPosition position, bool hasGesture) {
                     if (position.zoom != null) {
-                      if (position.zoom! >= 15.60) {
+                      if (position.zoom! >= 15.42) {
                         areParkingTitleVisible['all'] = true;
                       } else {
                         areParkingTitleVisible['all'] = false;
                       }
 
-                      if (position.zoom! >= 15.00) {
+                      if (position.zoom! >= 14.80) {
                         areParkingTitleVisible['six'] = true;
                       }
 
-                      if (position.zoom! >= 14.3 && position.zoom! < 15.00) {
+                      if (position.zoom! >= 14.3 && position.zoom! < 14.80) {
                         areParkingTitleVisible['three'] = true;
                         areParkingTitleVisible['six'] = false;
+                        isBikeMinPopupVisible = true;
                       }
 
                       if (position.zoom! < 14.3) {
                         areParkingTitleVisible['three'] = false;
                         areParkingTitleVisible['six'] = false;
+                        isBikeMinPopupVisible = false;
                       }
                     }
                   },
@@ -252,7 +314,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       }
                     });
                   },
-                  
+
                   ),
               layers: [
                 TileLayerOptions(
@@ -275,25 +337,43 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Colors.black12,
                         borderStrokeWidth: 3),
                     popupOptions: PopupOptions(
+                      // markerTapBehavior: MarkerTapBehavior.togglePopupAndHideRest(),
                         popupSnap: PopupSnap.markerTop,
                         //todo: rajouter des conditions comme dans proto en fonction du service selectionné
                         popupController:
-                            // Affiche les popup sauf pour les marqueur d'adresse
+                            // Affiche les popup sauf pour les marqueur d'adresse et les stations de vélo
                             PopupController(
                                 initiallySelectedMarkers: _markers
                                     .where((marker) =>
-                                        marker.key !=
-                                        ObjectKey("address_marker"))
-                                    .toList()),
+                                        marker.key != ObjectKey("address_marker")
+                                        && marker.key != ObjectKey("bikeStation_marker")).toList()),
+                            // ).toList()),
                         popupBuilder: (_, marker) {
-                          //TODO: faire une fonction switch case de popup qui gère tout les type de popup
-                          if (marker.key != ObjectKey("address_marker")) {
+
+                          //todo test sur key value ?
+                          if (marker.key == const ObjectKey("parking_marker")) {
                             return ParkingPopup(
                                 markers: _markers,
                                 marker: marker,
                                 parkingTitle: areParkingTitleVisible);
                           }
+                          if (marker.key == const ObjectKey("bikeStation_marker")) {
+                            return BikestationPopup(
+                              marker: marker,
+                              // isBikeMinPopupVisible: isBikeMinPopupVisible
+                            );
+                          }
                           return Container();
+
+                          // //TODO: faire une fonction switch case de popup qui gère tout les type de popup
+                          // if (marker.key != ObjectKey("address_marker") &&
+                          //     marker.key != ObjectKey("bikeStation_marker")) {
+                          //   return ParkingPopup(
+                          //       markers: _markers,
+                          //       marker: marker,
+                          //       parkingTitle: areParkingTitleVisible);
+                          // }
+                          // return Container();
                         }),
                     builder: (context, markers) {
                       // Affichage du Widget du Cluster
@@ -377,19 +457,42 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
 
-      // Text("${gny(context, listen: true).selectedParking!.name} :
-      // PMR: ${gny(context, listen: true).selectedParking!.disabled},
-      // Charging: ${gny(context, listen: true).selectedParking!.charging},
-      // dispo: ${gny(context, listen: true).selectedParking!.available}")
-
       ///
       /// Bar de selection des icones sur la map
       ///
-      ///
-      // TODO: This must be a Widget
       //? Better Icon ? Global ?
       //! attention, appellé une méthode avec (),n'est pas comme la passer en paramètre
-      bottomNavigationBar: MainBottomAppBar(onUpdateTap: _updatePopupParkings),
+      bottomNavigationBar: MainBottomAppBar(onUpdateTap: (String selectedMarkers) {
+        setState(() {
+          //todo repenser actio botto : deuxieme presse = mise à jour static ? dynamic ?
+          switch (selectedMarkers) {
+
+            case "parkings":
+            // Si parkings est déjà sélectionné : mis à jour des données dynamiques (disponibilité dans popup)
+            if(store(context, listen: false).userSelection == "parkings") {
+              _updatePopupParkings();
+            } else {
+              store(context, listen: false).userSelection = "parkings";
+              _setParkingsMarkers();
+            }
+              break;
+
+            case "bikeStations":
+            // Si parkings est déjà sélectionné : mis à jour des données dynamiques (disponibilité dans popup)
+            if(store(context, listen: false).userSelection == "bikeStations") {
+              //?prévoir un update et mettre le scaffold dedans ?
+              _updateBikeStations();
+              
+            } else {
+              store(context, listen: false).userSelection = "bikeStations";
+              _setBikeStationsMarkers();
+            }
+              break;
+            default:
+            // TODO : parking si app accès sur parking, sinon autre
+          }
+        });
+      }),
     );
   }
 }
