@@ -23,7 +23,9 @@ class BikestationMinPopup extends StatelessWidget {
               Container(
                 padding: EdgeInsets.fromLTRB(0, 2, 0, 2),
                 decoration: BoxDecoration(
-                  color: Color.fromRGBO(9, 148, 81, 0.70),
+                  color: station.status == "OPEN" ? 
+                    Color.fromRGBO(9, 148, 81, 0.70) :
+                    Color.fromARGB(255, 241, 154, 132),
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.all(Radius.circular(5))
                 ),

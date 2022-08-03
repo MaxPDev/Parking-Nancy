@@ -107,7 +107,9 @@ class JcdecauxVelostan extends ChangeNotifier {
               Icon(
                 FontAwesomeIcons.bicycle,
                 size: 30,
-                color: Color.fromARGB(255, 9, 148, 81),
+                color: station.status == "OPEN" ? 
+                  Color.fromARGB(255, 9, 148, 81) :
+                  Color.fromARGB(255, 224, 85, 50)
               ),
             ],
           )

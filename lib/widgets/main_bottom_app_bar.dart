@@ -100,33 +100,33 @@ class _MainBottomAppBarState extends State<MainBottomAppBar> {
                 },
                 icon: const Icon(Icons.local_parking)),
           ),
-          Container(
-            color: selectedRefresh ? 
-              Color.fromARGB(255, 168, 207, 169) : 
-              Color.fromARGB(255, 92, 212, 92),
-            child: IconButton(
-                onPressed: () {
-                  if (kDebugMode) {
-                    print("MAJ Parkings");
-                  }
-                  setState(() {
-                    selectedRefresh = true;
-                  });
-                  gny(context, listen: false).fetchDynamicDataParkings().then(
-                      (value) => {
-                            print("fetchDynamicData from MAJ button"),
-                            widget.onUpdateTap("parkings"),
-                            setState(() {
-                              selectedRefresh = false;
-                            })
-                  });
+          // Container(
+          //   color: selectedRefresh ? 
+          //     Color.fromARGB(255, 168, 207, 169) : 
+          //     Color.fromARGB(255, 92, 212, 92),
+          //   child: IconButton(
+          //       onPressed: () {
+          //         if (kDebugMode) {
+          //           print("MAJ Parkings");
+          //         }
+          //         setState(() {
+          //           selectedRefresh = true;
+          //         });
+          //         gny(context, listen: false).fetchDynamicDataParkings().then(
+          //             (value) => {
+          //                   print("fetchDynamicData from MAJ button"),
+          //                   widget.onUpdateTap("parkings"),
+          //                   setState(() {
+          //                     selectedRefresh = false;
+          //                   })
+          //         });
 
-                  //? Si utilisé, afficher si not null, vider la variable après affichage
-                  //? ou créer un tableau. -> gestion d'erreur flutter ? équivalent slim: regarder
-                  // ScaffoldMessenger.of(context).showSnackBar(gny(context, listen: false).snackBarError);
-                },
-                icon: const Icon(Icons.update)),
-          ),
+          //         //? Si utilisé, afficher si not null, vider la variable après affichage
+          //         //? ou créer un tableau. -> gestion d'erreur flutter ? équivalent slim: regarder
+          //         // ScaffoldMessenger.of(context).showSnackBar(gny(context, listen: false).snackBarError);
+          //       },
+          //       icon: const Icon(Icons.update)),
+          // ),
         ],
       ),
     );
