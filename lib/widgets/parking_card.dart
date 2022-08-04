@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:map_launcher/map_launcher.dart';
 
 import 'package:nancy_stationnement/utils/hex_color.dart';
 import 'package:nancy_stationnement/services/gny_parking.dart';
@@ -463,6 +464,47 @@ class ParkingCard extends StatelessWidget {
                     Text("Propriétaire: ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: normalTextCardFontSize),),
                     Text(operatorToPrint(parking.operator), style: TextStyle(fontSize: normalTextCardFontSize))
                   ],
+                ),
+              ),
+            ],
+          ),
+
+          DividerQuart(width: width),
+
+          // Vers application de navigation
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              
+              // Type Hauteur
+              Expanded(
+                flex: 1,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: 80),
+                  child: InkWell(
+                    onTap: () async {
+                      final availableMaps = await MapLauncher.installedMaps;
+                      // print(availableMaps);
+                      await availableMaps.last.showMarker(
+                        coords: Coords(parking.coordinates[1],
+                                       parking.coordinates[0]), 
+                                       title: "OU APPARAIT CE TITRE ???");
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 221, 200, 7),
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.all(Radius.circular(100))
+                      ),
+                      child: Column(
+                        children: [
+                          Icon(FontAwesomeIcons.route, size: 21),
+                          Text("J'y vais -> ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: normalTextCardFontSize),),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],
