@@ -129,8 +129,8 @@ class PopupNameAndAvailable extends StatelessWidget {
                   color: GnyParking.getColorFromCoordinates(_marker.point),
                   shape: BoxShape.circle),
               child: GestureDetector(
-                onTap: () => PopupController(
-                    initiallySelectedMarkers: _markers), //! ou pas
+                // onTap: () => PopupController(
+                //     initiallySelectedMarkers: _markers), //! ou pas
                 child: Text(
                   // penser à mettre à jour ceci, alors que marker sont fixe (mise à jour plus rarement, et ceux affichés doivent être issues de la BD)
                   "${available}",
@@ -219,8 +219,8 @@ class PopupAvailable extends StatelessWidget {
             color: GnyParking.getColorFromCoordinates(_marker.point),
             shape: BoxShape.circle),
         child: GestureDetector(
-          onTap: () =>
-              PopupController(initiallySelectedMarkers: _markers), //! ou pas
+          // onTap: () =>
+          //     PopupController(initiallySelectedMarkers: _markers), //! ou pas
           child: Text(
             // penser à mettre à jour ceci, alors que marker sont fixe (mise à jour plus rarement, et ceux affichés doivent être issues de la BD)
             "${available}",
