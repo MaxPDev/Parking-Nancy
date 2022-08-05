@@ -13,6 +13,7 @@ import 'package:nancy_stationnement/utils/hex_color.dart';
 import 'package:nancy_stationnement/services/gny_parking.dart';
 import 'package:nancy_stationnement/models/parking.dart';
 import 'package:nancy_stationnement/widgets/items.dart';
+import 'package:nancy_stationnement/widgets/to_route_app.dart';
 
 class ParkingCard extends StatelessWidget {
   const ParkingCard({
@@ -70,47 +71,7 @@ class ParkingCard extends StatelessWidget {
 
   //! If parking is closed !
 
-  openMapsSheet(context, double lat, double long, String name) async {
-    try {
-      final coords = Coords(lat, long);
-      final title = name;
-      final availableMaps = await MapLauncher.installedMaps;
-      if (kDebugMode) {
-        print(availableMaps);
-      }
 
-      showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return SafeArea(
-            child: SingleChildScrollView(
-              child: Container(
-                child: Wrap(
-                  children: <Widget>[
-                    for (var map in availableMaps)
-                      ListTile(
-                        onTap: () => map.showMarker(
-                          coords: coords,
-                          title: title,
-                        ),
-                        title: Text(map.mapName),
-                        leading: SvgPicture.asset(
-                          map.icon,
-                          height: 30.0,
-                          width: 30.0,
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
-      );
-    } catch (e) {
-      print(e);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -562,36 +523,7 @@ class ParkingCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              InkWell(
-                onTap: () => openMapsSheet(
-                    context,
-                    parking.coordinates[1],
-                    parking.coordinates[0],
-                    parking.name == null ? "parking" : parking.name!),
-                child: Container(
-                  // constraints: BoxConstraints(minWidth: 50),
-                  padding: EdgeInsets.fromLTRB(21, 10, 21, 7),
-                  decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 221, 200, 7),
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Icon(FontAwesomeIcons.route, size: 21),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "Y aller",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: normalTextCardFontSize),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              ToRouteApp(parking: parking, normalTextCardFontSize: normalTextCardFontSize),
             ],
           ),
 
@@ -679,3 +611,4 @@ class ParkingCard extends StatelessWidget {
     );
   }
 }
+
