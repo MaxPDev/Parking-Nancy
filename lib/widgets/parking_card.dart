@@ -1,11 +1,13 @@
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:map_launcher/map_launcher.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:nancy_stationnement/utils/hex_color.dart';
 import 'package:nancy_stationnement/services/gny_parking.dart';
@@ -68,11 +70,14 @@ class ParkingCard extends StatelessWidget {
 
   //! If parking is closed !
 
-  openMapsSheet(context) async {
+  openMapsSheet(context, double lat, double long, String name) async {
     try {
-      final coords = Coords(37.759392, -122.5107336);
-      final title = "Ocean Beach";
+      final coords = Coords(lat, long);
+      final title = name;
       final availableMaps = await MapLauncher.installedMaps;
+      if (kDebugMode) {
+        print(availableMaps);
+      }
 
       showModalBottomSheet(
         context: context,
@@ -89,11 +94,11 @@ class ParkingCard extends StatelessWidget {
                           title: title,
                         ),
                         title: Text(map.mapName),
-                        // leading: SvgPicture.asset(
-                        //   map.icon,
-                        //   height: 30.0,
-                        //   width: 30.0,
-                        // ),
+                        leading: SvgPicture.asset(
+                          map.icon,
+                          height: 30.0,
+                          width: 30.0,
+                        ),
                       ),
                   ],
                 ),
@@ -542,7 +547,11 @@ class ParkingCard extends StatelessWidget {
                     //                    parking.coordinates[0]), 
                     //                    title: "OU APPARAIT CE TITRE ???");
                     // },
-                    onTap: () => openMapsSheet(context),
+                    onTap: () => openMapsSheet(
+                      context, 
+                      parking.coordinates[1], 
+                      parking.coordinates[0], 
+                      parking.name == null ? "parking" : parking.name!),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Color.fromARGB(255, 221, 200, 7),
@@ -648,68 +657,6 @@ class ParkingCard extends StatelessWidget {
             ),
           )
         ]),
-    );
-  }
-}
-
-
-
-class MapLauncherDemo extends StatelessWidget {
-  openMapsSheet(context) async {
-    try {
-      final coords = Coords(37.759392, -122.5107336);
-      final title = "Ocean Beach";
-      final availableMaps = await MapLauncher.installedMaps;
-
-      showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return SafeArea(
-            child: SingleChildScrollView(
-              child: Container(
-                child: Wrap(
-                  children: <Widget>[
-                    for (var map in availableMaps)
-                      ListTile(
-                        onTap: () => map.showMarker(
-                          coords: coords,
-                          title: title,
-                        ),
-                        title: Text(map.mapName),
-                        // leading: SvgPicture.asset(
-                        //   map.icon,
-                        //   height: 30.0,
-                        //   width: 30.0,
-                        // ),
-                      ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
-      );
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Map Launcher Demo'),
-        ),
-        body: Center(child: Builder(
-          builder: (context) {
-            return MaterialButton(
-              onPressed: () => openMapsSheet(context),
-              child: Text('Show Maps'),
-            );
-          },
-        )),
-      ),
     );
   }
 }

@@ -48,6 +48,7 @@ dependencies:
   searchbar_animation: ^0.0.2
   indexed: ^0.0.8
   map_launcher: ^2.2.3
+  flutter_svg: ^1.1.2
 
 # dependency_overrides:
 #   flutter_map_marker_cluster:
