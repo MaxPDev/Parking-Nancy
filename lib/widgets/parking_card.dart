@@ -546,6 +546,17 @@ class ParkingCard extends StatelessWidget {
                   //   ),),
                 ],
               ),
+            ],
+          ),
+
+
+          DividerQuart(width: width),
+
+          // Adresse et bouton d'itinéraire
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
               // Bouton d'itinéraire
               InkWell(
                 onTap: () => openMapsSheet(
@@ -555,7 +566,7 @@ class ParkingCard extends StatelessWidget {
                     parking.name == null ? "parking" : parking.name!),
                 child: Container(
                   // constraints: BoxConstraints(minWidth: 50),
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 7),
+                  padding: EdgeInsets.fromLTRB(21, 10, 21, 7),
                   decoration: BoxDecoration(
                       color: Color.fromARGB(255, 221, 200, 7),
                       shape: BoxShape.rectangle,
@@ -575,63 +586,6 @@ class ParkingCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),
-              ),
-            ],
-          ),
-
-          DividerQuart(width: width),
-
-          // Vers application de navigation
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // Type Hauteur
-              Expanded(
-                flex: 1,
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: 80),
-
-                  // child: Container(
-                  //   child: Builder(
-                  //     builder: (context) {
-                  //       return MaterialButton(
-                  //         onPressed: () => MapLauncherDemo(),
-                  //         child: Text('Show Maps'),
-                  //       )
-                  //     },
-                  //   )
-                  // )
-
-                  // child: InkWell(
-                  //   // onTap: () async {
-                  //   //   final availableMaps = await MapLauncher.installedMaps;
-                  //   //   // print(availableMaps);
-                  //   //   await availableMaps.last.showMarker(
-                  //   //     coords: Coords(parking.coordinates[1],
-                  //   //                    parking.coordinates[0]),
-                  //   //                    title: "OU APPARAIT CE TITRE ???");
-                  //   // },
-                  //   onTap: () => openMapsSheet(
-                  //     context,
-                  //     parking.coordinates[1],
-                  //     parking.coordinates[0],
-                  //     parking.name == null ? "parking" : parking.name!),
-                  //   child: Container(
-                  //     decoration: BoxDecoration(
-                  //       color: Color.fromARGB(255, 221, 200, 7),
-                  //       shape: BoxShape.rectangle,
-                  //       borderRadius: BorderRadius.all(Radius.circular(100))
-                  //     ),
-                  //     child: Column(
-                  //       children: [
-                  //         Icon(FontAwesomeIcons.route, size: 21),
-                  //         Text("J'y vais -> ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: normalTextCardFontSize),),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
                 ),
               ),
             ],
