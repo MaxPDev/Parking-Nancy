@@ -68,6 +68,45 @@ class ParkingCard extends StatelessWidget {
 
   //! If parking is closed !
 
+  openMapsSheet(context) async {
+    try {
+      final coords = Coords(37.759392, -122.5107336);
+      final title = "Ocean Beach";
+      final availableMaps = await MapLauncher.installedMaps;
+
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return SafeArea(
+            child: SingleChildScrollView(
+              child: Container(
+                child: Wrap(
+                  children: <Widget>[
+                    for (var map in availableMaps)
+                      ListTile(
+                        onTap: () => map.showMarker(
+                          coords: coords,
+                          title: title,
+                        ),
+                        title: Text(map.mapName),
+                        // leading: SvgPicture.asset(
+                        //   map.icon,
+                        //   height: 30.0,
+                        //   width: 30.0,
+                        // ),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -482,15 +521,28 @@ class ParkingCard extends StatelessWidget {
                 flex: 1,
                 child: ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: 80),
+
+                  // child: Container(
+                  //   child: Builder(
+                  //     builder: (context) {
+                  //       return MaterialButton(
+                  //         onPressed: () => MapLauncherDemo(),
+                  //         child: Text('Show Maps'),
+                  //       )
+                  //     },
+                  //   )
+                  // )
+
                   child: InkWell(
-                    onTap: () async {
-                      final availableMaps = await MapLauncher.installedMaps;
-                      // print(availableMaps);
-                      await availableMaps.last.showMarker(
-                        coords: Coords(parking.coordinates[1],
-                                       parking.coordinates[0]), 
-                                       title: "OU APPARAIT CE TITRE ???");
-                    },
+                    // onTap: () async {
+                    //   final availableMaps = await MapLauncher.installedMaps;
+                    //   // print(availableMaps);
+                    //   await availableMaps.last.showMarker(
+                    //     coords: Coords(parking.coordinates[1],
+                    //                    parking.coordinates[0]), 
+                    //                    title: "OU APPARAIT CE TITRE ???");
+                    // },
+                    onTap: () => openMapsSheet(context),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Color.fromARGB(255, 221, 200, 7),
@@ -596,6 +648,68 @@ class ParkingCard extends StatelessWidget {
             ),
           )
         ]),
+    );
+  }
+}
+
+
+
+class MapLauncherDemo extends StatelessWidget {
+  openMapsSheet(context) async {
+    try {
+      final coords = Coords(37.759392, -122.5107336);
+      final title = "Ocean Beach";
+      final availableMaps = await MapLauncher.installedMaps;
+
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return SafeArea(
+            child: SingleChildScrollView(
+              child: Container(
+                child: Wrap(
+                  children: <Widget>[
+                    for (var map in availableMaps)
+                      ListTile(
+                        onTap: () => map.showMarker(
+                          coords: coords,
+                          title: title,
+                        ),
+                        title: Text(map.mapName),
+                        // leading: SvgPicture.asset(
+                        //   map.icon,
+                        //   height: 30.0,
+                        //   width: 30.0,
+                        // ),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Map Launcher Demo'),
+        ),
+        body: Center(child: Builder(
+          builder: (context) {
+            return MaterialButton(
+              onPressed: () => openMapsSheet(context),
+              child: Text('Show Maps'),
+            );
+          },
+        )),
+      ),
     );
   }
 }
