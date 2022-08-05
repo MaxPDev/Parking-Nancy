@@ -470,6 +470,8 @@ class ParkingCard extends StatelessWidget {
           DividerQuart(width: width),
 
           // Téléphone et Site Web
+          parking.phone == null && parking.website == null ?
+          Container() :
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -518,7 +520,9 @@ class ParkingCard extends StatelessWidget {
             ],
           ),
 
-          // Adresse et bouton d'itinéraire
+          // Adresse
+          parking.address == null ?
+          Container() :
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -549,15 +553,15 @@ class ParkingCard extends StatelessWidget {
             ],
           ),
 
-
+          parking.address == null && parking.website == null && parking.phone == null ?
+          Container() :
           DividerQuart(width: width),
 
-          // Adresse et bouton d'itinéraire
+          // Bouton d'itinéraire
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Bouton d'itinéraire
               InkWell(
                 onTap: () => openMapsSheet(
                     context,
