@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nancy_stationnement/widgets/to_route_app.dart';
 
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -161,10 +162,10 @@ class MinParkingCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text("", style: TextStyle(fontStyle: FontStyle.italic),), 
-                      SizedBox(
-                        height: sizedBoxHeighMiddle,
-                      ),
+                      // Text("", style: TextStyle(fontStyle: FontStyle.italic),), 
+                      // SizedBox(
+                      //   height: sizedBoxHeighMiddle,
+                      // ),
                       parking.available != "null" ? 
                       Text(
                         "${parking.available} places",
@@ -180,6 +181,14 @@ class MinParkingCard extends StatelessWidget {
                 ),
               ],
             ),
+            DividerQuart(width: width),
+
+            SizedBox(
+              width: width/3,
+              child: ToRouteApp(
+                parking: parking, 
+                normalTextCardFontSize: 14)),
+
             SizedBox(
               height: sizedBoxHeighBottom,
             ),

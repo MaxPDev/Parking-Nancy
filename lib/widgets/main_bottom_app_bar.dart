@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'package:nancy_stationnement/services/store.dart';
@@ -42,20 +43,46 @@ class _MainBottomAppBarState extends State<MainBottomAppBar> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          IconButton(
-              onPressed: () {
-                if (kDebugMode) {
-                  print("button");
-                }
-              },
-              icon: const Icon(Icons.directions_walk)),
-          IconButton(
-              onPressed: () {
-                if (kDebugMode) {
-                  print("button");
-                }
-              },
-              icon: const Icon(Icons.directions_bus)),
+          Container(
+            // color: Colors.grey,
+            child: IconButton(
+                onPressed: () {
+                  if (kDebugMode) {
+                    print("pedestran button");
+                  }
+                },
+                icon: const Icon(Icons.directions_walk)),
+          ),
+          Container(
+            // color: Colors.grey,
+            child: IconButton(
+                onPressed: () {
+                  if (kDebugMode) {
+                    print("bus button");
+                  }
+                },
+                icon: const Icon(Icons.directions_bus)),
+          ),
+          Container(
+            // color: Colors.grey,
+            child: IconButton(
+                onPressed: () {
+                  if (kDebugMode) {
+                    print("warning button");
+                  }
+                },
+                icon: const Icon(Icons.warning)),
+          ),
+          // Container(
+          //   // color: Colors.grey,
+          //   child: IconButton(
+          //       onPressed: () {
+          //         if (kDebugMode) {
+          //           print("charging station button");
+          //         }
+          //       },
+          //       icon: const Icon(Icons.charging_station)),
+          // ),
           Container(
             color: selectedButton == "bikestation" ? 
             Color.fromARGB(255, 168, 207, 169) : 
