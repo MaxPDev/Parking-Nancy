@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -226,7 +227,43 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
-              child: Text("Titre"),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 31, 77, 33),
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          "Parking",
+                          style: TextStyle(
+                            color: Colors.grey[100],
+                            fontSize: 21,
+                    
+                        ),),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 7,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "Nancy",
+                          style: TextStyle(
+                            color: Colors.grey[100],
+                            fontSize: 21,
+                    
+                        ),),
+                      ],
+                    )
+                  ],
+                )
+              ),
             ),
             ListTile(
               title: Text("test"),

@@ -53,7 +53,9 @@ class NancyStationnementApp extends StatelessWidget {
     //   DeviceOrientation.portraitUp,
     //   DeviceOrientation.portraitDown,
     // ]);
-    return const HomeScreen();
+    return const SafeArea(
+      child: HomeScreen()
+    );
   }
 }
 
