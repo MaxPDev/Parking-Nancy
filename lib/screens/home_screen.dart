@@ -155,6 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+
   // // Switch de la mini card Parking à la grand card Parking
   // switchParkCardSelected() {
   //   // setState(() {
@@ -217,6 +218,24 @@ class _HomeScreenState extends State<HomeScreen> {
             isAddressFieldEditing = false;
           });
         },
+      ),
+
+      drawer: Drawer(
+        backgroundColor: Colors.green[200],
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              child: Text("Titre"),
+            ),
+            ListTile(
+              title: Text("test"),
+            ),
+            ListTile(
+              title: Text("test"),
+            )
+          ],
+        ),
       ),
 
       //? Container ?
