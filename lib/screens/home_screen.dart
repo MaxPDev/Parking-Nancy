@@ -231,7 +231,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 decoration: BoxDecoration(
                   color: Color.fromARGB(255, 31, 77, 33),
                   shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                  borderRadius: BorderRadius.all(Radius.circular(21)),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -260,7 +260,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               "Parking",
                               style: TextStyle(
                                 color: Colors.grey[100],
-                                fontSize: 21,
+                                fontSize: 24,
                         
                             ),),
                           ],
@@ -275,7 +275,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               "Nancy",
                               style: TextStyle(
                                 color: Colors.grey[100],
-                                fontSize: 21,
+                                fontSize: 24,
                         
                             ),),
                           ],

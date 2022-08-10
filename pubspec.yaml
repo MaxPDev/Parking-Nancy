@@ -49,7 +49,6 @@ dependencies:
   indexed: ^0.0.8
   map_launcher: ^2.2.3
   flutter_svg: ^1.1.2
-
 # dependency_overrides:
 #   flutter_map_marker_cluster:
 #     git:
@@ -76,6 +75,25 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+
+  flutter_launcher_icons: ^0.10.0
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/logo_opaque.png"
+  min_sdk_android: 16 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/images/logo_opaque.png"
+    background_color: "#E6F3F9"
+    theme_color: "#E6F3F9"
+  windows:
+    generate: true
+    image_path: "assets/images/logo_opaque.png"
+    icon_size: 48 # min:48, max:256, default: 48
+
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -120,3 +138,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
