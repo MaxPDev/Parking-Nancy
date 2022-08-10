@@ -233,34 +233,55 @@ class _HomeScreenState extends State<HomeScreen> {
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                 ),
-                child: Column(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Row(
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          "Parking",
-                          style: TextStyle(
-                            color: Colors.grey[100],
-                            fontSize: 21,
-                    
-                        ),),
+                        Image(
+                          width: 70,
+                          height: 70,
+                          image: AssetImage('assets/images/logo.png'),
+                          )
                       ],
                     ),
                     SizedBox(
-                      height: 7,
+                      width: 54,
                     ),
-                    Row(
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          "Nancy",
-                          style: TextStyle(
-                            color: Colors.grey[100],
-                            fontSize: 21,
-                    
-                        ),),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Parking",
+                              style: TextStyle(
+                                color: Colors.grey[100],
+                                fontSize: 21,
+                        
+                            ),),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 7,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Nancy",
+                              style: TextStyle(
+                                color: Colors.grey[100],
+                                fontSize: 21,
+                        
+                            ),),
+                          ],
+                        )
                       ],
-                    )
+                    ),
                   ],
                 )
               ),
