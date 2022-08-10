@@ -49,6 +49,7 @@ dependencies:
   indexed: ^0.0.8
   map_launcher: ^2.2.3
   flutter_svg: ^1.1.2
+  flutter_native_splash: ^2.2.7
 # dependency_overrides:
 #   flutter_map_marker_cluster:
 #     git:
@@ -92,6 +93,11 @@ flutter_icons:
     generate: true
     image_path: "assets/images/logo_opaque.png"
     icon_size: 48 # min:48, max:256, default: 48
+
+flutter_native_splash:
+  color: "#E6F3F9"
+  image: assets/images/logo.png
+
 
 
 
