@@ -10,6 +10,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:searchbar_animation/searchbar_animation.dart';
 
 import 'package:nancy_stationnement/widgets/main_bottom_app_bar.dart';
@@ -19,6 +20,7 @@ import 'package:nancy_stationnement/widgets/min_parking_card.dart';
 import 'package:nancy_stationnement/widgets/parking_card.dart';
 import 'package:nancy_stationnement/widgets/top_app_bar.dart';
 import 'package:nancy_stationnement/widgets/list_address.dart';
+import 'package:nancy_stationnement/widgets/side_bar.dart';
 
 import 'package:nancy_stationnement/services/store.dart';
 import 'package:nancy_stationnement/services/gny_parking.dart';
@@ -30,7 +32,7 @@ import 'package:nancy_stationnement/services/jcdecaux_velostan.dart';
 import 'package:nancy_stationnement/utils/hex_color.dart';
 
 ///
-/// HomeScreen gère l'affichage de la map, écran principal de l'application.
+/// HomeScreen gère l'affichage de la map, écran principal de l'applicati=on.
 ///
 
 class HomeScreen extends StatefulWidget {
@@ -71,6 +73,11 @@ class _HomeScreenState extends State<HomeScreen> {
     elevation: 5,
   );
 
+  final snackBarParking = SnackBar(
+    content: Text("Données des parkings mis à jour"),
+    backgroundColor: Colors.blue,
+    elevation: 5,
+  );
 
   /// Parkings
 
@@ -84,10 +91,24 @@ class _HomeScreenState extends State<HomeScreen> {
                     // GnyParking().getParkingsMarkers();
                     gny(context, listen: false).getParkingsMarkers();
               }),
+              //! Risqué si échec
+              FlutterNativeSplash.remove()
             });
   }
 
-
+  // Lance la mise à jour des données de parkings
+  _updateParking() {
+      gny(context, listen: false)
+        .reInitParkingAndGenerateMarkers()
+        .then((value) => {
+              setState(() {
+                _markers =
+                    // GnyParking().getParkingsMarkers();
+                    gny(context, listen: false).getParkingsMarkers();
+              }),
+              ScaffoldMessenger.of(context).showSnackBar(snackBarParking)
+            });
+  }
 
   // Lance la mise à jour de la disponibilité des parkings
   _updatePopupParkings() {
@@ -176,6 +197,9 @@ class _HomeScreenState extends State<HomeScreen> {
       _initBikeStations();
       // areParkingTitleVisible["three"] = false;
       // areParkingTitleVisible["six"] = false;
+
+      // //TODO: Remove Splashscreen. Could be put after initialization rather than here
+      // FlutterNativeSplash.remove();
     });
 
     // AlertDialog(
@@ -221,80 +245,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
 
-      drawer: Drawer(
-        backgroundColor: Colors.green[200],
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 31, 77, 33),
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.all(Radius.circular(21)),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image(
-                          width: 70,
-                          height: 70,
-                          image: AssetImage('assets/images/logo.png'),
-                          )
-                      ],
-                    ),
-                    SizedBox(
-                      width: 54,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Parking",
-                              style: TextStyle(
-                                color: Colors.grey[100],
-                                fontSize: 24,
-                        
-                            ),),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 7,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Nancy",
-                              style: TextStyle(
-                                color: Colors.grey[100],
-                                fontSize: 24,
-                        
-                            ),),
-                          ],
-                        )
-                      ],
-                    ),
-                  ],
-                )
-              ),
-            ),
-            ListTile(
-              title: Text("test"),
-            ),
-            ListTile(
-              title: Text("test"),
-            )
-          ],
-        ),
-      ),
+      drawer: SideBar(updateParking: _updateParking),
 
       //? Container ?
       body: Column(
@@ -576,3 +527,5 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+
