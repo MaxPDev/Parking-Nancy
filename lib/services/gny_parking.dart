@@ -193,13 +193,26 @@ class GnyParking extends ChangeNotifier {
               inspect(selectedParking);
               notifyListeners();
             },
-            child: Icon(
-                  FontAwesomeIcons.squareParking,
-                  size: 30,
-                  color: parking.isClosed != null ?
-                    !parking.isClosed! ? Colors.blue : Colors.red
-                    : Colors.blue,
-                ),
+            // child: Icon(
+            //       FontAwesomeIcons.squareParking,
+            //       size: 30,
+            //       color: parking.isClosed != null ?
+            //         !parking.isClosed! ? Colors.blue : Colors.red
+            //         : Colors.blue,
+            //     ),
+            child: parking.zone == "Parking Relais" ?
+            Image.asset(
+              "assets/images/icone_parking_relais.png",
+              // color: parking.isClosed != null ?
+              //   !parking.isClosed! ? Colors.blue : Colors.red
+              //   : Colors.blue,
+            )
+            : Image.asset(
+              "assets/images/icone_parking.png",
+              color: parking.isClosed != null ?
+                !parking.isClosed! ? Colors.blue : Colors.red
+                : Colors.blue,
+            ),
           )));
     }
     _markers.clear(); //? useless ?

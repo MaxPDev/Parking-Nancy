@@ -117,6 +117,7 @@ flutter:
     - assets/images/logo.png
     - assets/images/icone_parking.png
     - assets/images/icone_parking_relais.png
+    - assets/images/icone_parking_relais_transparent.png
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
