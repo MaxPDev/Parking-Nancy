@@ -195,6 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _initParkingMarkers();
       _initBikeStations();
+      _test();
       // areParkingTitleVisible["three"] = false;
       // areParkingTitleVisible["six"] = false;
 
@@ -224,11 +225,11 @@ class _HomeScreenState extends State<HomeScreen> {
             content: new Text('Voulez-vous quitter l\'application ?'),
             actions: <Widget>[
               TextButton(
-                onPressed: () => Navigator.of(context).pop(false), //<-- SEE HERE
+                onPressed: () => Navigator.of(context).pop(false),
                 child: new Text('Non'),
               ),
               TextButton(
-                onPressed: () => Navigator.of(context).pop(true), // <-- SEE HERE
+                onPressed: () => Navigator.of(context).pop(true),
                 child: new Text('Oui'),
               ),
             ],
@@ -236,6 +237,24 @@ class _HomeScreenState extends State<HomeScreen> {
         )) ??
         false;
     }
+
+    Future<bool> _test() async {
+    return (await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: new Text('Parking Nancy'),
+            content: new Text('Cette application affiche en temps réel de la disponibilité des parkings de Nancy. \n\nATTENTION : Ne pas utiliser votre téléphone en conduisant !'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: new Text('Ok'),
+              ),
+            ],
+          ),
+        )) ??
+        false;
+    }
+
 
   @override
   Widget build(BuildContext context) {
