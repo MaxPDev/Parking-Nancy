@@ -332,29 +332,29 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                     //todo Au Zoom 14, afficher titre de 3 parkings, 15 : 3 de +
                     onPositionChanged: (MapPosition position, bool hasGesture) {
-                      // if (position.zoom != null) {
-                      //   if (position.zoom! >= 15.42) {
-                      //     areParkingTitleVisible['all'] = true;
-                      //   } else {
-                      //     areParkingTitleVisible['all'] = false;
-                      //   }
+                      if (position.zoom != null) {
+                        if (position.zoom! >= 15.42) {
+                          areParkingTitleVisible['all'] = true;
+                        } else {
+                          areParkingTitleVisible['all'] = false;
+                        }
     
-                      //   if (position.zoom! >= 14.80) {
-                      //     areParkingTitleVisible['six'] = true;
-                      //   }
+                        if (position.zoom! >= 14.80) {
+                          areParkingTitleVisible['six'] = true;
+                        }
     
-                      //   if (position.zoom! >= 14.3 && position.zoom! < 14.80) {
-                      //     areParkingTitleVisible['three'] = true;
-                      //     areParkingTitleVisible['six'] = false;
-                      //     isBikeMinPopupVisible = true;
-                      //   }
+                        if (position.zoom! >= 14.3 && position.zoom! < 14.80) {
+                          areParkingTitleVisible['three'] = true;
+                          areParkingTitleVisible['six'] = false;
+                          isBikeMinPopupVisible = true;
+                        }
     
-                      //   if (position.zoom! < 14.3) {
-                      //     areParkingTitleVisible['three'] = false;
-                      //     areParkingTitleVisible['six'] = false;
-                      //     isBikeMinPopupVisible = false;
-                      //   }
-                      // }
+                        if (position.zoom! < 14.3) {
+                          areParkingTitleVisible['three'] = false;
+                          areParkingTitleVisible['six'] = false;
+                          isBikeMinPopupVisible = false;
+                        }
+                      }
                     },
     
                     // //TODO: Make hide popup when tap map work
@@ -558,6 +558,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 
               } else {
                 store(context, listen: false).userSelection = "bikeStations";
+                gny(context, listen: false).selectedParking = null;
+                isParkCardSelected = false;
                 _setBikeStationsMarkers();
               }
                 break;
