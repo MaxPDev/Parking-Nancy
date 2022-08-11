@@ -30,14 +30,6 @@ class _MainBottomAppBarState extends State<MainBottomAppBar> {
   @override
   Widget build(BuildContext context) {
 
-
-    final snackBarParking = SnackBar(
-      content: Text("Données des Parkings mis à jour (dev mode)"),
-      backgroundColor: Colors.blue,
-      elevation: 5,
-    );
-
-
     return BottomAppBar(
       color: Color.fromARGB(255, 92, 212, 92), //TODO: Global
       child: Row(

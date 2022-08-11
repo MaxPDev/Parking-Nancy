@@ -11,7 +11,7 @@ class TopAppBar extends StatefulWidget implements PreferredSizeWidget {
     Key? key,
     // required this.onExpansionComplete
     required this.onEdition,
-    required this.onClose
+    required this.onClose,
   }) : super(key: key);
 
   final Function onEdition;
@@ -57,7 +57,10 @@ class _TopAppBarState extends State<TopAppBar> {
       leading: IconButton(
         // padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
         icon: Icon(Icons.menu),
-        onPressed: () {},
+        onPressed: () {
+          // widget.onMenu();
+          Scaffold.of(context).openDrawer();
+        },
       ),
       //TODO: make and use global var/settings
       title: const Text(

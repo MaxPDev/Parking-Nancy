@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:http/http.dart';
 
 import 'package:nancy_stationnement/screens/home_screen.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'package:nancy_stationnement/services/gny_parking.dart';
 import 'package:nancy_stationnement/services/ban_service.dart';
@@ -17,6 +18,13 @@ import 'package:nancy_stationnement/services/store.dart';
 void main() async {
   //! Could be not safe (https permissions)
   HttpOverrides.global = new MyHttpOverrides();
+
+  // Splashscreen longer
+  //TODO if FlutterNativeSpash.remove is not setup after initialization,
+  //TODO no need of these two line
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
   runApp(MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -53,7 +61,9 @@ class NancyStationnementApp extends StatelessWidget {
     //   DeviceOrientation.portraitUp,
     //   DeviceOrientation.portraitDown,
     // ]);
-    return const HomeScreen();
+    return const SafeArea(
+      child: HomeScreen()
+    );
   }
 }
 
