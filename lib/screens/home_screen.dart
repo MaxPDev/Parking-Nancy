@@ -332,6 +332,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                     //todo Au Zoom 14, afficher titre de 3 parkings, 15 : 3 de +
                     onPositionChanged: (MapPosition position, bool hasGesture) {
+                      
+                      // if (kDebugMode) {
+                      //   print(position.zoom);
+                      // }
+
                       if (position.zoom != null) {
                         if (position.zoom! >= 15.42) {
                           areParkingTitleVisible['all'] = true;
@@ -389,10 +394,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 layers: [
                   TileLayerOptions(
                     minZoom: 1, //? Global? ? 1 ?
-                    maxZoom: 19, //? Global? 18 ?
+                    maxZoom: 19, //? Global? 18 ? 19 max for classic OSM server
                     backgroundColor: Colors.black,
                     urlTemplate:
+                        // Carte OSM 
                         "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+
+                        // Carte OSM France : plus de détails, noms des pays et villes étranger en français
+                        // chargement des tiles un plus lent
+                        // "https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png",
                     subdomains: ['a', 'b', 'c'],
                   ),
                   MarkerClusterLayerOptions(
