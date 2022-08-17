@@ -196,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _initParkingMarkers();
       _initBikeStations();
-      _test();
+      _displayWelcomeMessage();
       // areParkingTitleVisible["three"] = false;
       // areParkingTitleVisible["six"] = false;
 
@@ -239,7 +239,7 @@ class _HomeScreenState extends State<HomeScreen> {
         false;
     }
 
-    Future<bool> _test() async {
+    Future<bool> _displayWelcomeMessage() async {
     return (await showDialog(
           context: context,
           builder: (context) => AlertDialog(
