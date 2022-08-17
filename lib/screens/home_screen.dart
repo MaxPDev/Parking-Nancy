@@ -423,14 +423,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           //todo: rajouter des conditions comme dans proto en fonction du service selectionné
                           popupController: 
                               // Affiche les popup sauf pour les marqueur d'adresse et les stations de vélo
-                              PopupController().showPopupsOnlyFor(
-                                _markers.where((marker) => marker.key == ObjectKey("parking_marker")).toList()
-                              ),
-                              // PopupController(
-                              //     initiallySelectedMarkers: _markers
-                              //         .where((marker) =>
-                              //             marker.key != ObjectKey("address_marker")
-                              //             && marker.key != ObjectKey("bikeStation_marker")).toList()),
+                              // PopupController().showPopupsOnlyFor(
+                              //   _markers.where((marker) => marker.key == ObjectKey("parking_marker")).toList()
+                              // ),
+                              PopupController(
+                                  initiallySelectedMarkers: _markers
+                                      .where((marker) =>
+                                          marker.key != ObjectKey("address_marker")
+                                          && marker.key != ObjectKey("bikeStation_marker")).toList()),
     
                           popupBuilder: (_, marker) {
     
