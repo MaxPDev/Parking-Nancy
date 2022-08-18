@@ -49,8 +49,11 @@ void main() async {
         // Default theme
         theme: ThemeData(
 
+          // Used for main bottom app's buttons
           primaryColor: Color.fromARGB(255, 92, 212, 92),
           primaryColorLight: Color.fromARGB(255, 168, 207, 169),
+
+
 
           // top app bar theme
           appBarTheme: AppBarTheme(
@@ -62,6 +65,8 @@ void main() async {
 
           // Parking card color
           cardColor: Color(0xFFE5E5E5),
+          // Welcome message and quit message
+          dialogBackgroundColor: Color(0xFFE5E5E5),
 
           // main bottom app theme
           bottomAppBarColor: Color.fromARGB(255, 92, 212, 92)
