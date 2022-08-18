@@ -68,7 +68,7 @@ class _TopAppBarState extends State<TopAppBar> {
         style: TextStyle(fontSize: 18, overflow: TextOverflow.visible),
       ),
       // centerTitle: true,
-      backgroundColor: Color.fromARGB(255, 31, 77, 33),
+      // backgroundColor: Color.fromARGB(255, 31, 77, 33),
       actions: [
         Padding(
           padding: const EdgeInsets.fromLTRB(5, 5, 0, 5),

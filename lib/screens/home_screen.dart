@@ -244,7 +244,7 @@ class _HomeScreenState extends State<HomeScreen> {
           context: context,
           builder: (context) => AlertDialog(
             title: new Text('Parking Nancy'),
-            content: new Text('Cette application affiche en temps réel de la disponibilité des parkings de Nancy. \n\nATTENTION : Ne pas utiliser votre téléphone en conduisant !'),
+            content: new Text('Cette application affiche en temps réel de la disponibilité des parkings de Nancy. \n\nATTENTION : Ne pas utiliser le téléphone en conduisant !'),
             actions: <Widget>[
               TextButton(
                 onPressed: () => Navigator.of(context).pop(),
@@ -496,7 +496,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         // reverseDuration: Duration(milliseconds: 0),
                         curve: Curves.linear,
                         child: Container(
-                          color: Color(0xFFE5E5E5),
+                          // color: Color(0xFFE5E5E5),
+                          color: Theme.of(context).cardColor,
                           // mainAxisAlignment: MainAxisAlignment.start,
                           // crossAxisAlignment: CrossAxisAlignment.center,
                           child: gny(context, listen: true).selectedParking !=

@@ -24,7 +24,7 @@ class SideBar extends StatelessWidget {
     // );
 
     return Drawer(
-      backgroundColor: Colors.green[200],
+      // backgroundColor: Colors.green[200],
       child: ListView(
         padding: EdgeInsets.zero,
         children: [

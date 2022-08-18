@@ -40,8 +40,33 @@ void main() async {
           create: (context) => Store(),
         )
       ],
-      child: const MaterialApp(
-        // Set it to false in release version
+      child: MaterialApp(
+        
+        //todo: à mettre par défaut
+        themeMode: ThemeMode.system,
+        darkTheme: ThemeData.dark(),
+
+        // Default theme
+        theme: ThemeData(
+
+          primaryColor: Color.fromARGB(255, 92, 212, 92),
+          primaryColorLight: Color.fromARGB(255, 168, 207, 169),
+
+          // top app bar theme
+          appBarTheme: AppBarTheme(
+            color: Color.fromARGB(255, 31, 77, 33),
+            ),
+          drawerTheme: DrawerThemeData(
+            backgroundColor: Colors.green[200]
+          ),
+
+          // Parking card color
+          cardColor: Color(0xFFE5E5E5),
+
+          // main bottom app theme
+          bottomAppBarColor: Color.fromARGB(255, 92, 212, 92)
+        ),
+        //TODO: Set it to false in release version
         debugShowCheckedModeBanner: true,
         //TODO:vmanage here themeMode
         home: NancyStationnementApp(),
