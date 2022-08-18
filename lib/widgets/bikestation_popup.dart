@@ -132,7 +132,8 @@ class StationPopup extends StatelessWidget {
               children: [
                 Text(
                   bikeStationNameToShorter(bikeStation.name),
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.headline4
+                  // style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 )
               ],
             ),

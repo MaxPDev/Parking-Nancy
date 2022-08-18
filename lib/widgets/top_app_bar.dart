@@ -63,9 +63,10 @@ class _TopAppBarState extends State<TopAppBar> {
         },
       ),
       //TODO: make and use global var/settings
-      title: const Text(
+      title: Text(
         "Parking Nancy",
-        style: TextStyle(fontSize: 18, overflow: TextOverflow.visible),
+        // style: TextStyle(fontSize: 18, overflow: TextOverflow.visible),
+        style: Theme.of(context).textTheme.headline2,
       ),
       // centerTitle: true,
       // backgroundColor: Color.fromARGB(255, 31, 77, 33),

@@ -476,6 +476,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
     
             //TODO: to fix : Bug affichage quand Up et white screen quand down
+            //? remonter le MediaQuery.of des cards ? Utiliser Navigator ?
             Expanded(
               flex: isParkCardSelected
                   ? isPortrait

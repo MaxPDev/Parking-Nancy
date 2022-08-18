@@ -56,6 +56,8 @@ class MinParkingCard extends StatelessWidget {
               ],
             ),
             DividerQuart(width: width),
+
+            // Zone ou Parking Relais
            parking.zone != null ? Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -110,11 +112,12 @@ class MinParkingCard extends StatelessWidget {
                         "${parking.name}",
                         textAlign: TextAlign.center,
                         maxLines: 3,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          overflow: TextOverflow.ellipsis
-                        ),
+                        style: Theme.of(context).textTheme.headline4,
+                        // style: TextStyle(
+                        //   fontWeight: FontWeight.bold,
+                        //   fontSize: 16,
+                        //   overflow: TextOverflow.ellipsis
+                        // ),
                       ),
                     ],
                   ),
@@ -169,13 +172,17 @@ class MinParkingCard extends StatelessWidget {
                       parking.available != "null" ? 
                       Text(
                         "${parking.available} places",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          //! Prévoir un cas nullable pour ne pas être bloquant
-                          color: HexColor(parking.colorHexa!),
-                        ),) :
-                        Text(""),
+                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                          color: HexColor(parking.colorHexa!)
+                        ),
+                        // style: TextStyle(
+                        //   fontWeight: FontWeight.bold,
+                        //   fontSize: 16,
+                        //   //! Prévoir un cas nullable pour ne pas être bloquant
+                        //   color: HexColor(parking.colorHexa!),
+                        // ),) :
+                      )
+                       : Text(""),
                       ],
                   ),
                 ),

@@ -49,13 +49,59 @@ void main() async {
         // Default theme
         theme: ThemeData(
 
+          textTheme: TextTheme(
+            
+            // Titre dans la side bar
+            headline1: TextStyle(
+              color: Colors.grey[100],
+              fontSize: 24,
+              fontWeight: FontWeight.w500
+            ),
+
+            // Titre dans la top app bar
+            headline2: TextStyle(
+              color: Colors.grey[100],
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+              overflow: TextOverflow.visible
+            ),
+
+            // Titre dans la Parking Card
+            headline3: TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+
+            // Titre dans la Mini Parking Card
+            // Titre dans la Bike Station Popup
+            headline4: TextStyle(
+              color: Colors.black,
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              overflow: TextOverflow.ellipsis,
+            ),
+
+            // Text dans les boites de dialogue
+            // subtitle1: ,
+
+            // Sous-titre Nombre de place dans Mini Parking card et Parking Card
+            subtitle2: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            )
+
+
+          ),
+
           // Used for main bottom app's buttons
           primaryColor: Color.fromARGB(255, 92, 212, 92),
           primaryColorLight: Color.fromARGB(255, 168, 207, 169),
 
 
 
-          // top app bar theme
+          // Top app bar theme.
+          // Color also used in background color for title card in side bar.
           appBarTheme: AppBarTheme(
             color: Color.fromARGB(255, 31, 77, 33),
             ),

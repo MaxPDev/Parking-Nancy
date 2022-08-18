@@ -157,7 +157,8 @@ class ParkingCard extends StatelessWidget {
                     Text(
                       "${parking.name}",
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                          // TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                          Theme.of(context).textTheme.headline3,
                       maxLines: 3,
                       textAlign: TextAlign.center,
                     ),
@@ -167,13 +168,17 @@ class ParkingCard extends StatelessWidget {
                 parking.available != "null"
                     ? Text(
                         "${parking.available} places",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          //! Prévoir un cas nullable pour ne pas être bloquant
-                          color: HexColor(parking.colorHexa!),
-                        ),
-                      )
+                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                          color: HexColor(parking.colorHexa!)
+                        )
+                    )
+                        // style: TextStyle(
+                        //   fontWeight: FontWeight.bold,
+                        //   fontSize: 18,
+                        //   //! Prévoir un cas nullable pour ne pas être bloquant
+                        //   color: HexColor(parking.colorHexa!),
+                        // ),
+                      
                     : Text(""),
                 // Zone
                 parking.zone != null

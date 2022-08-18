@@ -31,7 +31,7 @@ class SideBar extends StatelessWidget {
           DrawerHeader(
             child: Container(
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 31, 77, 33),
+                color: Theme.of(context).appBarTheme.backgroundColor,
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.all(Radius.circular(21)),
               ),
@@ -60,11 +60,8 @@ class SideBar extends StatelessWidget {
                         children: [
                           Text(
                             "Parking",
-                            style: TextStyle(
-                              color: Colors.grey[100],
-                              fontSize: 24,
-                      
-                          ),),
+                            style: Theme.of(context).textTheme.headline1
+                          ),
                         ],
                       ),
                       SizedBox(
@@ -75,11 +72,8 @@ class SideBar extends StatelessWidget {
                         children: [
                           Text(
                             "Nancy",
-                            style: TextStyle(
-                              color: Colors.grey[100],
-                              fontSize: 24,
-                      
-                          ),),
+                            style: Theme.of(context).textTheme.headline1
+                          ),
                         ],
                       )
                     ],
