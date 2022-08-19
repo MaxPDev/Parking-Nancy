@@ -31,7 +31,7 @@ class _MainBottomAppBarState extends State<MainBottomAppBar> {
   Widget build(BuildContext context) {
 
     return BottomAppBar(
-      color: Color.fromARGB(255, 92, 212, 92), //TODO: Global
+      // color: Color.fromARGB(255, 92, 212, 92), //TODO: Global
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -77,8 +77,8 @@ class _MainBottomAppBarState extends State<MainBottomAppBar> {
           // ),
           Container(
             color: selectedButton == "bikestation" ? 
-            Color.fromARGB(255, 168, 207, 169) : 
-            Color.fromARGB(255, 92, 212, 92),
+              Theme.of(context).primaryColorLight :
+              Theme.of(context).primaryColor,
             child: IconButton(
                 onPressed: () {
                   if (kDebugMode) {
@@ -95,8 +95,8 @@ class _MainBottomAppBarState extends State<MainBottomAppBar> {
           ),
           Container(
             color: selectedButton == "parkings" ? 
-              Color.fromARGB(255, 168, 207, 169) : 
-              Color.fromARGB(255, 92, 212, 92),
+              Theme.of(context).primaryColorLight :
+              Theme.of(context).primaryColor,
             child: IconButton(
                 onPressed: () {
                   if (kDebugMode) {

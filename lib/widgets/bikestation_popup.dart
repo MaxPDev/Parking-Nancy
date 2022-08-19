@@ -132,7 +132,8 @@ class StationPopup extends StatelessWidget {
               children: [
                 Text(
                   bikeStationNameToShorter(bikeStation.name),
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.headline4
+                  // style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 )
               ],
             ),
@@ -149,11 +150,15 @@ class StationPopup extends StatelessWidget {
                 ),
                 Text(
                   "${bikeStation.bikes} ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    // fontSize: 15, 
+                    fontWeight: FontWeight.bold),
                 ),
                 Text(
                   "vélos disponibles",
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+                  style: TextStyle(
+                    // fontSize: 14, 
+                    fontWeight: FontWeight.normal),
                 ),
               ],
             ),
@@ -166,11 +171,15 @@ class StationPopup extends StatelessWidget {
                 ),
                 Text(
                   "${bikeStation.stands} ",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    // fontSize: 15, 
+                    fontWeight: FontWeight.bold),
                 ),
                 Text(
                   "emplacements disponibles",
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+                  style: TextStyle(
+                    // fontSize: 14, 
+                    fontWeight: FontWeight.normal),
                 )
               ],
             ),
@@ -187,7 +196,8 @@ class StationPopup extends StatelessWidget {
                         child: Text(
                           "Paiement par carte bancaire disponible",
                           style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.normal),
+                              // fontSize: 14, 
+                              fontWeight: FontWeight.normal),
                               maxLines: 2,
                         ),
                       )
@@ -205,7 +215,9 @@ class StationPopup extends StatelessWidget {
                   width: 240,
                   child: Text(
                     "${bikeStation.address}",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+                    style: TextStyle(
+                      // fontSize: 14, 
+                      fontWeight: FontWeight.normal),
                     maxLines: 3,
                   ),
                 )

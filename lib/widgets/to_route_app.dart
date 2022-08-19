@@ -9,13 +9,13 @@ class ToRouteApp extends StatelessWidget {
   const ToRouteApp({
     Key? key,
     required Parking parking,
-    required double? normalTextCardFontSize,
+    // required double? normalTextCardFontSize,
   }) : _parking = parking, 
-       _normalTextCardFontSize = normalTextCardFontSize, 
+      //  _normalTextCardFontSize = normalTextCardFontSize, 
        super(key: key);
 
   final Parking _parking;
-  final double? _normalTextCardFontSize;
+  // final double? _normalTextCardFontSize;
 
   openMapsSheet(context, double lat, double long, String name) async {
     try {
@@ -31,24 +31,22 @@ class ToRouteApp extends StatelessWidget {
         builder: (BuildContext context) {
           return SafeArea(
             child: SingleChildScrollView(
-              child: Container(
-                child: Wrap(
-                  children: <Widget>[
-                    for (var map in availableMaps)
-                      ListTile(
-                        onTap: () => map.showMarker(
-                          coords: coords,
-                          title: title,
-                        ),
-                        title: Text(map.mapName),
-                        leading: SvgPicture.asset(
-                          map.icon,
-                          height: 30.0,
-                          width: 30.0,
-                        ),
+              child: Wrap(
+                children: <Widget>[
+                  for (var map in availableMaps)
+                    ListTile(
+                      onTap: () => map.showMarker(
+                        coords: coords,
+                        title: title,
                       ),
-                  ],
-                ),
+                      title: Text(map.mapName),
+                      leading: SvgPicture.asset(
+                        map.icon,
+                        height: 30.0,
+                        width: 30.0,
+                      ),
+                    ),
+                ],
               ),
             ),
           );
@@ -85,7 +83,8 @@ class ToRouteApp extends StatelessWidget {
               "Y aller",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: _normalTextCardFontSize),
+                  // fontSize: _normalTextCardFontSize
+                ),
             ),
           ],
         ),

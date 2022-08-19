@@ -79,7 +79,7 @@ class ParkingCard extends StatelessWidget {
     Parking parking = gny(context, listen: true).selectedParking!;
     inspect(parking);
 
-    final double? normalTextCardFontSize = 15; //TODO: GLOBAL (défaut : 14)
+    // final double? normalTextCardFontSize = 15; //TODO: GLOBAL (défaut : 14)
 
     // Conversion du lien du parking, si disponible, en Uri
     late Uri _url;
@@ -157,7 +157,8 @@ class ParkingCard extends StatelessWidget {
                     Text(
                       "${parking.name}",
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                          // TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                          Theme.of(context).textTheme.headline3,
                       maxLines: 3,
                       textAlign: TextAlign.center,
                     ),
@@ -167,13 +168,17 @@ class ParkingCard extends StatelessWidget {
                 parking.available != "null"
                     ? Text(
                         "${parking.available} places",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          //! Prévoir un cas nullable pour ne pas être bloquant
-                          color: HexColor(parking.colorHexa!),
-                        ),
-                      )
+                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                          color: HexColor(parking.colorHexa!)
+                        )
+                    )
+                        // style: TextStyle(
+                        //   fontWeight: FontWeight.bold,
+                        //   fontSize: 18,
+                        //   //! Prévoir un cas nullable pour ne pas être bloquant
+                        //   color: HexColor(parking.colorHexa!),
+                        // ),
+                      
                     : Text(""),
                 // Zone
                 parking.zone != null
@@ -186,11 +191,12 @@ class ParkingCard extends StatelessWidget {
                                 : "${parking.zone}",
                             textAlign: TextAlign.center,
                             maxLines: 3,
-                            style: TextStyle(
-                                fontWeight: FontWeight.normal,
-                                fontStyle: FontStyle.italic,
-                                fontSize: 16,
-                                overflow: TextOverflow.ellipsis),
+                            style: Theme.of(context).textTheme.overline
+                            // style: TextStyle(
+                            //     fontWeight: FontWeight.normal,
+                            //     fontStyle: FontStyle.italic,
+                            //     fontSize: 16,
+                            //     overflow: TextOverflow.ellipsis),
                           ),
                         ],
                       )
@@ -231,7 +237,8 @@ class ParkingCard extends StatelessWidget {
                     Text("Capacité : ",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: normalTextCardFontSize))
+                            // fontSize: normalTextCardFontSize
+                          ))
                   ],
                 ),
               ),
@@ -243,10 +250,13 @@ class ParkingCard extends StatelessWidget {
                     Text("Max.",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: normalTextCardFontSize)),
+                            // fontSize: normalTextCardFontSize
+                          )),
                     Text(
                       dataToPrint(parking.capacity),
-                      style: TextStyle(fontSize: normalTextCardFontSize),
+                      style: TextStyle(
+                        // fontSize: normalTextCardFontSize
+                      ),
                     )
                   ],
                 ),
@@ -258,7 +268,9 @@ class ParkingCard extends StatelessWidget {
                   children: [
                     Icon(FontAwesomeIcons.wheelchair, size: 18),
                     Text(dataToPrint(parking.disabled),
-                        style: TextStyle(fontSize: normalTextCardFontSize))
+                        style: TextStyle(
+                          // fontSize: normalTextCardFontSize
+                      ))
                   ],
                 ),
               ),
@@ -271,7 +283,10 @@ class ParkingCard extends StatelessWidget {
                   children: [
                     Icon(FontAwesomeIcons.chargingStation, size: 18),
                     Text(dataToPrint(parking.charging),
-                        style: TextStyle(fontSize: normalTextCardFontSize))
+                        style: TextStyle(
+                          // fontSize: normalTextCardFontSize
+                        )
+                    )
                   ],
                 ),
               ),
@@ -292,7 +307,8 @@ class ParkingCard extends StatelessWidget {
                     Text("Tarif : ",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: normalTextCardFontSize))
+                            // fontSize: normalTextCardFontSize
+                          ))
                   ],
                 ),
               ),
@@ -304,10 +320,13 @@ class ParkingCard extends StatelessWidget {
                     Text("30 min",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: normalTextCardFontSize)),
+                            // fontSize: normalTextCardFontSize
+                          )),
                     Text(
                       priceToPrint(parking.prices!['30']),
-                      style: TextStyle(fontSize: normalTextCardFontSize),
+                      style: TextStyle(
+                        // fontSize: normalTextCardFontSize
+                      ),
                     )
                   ],
                 ),
@@ -321,9 +340,12 @@ class ParkingCard extends StatelessWidget {
                     Text("1h",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: normalTextCardFontSize)),
+                            // fontSize: normalTextCardFontSize
+                          )),
                     Text(priceToPrint(parking.prices!['60']),
-                        style: TextStyle(fontSize: normalTextCardFontSize))
+                        style: TextStyle(
+                          // fontSize: normalTextCardFontSize
+                        ))
                   ],
                 ),
               ),
@@ -336,7 +358,8 @@ class ParkingCard extends StatelessWidget {
                     Text("2h",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: normalTextCardFontSize)),
+                            // fontSize: normalTextCardFontSize
+                          )),
                     Text(priceToPrint(parking.prices!['120']))
                   ],
                 ),
@@ -350,10 +373,13 @@ class ParkingCard extends StatelessWidget {
                     Text("4h",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: normalTextCardFontSize)),
+                            // fontSize: normalTextCardFontSize
+                          )),
                     Text(
                       priceToPrint(parking.prices!['240']),
-                      style: TextStyle(fontSize: normalTextCardFontSize),
+                      style: TextStyle(
+                        // fontSize: normalTextCardFontSize
+                      ),
                     )
                   ],
                 ),
@@ -376,10 +402,13 @@ class ParkingCard extends StatelessWidget {
                     Text("Hauteur max : ",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: normalTextCardFontSize)),
+                            // fontSize: normalTextCardFontSize
+                          )),
                     Text(
                       dataToPrint(parking.maxHeight),
-                      style: TextStyle(fontSize: normalTextCardFontSize),
+                      style: TextStyle(
+                        // fontSize: normalTextCardFontSize
+                      ),
                     ),
                   ],
                 ),
@@ -393,9 +422,12 @@ class ParkingCard extends StatelessWidget {
                     Text("Type : ",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: normalTextCardFontSize)),
+                            // fontSize: normalTextCardFontSize
+                          )),
                     Text(typeToPrint(parking.type),
-                        style: TextStyle(fontSize: normalTextCardFontSize))
+                        style: TextStyle(
+                          // fontSize: normalTextCardFontSize
+                        ))
                   ],
                 ),
               ),
@@ -418,10 +450,13 @@ class ParkingCard extends StatelessWidget {
                       "Propriétaire: ",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: normalTextCardFontSize),
+                          // fontSize: normalTextCardFontSize
+                        ),
                     ),
                     Text(operatorToPrint(parking.operator),
-                        style: TextStyle(fontSize: normalTextCardFontSize))
+                        style: TextStyle(
+                          // fontSize: normalTextCardFontSize
+                        ))
                   ],
                 ),
               ),
@@ -449,7 +484,8 @@ class ParkingCard extends StatelessWidget {
                               '${parking.phone}',
                               style: TextStyle(
                                   color: Colors.blue,
-                                  fontSize: normalTextCardFontSize),
+                                  // fontSize: normalTextCardFontSize
+                                ),
                             ),
                             onTap: () => launchUrl(_tel),
                           )
@@ -470,7 +506,8 @@ class ParkingCard extends StatelessWidget {
                               'Site Web',
                               style: TextStyle(
                                   color: Colors.blue,
-                                  fontSize: normalTextCardFontSize),
+                                  // fontSize: normalTextCardFontSize
+                                ),
                             ),
                             onTap: () => launchUrl(_url),
                           )
@@ -500,7 +537,8 @@ class ParkingCard extends StatelessWidget {
                     dataToPrint(parking.address),
                     style: TextStyle(
                         overflow: TextOverflow.clip,
-                        fontSize: normalTextCardFontSize),
+                        // fontSize: normalTextCardFontSize
+                      ),
                   ),
                   //* OSM Data
                   // Text(
@@ -523,7 +561,7 @@ class ParkingCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              ToRouteApp(parking: parking, normalTextCardFontSize: normalTextCardFontSize),
+              ToRouteApp(parking: parking),
             ],
           ),
 

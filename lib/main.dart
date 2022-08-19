@@ -40,8 +40,108 @@ void main() async {
           create: (context) => Store(),
         )
       ],
-      child: const MaterialApp(
-        // Set it to false in release version
+      child: MaterialApp(
+        
+        //todo: à mettre par défaut
+        themeMode: ThemeMode.system,
+        darkTheme: ThemeData.dark(),
+
+        // Thème principal
+        // Concerne text et couleur, sauf icones et snackbar
+        theme: ThemeData(
+
+          textTheme: TextTheme(
+            
+            // Titre dans la side bar
+            headline1: TextStyle(
+              color: Colors.grey[100],
+              fontSize: 24,
+              fontWeight: FontWeight.w500
+            ),
+
+            // Titre dans la top app bar
+            headline2: TextStyle(
+              color: Colors.grey[100],
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+              overflow: TextOverflow.visible
+            ),
+
+            // Titre dans la Parking Card
+            headline3: TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+
+            // Titre dans la Mini Parking Card
+            // Titre dans la Bike Station Popup
+            headline4: TextStyle(
+              color: Colors.black,
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              overflow: TextOverflow.ellipsis,
+            ),
+
+            // Titre et text dans les boites de dialogue
+            // headline6: ,
+            // subtitle1: ,
+
+            // Utilisé pour la "zone" dans la Mini Parking Card et la Parking Card
+            overline: TextStyle(
+              fontWeight: FontWeight.normal,
+              fontStyle: FontStyle.italic,
+              fontSize: 16,
+              overflow: TextOverflow.ellipsis,
+              letterSpacing: 1
+            ),
+
+            // Sous-titre Nombre de place dans Mini Parking card et Parking Card
+            // (Couleur gérée dans leur widgets)
+            subtitle2: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+
+            // Titre des options de la side bar
+            bodyText1: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w700
+            ),
+
+            // Texte des cards, et la popup Velostan et des déscription dans la sidebar
+            // sauf les messages en cas de parkings ou stations fermés
+            bodyText2: TextStyle(
+              fontSize: 15,
+              // fontStyle: FontStyle.italic
+            )
+
+          ),
+
+          // Used for main bottom app's buttons
+          primaryColor: Color.fromARGB(255, 92, 212, 92),
+          primaryColorLight: Color.fromARGB(255, 168, 207, 169),
+
+
+
+          // Top app bar theme.
+          // Color also used in background color for title card in side bar.
+          appBarTheme: AppBarTheme(
+            color: Color.fromARGB(255, 31, 77, 33),
+            ),
+          drawerTheme: DrawerThemeData(
+            backgroundColor: Colors.green[200]
+          ),
+
+          // Parking card color
+          cardColor: Color(0xFFE5E5E5),
+          // Welcome message and quit message
+          dialogBackgroundColor: Color(0xFFE5E5E5),
+
+          // main bottom app theme
+          bottomAppBarColor: Color.fromARGB(255, 92, 212, 92)
+        ),
+        //TODO: Set it to false in release version
         debugShowCheckedModeBanner: true,
         //TODO:vmanage here themeMode
         home: NancyStationnementApp(),

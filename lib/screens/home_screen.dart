@@ -61,21 +61,39 @@ class _HomeScreenState extends State<HomeScreen> {
   Map areParkingTitleVisible = {'three': false, 'six': false, 'all': false};
 
   final snackBarPopupParking = SnackBar(
-    content: Text("Disponibilités des parkings mis à jour"),
+    content: Text(
+      "Disponibilités des parkings mis à jour",
+      style: TextStyle(
+        fontSize: 15,
+        fontWeight: FontWeight.w500
+      )
+    ),
     backgroundColor: Colors.blue,
     duration: const Duration(seconds: 3),
     elevation: 5,
   );
 
   final snackBarPopupBikeStation = SnackBar(
-    content: Text("Disponibilités des stations de vélo mis à jour"),
+    content: Text(
+      "Disponibilités des stations de vélo mis à jour",
+      style: TextStyle(
+        fontSize: 15,
+        fontWeight: FontWeight.w500
+      )
+    ),
     backgroundColor: Colors.green,
     duration: const Duration(seconds: 3),
     elevation: 5,
   );
 
   final snackBarParking = SnackBar(
-    content: Text("Données des parkings mis à jour"),
+    content: Text(
+      "Données des parkings mis à jour",
+      style: TextStyle(
+        fontSize: 15,
+        fontWeight: FontWeight.w500
+      )
+    ),
     backgroundColor: Colors.blue,
     elevation: 5,
   );
@@ -196,7 +214,7 @@ class _HomeScreenState extends State<HomeScreen> {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _initParkingMarkers();
       _initBikeStations();
-      _test();
+      _displayWelcomeMessage();
       // areParkingTitleVisible["three"] = false;
       // areParkingTitleVisible["six"] = false;
 
@@ -239,12 +257,12 @@ class _HomeScreenState extends State<HomeScreen> {
         false;
     }
 
-    Future<bool> _test() async {
+    Future<bool> _displayWelcomeMessage() async {
     return (await showDialog(
           context: context,
           builder: (context) => AlertDialog(
             title: new Text('Parking Nancy'),
-            content: new Text('Cette application affiche en temps réel de la disponibilité des parkings de Nancy. \n\nATTENTION : Ne pas utiliser votre téléphone en conduisant !'),
+            content: new Text('Cette application affiche en temps réel de la disponibilité des parkings de Nancy. \n\nATTENTION : Ne pas utiliser le téléphone en conduisant !'),
             actions: <Widget>[
               TextButton(
                 onPressed: () => Navigator.of(context).pop(),
@@ -476,6 +494,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
     
             //TODO: to fix : Bug affichage quand Up et white screen quand down
+            //? remonter le MediaQuery.of des cards ? Utiliser Navigator ?
             Expanded(
               flex: isParkCardSelected
                   ? isPortrait
@@ -496,7 +515,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         // reverseDuration: Duration(milliseconds: 0),
                         curve: Curves.linear,
                         child: Container(
-                          color: Color(0xFFE5E5E5),
+                          // color: Color(0xFFE5E5E5),
+                          color: Theme.of(context).cardColor,
                           // mainAxisAlignment: MainAxisAlignment.start,
                           // crossAxisAlignment: CrossAxisAlignment.center,
                           child: gny(context, listen: true).selectedParking !=
