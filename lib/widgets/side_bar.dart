@@ -83,8 +83,13 @@ class SideBar extends StatelessWidget {
             ),
           ),
           ListTile(
-            title: Text("Mettre à jour les informations des parkings"),
-            subtitle: Text("Met à jour les nombres de place pour personne à mobilité réduite, les places avec borne de recharge electrique, les tarifs et autres informations. \nUne pression sur le bouton P rafraichit seulement le nombre de places restantes dans les parkings."),
+            title: Text(
+              "Mettre à jour les informations des parkings",
+              style: Theme.of(context).textTheme.bodyText1),
+            subtitle: Text(
+              "Met à jour les nombres de place pour personne à mobilité réduite, les places avec borne de recharge electrique, les tarifs et autres informations. \nUne pression sur le bouton P rafraichit seulement le nombre de places restantes dans les parkings.",
+              // style: Theme.of(context).textTheme.bodyText1,  
+            ),
             onTap: () {
               updateParking();
               Scaffold.of(context).closeDrawer();

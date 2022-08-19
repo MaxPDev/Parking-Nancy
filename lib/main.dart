@@ -46,7 +46,8 @@ void main() async {
         themeMode: ThemeMode.system,
         darkTheme: ThemeData.dark(),
 
-        // Default theme
+        // Thème principal
+        // Concerne text et couleur, sauf icone et popup
         theme: ThemeData(
 
           textTheme: TextTheme(
@@ -82,15 +83,38 @@ void main() async {
               overflow: TextOverflow.ellipsis,
             ),
 
-            // Text dans les boites de dialogue
+            // Titre et text dans les boites de dialogue
+            // headline6: ,
             // subtitle1: ,
 
+            // Utilisé pour la "zone" dans la Mini Parking Card et la Parking Card
+            overline: TextStyle(
+              fontWeight: FontWeight.normal,
+              fontStyle: FontStyle.italic,
+              fontSize: 16,
+              overflow: TextOverflow.ellipsis,
+              letterSpacing: 1
+            ),
+
             // Sous-titre Nombre de place dans Mini Parking card et Parking Card
+            // (Couleur gérée dans leur widgets)
             subtitle2: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
-            )
+            ),
 
+            // Titre des options de la side bar
+            bodyText1: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w700
+            ),
+
+            // Tous texte qui n'étant pas traités avant ça
+            // sauf les messages en cas de parkings ou stations fermés
+            bodyText2: TextStyle(
+              fontSize: 15,
+              // fontStyle: FontStyle.italic
+            )
 
           ),
 

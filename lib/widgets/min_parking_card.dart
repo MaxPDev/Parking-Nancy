@@ -65,12 +65,13 @@ class MinParkingCard extends StatelessWidget {
                   parking.zone != "Parking Relais" ? "${parking.zone}" : "${parking.zone}",
                   textAlign: TextAlign.center,
                   maxLines: 3,
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontStyle: FontStyle.italic,
-                    fontSize: 16,
-                    overflow: TextOverflow.ellipsis
-                  ),
+                  style: Theme.of(context).textTheme.overline
+                  // style: TextStyle(
+                  //   fontWeight: FontWeight.normal,
+                  //   fontStyle: FontStyle.italic,
+                  //   fontSize: 16,
+                  //   overflow: TextOverflow.ellipsis
+                  // ),
                 ),
               ],
             ) : Container(),
@@ -193,8 +194,7 @@ class MinParkingCard extends StatelessWidget {
             SizedBox(
               width: width/3,
               child: ToRouteApp(
-                parking: parking, 
-                normalTextCardFontSize: 14)),
+                parking: parking)),
 
             SizedBox(
               height: sizedBoxHeighBottom,

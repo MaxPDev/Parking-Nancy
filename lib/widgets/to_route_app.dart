@@ -9,13 +9,13 @@ class ToRouteApp extends StatelessWidget {
   const ToRouteApp({
     Key? key,
     required Parking parking,
-    required double? normalTextCardFontSize,
+    // required double? normalTextCardFontSize,
   }) : _parking = parking, 
-       _normalTextCardFontSize = normalTextCardFontSize, 
+      //  _normalTextCardFontSize = normalTextCardFontSize, 
        super(key: key);
 
   final Parking _parking;
-  final double? _normalTextCardFontSize;
+  // final double? _normalTextCardFontSize;
 
   openMapsSheet(context, double lat, double long, String name) async {
     try {
@@ -83,7 +83,8 @@ class ToRouteApp extends StatelessWidget {
               "Y aller",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: _normalTextCardFontSize),
+                  // fontSize: _normalTextCardFontSize
+                ),
             ),
           ],
         ),
