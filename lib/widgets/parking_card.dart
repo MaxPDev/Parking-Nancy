@@ -179,7 +179,7 @@ class ParkingCard extends StatelessWidget {
                         //   color: HexColor(parking.colorHexa!),
                         // ),
                       
-                    : Text(""),
+                    : Container(),
                 // Zone
                 parking.zone != null
                     ? Row(
