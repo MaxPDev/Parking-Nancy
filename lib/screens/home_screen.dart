@@ -61,21 +61,39 @@ class _HomeScreenState extends State<HomeScreen> {
   Map areParkingTitleVisible = {'three': false, 'six': false, 'all': false};
 
   final snackBarPopupParking = SnackBar(
-    content: Text("Disponibilités des parkings mis à jour"),
+    content: Text(
+      "Disponibilités des parkings mis à jour",
+      style: TextStyle(
+        fontSize: 15,
+        fontWeight: FontWeight.w500
+      )
+    ),
     backgroundColor: Colors.blue,
     duration: const Duration(seconds: 3),
     elevation: 5,
   );
 
   final snackBarPopupBikeStation = SnackBar(
-    content: Text("Disponibilités des stations de vélo mis à jour"),
+    content: Text(
+      "Disponibilités des stations de vélo mis à jour",
+      style: TextStyle(
+        fontSize: 15,
+        fontWeight: FontWeight.w500
+      )
+    ),
     backgroundColor: Colors.green,
     duration: const Duration(seconds: 3),
     elevation: 5,
   );
 
   final snackBarParking = SnackBar(
-    content: Text("Données des parkings mis à jour"),
+    content: Text(
+      "Données des parkings mis à jour",
+      style: TextStyle(
+        fontSize: 15,
+        fontWeight: FontWeight.w500
+      )
+    ),
     backgroundColor: Colors.blue,
     elevation: 5,
   );

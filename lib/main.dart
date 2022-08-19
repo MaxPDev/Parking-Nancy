@@ -47,7 +47,7 @@ void main() async {
         darkTheme: ThemeData.dark(),
 
         // Thème principal
-        // Concerne text et couleur, sauf icone et popup
+        // Concerne text et couleur, sauf icones et snackbar
         theme: ThemeData(
 
           textTheme: TextTheme(
@@ -109,7 +109,7 @@ void main() async {
               fontWeight: FontWeight.w700
             ),
 
-            // Tous texte qui n'étant pas traités avant ça
+            // Texte des cards, et la popup Velostan et des déscription dans la sidebar
             // sauf les messages en cas de parkings ou stations fermés
             bodyText2: TextStyle(
               fontSize: 15,

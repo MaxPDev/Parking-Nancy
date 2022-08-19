@@ -151,13 +151,13 @@ class StationPopup extends StatelessWidget {
                 Text(
                   "${bikeStation.bikes} ",
                   style: TextStyle(
-                    fontSize: 15, 
+                    // fontSize: 15, 
                     fontWeight: FontWeight.bold),
                 ),
                 Text(
                   "vélos disponibles",
                   style: TextStyle(
-                    fontSize: 14, 
+                    // fontSize: 14, 
                     fontWeight: FontWeight.normal),
                 ),
               ],
@@ -172,13 +172,13 @@ class StationPopup extends StatelessWidget {
                 Text(
                   "${bikeStation.stands} ",
                   style: TextStyle(
-                    fontSize: 15, 
+                    // fontSize: 15, 
                     fontWeight: FontWeight.bold),
                 ),
                 Text(
                   "emplacements disponibles",
                   style: TextStyle(
-                    fontSize: 14, 
+                    // fontSize: 14, 
                     fontWeight: FontWeight.normal),
                 )
               ],
@@ -196,7 +196,7 @@ class StationPopup extends StatelessWidget {
                         child: Text(
                           "Paiement par carte bancaire disponible",
                           style: TextStyle(
-                              fontSize: 14, 
+                              // fontSize: 14, 
                               fontWeight: FontWeight.normal),
                               maxLines: 2,
                         ),
@@ -216,7 +216,7 @@ class StationPopup extends StatelessWidget {
                   child: Text(
                     "${bikeStation.address}",
                     style: TextStyle(
-                      fontSize: 14, 
+                      // fontSize: 14, 
                       fontWeight: FontWeight.normal),
                     maxLines: 3,
                   ),
