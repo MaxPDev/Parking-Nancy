@@ -9,6 +9,7 @@ import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:latlong2/latlong.dart';
+import 'package:nancy_stationnement/services/global_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:searchbar_animation/searchbar_animation.dart';
@@ -26,6 +27,7 @@ import 'package:nancy_stationnement/services/store.dart';
 import 'package:nancy_stationnement/services/gny_parking.dart';
 import 'package:nancy_stationnement/services/ban_service.dart';
 import 'package:nancy_stationnement/services/jcdecaux_velostan.dart';
+import 'package:nancy_stationnement/services/global_text.dart';
 
 // import 'package:nancy_stationnement/utils/marker_with_value.dart';
 // import 'package:nancy_stationnement/utils/marker_with_value_cluster_layer_options.dart';
@@ -53,14 +55,14 @@ class _HomeScreenState extends State<HomeScreen> {
   final gny = Provider.of<GnyParking>;
   final ban = Provider.of<BanService>;
   final bikeStations = Provider.of<JcdecauxVelostan>;
-
+  final text = Provider.of<GlobalText>;
   List<Marker> _markers = [];
   bool isParkCardSelected = false;
   bool isAddressFieldEditing = false;
   bool isBikeMinPopupVisible = false;
   Map areParkingTitleVisible = {'three': false, 'six': false, 'all': false};
 
-  final snackBarPopupParking = SnackBar(
+  final snackBarPopupParking = const SnackBar(
     content: Text(
       "Disponibilités des parkings mis à jour",
       style: TextStyle(
@@ -69,11 +71,11 @@ class _HomeScreenState extends State<HomeScreen> {
       )
     ),
     backgroundColor: Colors.blue,
-    duration: const Duration(seconds: 3),
+    duration: Duration(seconds: 3),
     elevation: 5,
   );
 
-  final snackBarPopupBikeStation = SnackBar(
+  final snackBarPopupBikeStation = const SnackBar(
     content: Text(
       "Disponibilités des stations de vélo mis à jour",
       style: TextStyle(
@@ -82,11 +84,11 @@ class _HomeScreenState extends State<HomeScreen> {
       )
     ),
     backgroundColor: Colors.green,
-    duration: const Duration(seconds: 3),
+    duration: Duration(seconds: 3),
     elevation: 5,
   );
 
-  final snackBarParking = SnackBar(
+  final snackBarParking = const SnackBar(
     content: Text(
       "Données des parkings mis à jour",
       style: TextStyle(

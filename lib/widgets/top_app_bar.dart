@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:searchbar_animation/searchbar_animation.dart';
 
 import 'package:nancy_stationnement/services/ban_service.dart';
+import 'package:nancy_stationnement/services/global_text.dart';
 
 class TopAppBar extends StatefulWidget implements PreferredSizeWidget {
   TopAppBar({
@@ -29,6 +30,7 @@ class TopAppBar extends StatefulWidget implements PreferredSizeWidget {
 
 class _TopAppBarState extends State<TopAppBar> {
   final ban = Provider.of<BanService>;
+  final text = Provider.of<GlobalText>;
 
   final textController = TextEditingController();
 
@@ -64,7 +66,7 @@ class _TopAppBarState extends State<TopAppBar> {
       ),
       //TODO: make and use global var/settings
       title: Text(
-        "Parking Nancy",
+        text(context, listen: false).appTitle,
         // style: TextStyle(fontSize: 18, overflow: TextOverflow.visible),
         style: Theme.of(context).textTheme.headline2,
       ),
@@ -80,7 +82,7 @@ class _TopAppBarState extends State<TopAppBar> {
               textEditingController: textController,
               durationInMilliSeconds: 421,
               isOriginalAnimation: false,
-              hintText: "Destination...",
+              hintText: text(context, listen: false).hintText,
               searchBoxWidth: width * 0.70,
               enableBoxBorder: true,
               enableBoxShadow: true,
