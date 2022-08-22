@@ -9,6 +9,7 @@ import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:latlong2/latlong.dart';
+import 'package:nancy_stationnement/services/global_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:searchbar_animation/searchbar_animation.dart';
@@ -26,6 +27,7 @@ import 'package:nancy_stationnement/services/store.dart';
 import 'package:nancy_stationnement/services/gny_parking.dart';
 import 'package:nancy_stationnement/services/ban_service.dart';
 import 'package:nancy_stationnement/services/jcdecaux_velostan.dart';
+import 'package:nancy_stationnement/services/global_text.dart';
 
 // import 'package:nancy_stationnement/utils/marker_with_value.dart';
 // import 'package:nancy_stationnement/utils/marker_with_value_cluster_layer_options.dart';
@@ -53,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final gny = Provider.of<GnyParking>;
   final ban = Provider.of<BanService>;
   final bikeStations = Provider.of<JcdecauxVelostan>;
-
+  final text = Provider.of<GlobalText>;
   List<Marker> _markers = [];
   bool isParkCardSelected = false;
   bool isAddressFieldEditing = false;
@@ -62,33 +64,33 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final snackBarPopupParking = SnackBar(
     content: Text(
-      "Disponibilités des parkings mis à jour",
+      GlobalText().parkingsAvailabiltyUpdated,
       style: TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.w500
       )
     ),
     backgroundColor: Colors.blue,
-    duration: const Duration(seconds: 3),
+    duration: Duration(seconds: 3),
     elevation: 5,
   );
 
   final snackBarPopupBikeStation = SnackBar(
     content: Text(
-      "Disponibilités des stations de vélo mis à jour",
+      GlobalText().bikeStationsAvailabiltyUpdated,
       style: TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.w500
       )
     ),
     backgroundColor: Colors.green,
-    duration: const Duration(seconds: 3),
+    duration: Duration(seconds: 3),
     elevation: 5,
   );
 
   final snackBarParking = SnackBar(
     content: Text(
-      "Données des parkings mis à jour",
+      GlobalText().parkingsDataUpdated,
       style: TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.w500
@@ -236,20 +238,17 @@ class _HomeScreenState extends State<HomeScreen> {
     // );
   }
 
-  Future<bool> _onWillPop() async {
+    // Message d'accueil et d'avertissement
+    Future<bool> _displayWelcomeMessage() async {
     return (await showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: new Text('Quitter Parking Nancy'),
-            content: new Text('Voulez-vous quitter l\'application ?'),
+            title: new Text(GlobalText.welcomeTitle),
+            content: new Text(GlobalText.welcomeText),
             actions: <Widget>[
               TextButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: new Text('Non'),
-              ),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: new Text('Oui'),
+                onPressed: () => Navigator.of(context).pop(),
+                child: new Text(GlobalText.welcomeConfirm),
               ),
             ],
           ),
@@ -257,22 +256,28 @@ class _HomeScreenState extends State<HomeScreen> {
         false;
     }
 
-    Future<bool> _displayWelcomeMessage() async {
+    // Demande de confirmation de sortie de l'application
+    Future<bool> _onWillPop() async {
     return (await showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: new Text('Parking Nancy'),
-            content: new Text('Cette application affiche en temps réel de la disponibilité des parkings de Nancy. \n\nATTENTION : Ne pas utiliser le téléphone en conduisant !'),
+            title: new Text(GlobalText.quitTitle),
+            content: new Text(GlobalText.quitMessage),
             actions: <Widget>[
               TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: new Text('Ok'),
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text(GlobalText.quitNo),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: new Text(GlobalText.quitYes),
               ),
             ],
           ),
         )) ??
         false;
     }
+
 
 
   @override

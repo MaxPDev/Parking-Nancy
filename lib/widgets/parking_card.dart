@@ -10,6 +10,7 @@ import 'package:map_launcher/map_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:nancy_stationnement/utils/hex_color.dart';
+import 'package:nancy_stationnement/services/global_text.dart';
 import 'package:nancy_stationnement/services/gny_parking.dart';
 import 'package:nancy_stationnement/models/parking.dart';
 import 'package:nancy_stationnement/widgets/items.dart';
@@ -77,6 +78,7 @@ class ParkingCard extends StatelessWidget {
   Widget build(BuildContext context) {
     // Parking détaillé dans la card
     Parking parking = gny(context, listen: true).selectedParking!;
+    final text = Provider.of<GlobalText>;
     inspect(parking);
 
     // final double? normalTextCardFontSize = 15; //TODO: GLOBAL (défaut : 14)
@@ -167,7 +169,7 @@ class ParkingCard extends StatelessWidget {
                 // Disponibilité si info disponible
                 parking.available != "null"
                     ? Text(
-                        "${parking.available} places",
+                        "${parking.available} ${text(context, listen: false).places}",
                         style: Theme.of(context).textTheme.subtitle2!.copyWith(
                           color: HexColor(parking.colorHexa!)
                         )
@@ -186,9 +188,10 @@ class ParkingCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            parking.zone != "Parking Relais"
-                                ? "${parking.zone}"
-                                : "${parking.zone}",
+                            // parking.zone != "Parking Relais"
+                            //     ? "${parking.zone}"
+                            //     : "${parking.zone}",
+                            "${parking.zone}",
                             textAlign: TextAlign.center,
                             maxLines: 3,
                             style: Theme.of(context).textTheme.overline
@@ -205,7 +208,7 @@ class ParkingCard extends StatelessWidget {
                 // Parking fermé
                 parking.isClosed != null
                     ? parking.isClosed == true
-                        ? Text("Parking fermé",
+                        ? Text(text(context, listen: false).parkingClosed,
                             style: TextStyle(
                                 color: Colors.red,
                                 fontSize: 17,
@@ -234,7 +237,7 @@ class ParkingCard extends StatelessWidget {
                 flex: 3,
                 child: Column(
                   children: [
-                    Text("Capacité : ",
+                    Text("${text(context, listen: false).capacity}",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             // fontSize: normalTextCardFontSize
@@ -247,7 +250,7 @@ class ParkingCard extends StatelessWidget {
                 flex: 3,
                 child: Column(
                   children: [
-                    Text("Max.",
+                    Text("${text(context, listen: false).max}",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             // fontSize: normalTextCardFontSize
@@ -304,7 +307,7 @@ class ParkingCard extends StatelessWidget {
                 flex: 4,
                 child: Column(
                   children: [
-                    Text("Tarif : ",
+                    Text("${text(context, listen: false).prices}",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             // fontSize: normalTextCardFontSize
@@ -399,7 +402,7 @@ class ParkingCard extends StatelessWidget {
                 flex: 1,
                 child: Column(
                   children: [
-                    Text("Hauteur max : ",
+                    Text("${text(context, listen: false).maxHeight}",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             // fontSize: normalTextCardFontSize
@@ -419,7 +422,7 @@ class ParkingCard extends StatelessWidget {
                 flex: 1,
                 child: Column(
                   children: [
-                    Text("Type : ",
+                    Text("${text(context, listen: false).type}",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             // fontSize: normalTextCardFontSize
@@ -447,7 +450,7 @@ class ParkingCard extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      "Propriétaire: ",
+                      "${text(context, listen: false).owner}",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           // fontSize: normalTextCardFontSize
@@ -503,7 +506,7 @@ class ParkingCard extends StatelessWidget {
                     parking.website != null
                         ? InkWell(
                             child: Text(
-                              'Site Web',
+                              '${text(context, listen: false).webSite}',
                               style: TextStyle(
                                   color: Colors.blue,
                                   // fontSize: normalTextCardFontSize

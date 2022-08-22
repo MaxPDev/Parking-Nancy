@@ -11,6 +11,7 @@ import 'package:nancy_stationnement/services/gny_parking.dart';
 import 'package:nancy_stationnement/services/ban_service.dart';
 import 'package:nancy_stationnement/services/jcdecaux_velostan.dart';
 import 'package:nancy_stationnement/services/store.dart';
+import 'package:nancy_stationnement/services/global_text.dart';
 
 ///
 /// Fonction main
@@ -38,6 +39,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (context) => Store(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => GlobalText(),
         )
       ],
       child: MaterialApp(

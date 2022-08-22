@@ -1,0 +1,1 @@
+/home/administrateur/Workspace/Flutter/nancy_stationnement/lib/services/global_text.dart

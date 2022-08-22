@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:nancy_stationnement/services/gny_parking.dart';
+import 'package:nancy_stationnement/services/global_text.dart';
 
 class SideBar extends StatelessWidget {
   const SideBar({
@@ -11,6 +12,7 @@ class SideBar extends StatelessWidget {
   }) : super(key: key);
 
   final gny = Provider.of<GnyParking>;
+  final text = Provider.of<GlobalText>;
 
   final Function updateParking;
 
@@ -84,10 +86,10 @@ class SideBar extends StatelessWidget {
           ),
           ListTile(
             title: Text(
-              "Mettre à jour les informations des parkings",
+              text(context, listen: false).parkingUpdate,
               style: Theme.of(context).textTheme.bodyText1),
             subtitle: Text(
-              "Met à jour les nombres de place pour personne à mobilité réduite, les places avec borne de recharge electrique, les tarifs et autres informations. \nUne pression sur le bouton P rafraichit seulement le nombre de places restantes dans les parkings.",
+              text(context, listen: false).parkingUpdateDescr,
               // style: Theme.of(context).textTheme.bodyText1,  
             ),
             onTap: () {
@@ -100,8 +102,8 @@ class SideBar extends StatelessWidget {
             },
           ),
           ListTile(
-            title: Text("À propos"),
-            subtitle: Text("Mentions légales\nLibrairies Open Source\nVersion"),
+            title: Text(text(context, listen: false).aboutTitle),
+            subtitle: Text(text(context, listen: false).aboutDescr),
           ),
         ],
       ),
