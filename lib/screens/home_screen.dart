@@ -62,9 +62,9 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isBikeMinPopupVisible = false;
   Map areParkingTitleVisible = {'three': false, 'six': false, 'all': false};
 
-  final snackBarPopupParking = const SnackBar(
+  final snackBarPopupParking = SnackBar(
     content: Text(
-      "Disponibilités des parkings mis à jour",
+      GlobalText().parkingsAvailabiltyUpdated,
       style: TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.w500
@@ -75,9 +75,9 @@ class _HomeScreenState extends State<HomeScreen> {
     elevation: 5,
   );
 
-  final snackBarPopupBikeStation = const SnackBar(
+  final snackBarPopupBikeStation = SnackBar(
     content: Text(
-      "Disponibilités des stations de vélo mis à jour",
+      GlobalText().bikeStationsAvailabiltyUpdated,
       style: TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.w500
@@ -88,9 +88,9 @@ class _HomeScreenState extends State<HomeScreen> {
     elevation: 5,
   );
 
-  final snackBarParking = const SnackBar(
+  final snackBarParking = SnackBar(
     content: Text(
-      "Données des parkings mis à jour",
+      GlobalText().parkingsDataUpdated,
       style: TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.w500
@@ -238,20 +238,17 @@ class _HomeScreenState extends State<HomeScreen> {
     // );
   }
 
-  Future<bool> _onWillPop() async {
+    // Message d'accueil et d'avertissement
+    Future<bool> _displayWelcomeMessage() async {
     return (await showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: new Text('Quitter Parking Nancy'),
-            content: new Text('Voulez-vous quitter l\'application ?'),
+            title: new Text(GlobalText.welcomeTitle),
+            content: new Text(GlobalText.welcomeText),
             actions: <Widget>[
               TextButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: new Text('Non'),
-              ),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: new Text('Oui'),
+                onPressed: () => Navigator.of(context).pop(),
+                child: new Text(GlobalText.welcomeConfirm),
               ),
             ],
           ),
@@ -259,22 +256,28 @@ class _HomeScreenState extends State<HomeScreen> {
         false;
     }
 
-    Future<bool> _displayWelcomeMessage() async {
+    // Demande de confirmation de sortie de l'application
+    Future<bool> _onWillPop() async {
     return (await showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: new Text('Parking Nancy'),
-            content: new Text('Cette application affiche en temps réel de la disponibilité des parkings de Nancy. \n\nATTENTION : Ne pas utiliser le téléphone en conduisant !'),
+            title: new Text(GlobalText.quitTitle),
+            content: new Text(GlobalText.quitMessage),
             actions: <Widget>[
               TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: new Text('Ok'),
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text(GlobalText.quitNo),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: new Text(GlobalText.quitYes),
               ),
             ],
           ),
         )) ??
         false;
     }
+
 
 
   @override

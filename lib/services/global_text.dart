@@ -3,9 +3,30 @@ import 'package:flutter/material.dart';
 
 class GlobalText extends ChangeNotifier {
 
+  ///*Homescreen
+  
+  //* Snackbars
+  final String parkingsAvailabiltyUpdated = "Disponibilités des parkings mis à jour";
+  final String bikeStationsAvailabiltyUpdated = "Disponibilités des stations de vélo mis à jour";
+  final String parkingsDataUpdated = "Données des parkings mis à jour";
+  
+  //* Message d'accueil et de sortie d'application
+  static String welcomeTitle = "Parking Nancy";
+  static String welcomeText = "Cette application affiche en temps réel de la disponibilité des parkings de Nancy. \n\nATTENTION : Ne pas utiliser le téléphone en conduisant !";
+  static String welcomeConfirm = "Ok";
+
+  static String quitTitle = "Quitter Parking Nancy";
+  static String quitMessage = "Voulez-vous quitter l'application ?";
+  static String quitNo = "Non";
+  static String quitYes = "Oui";
+
+  //==========================================
+
   //* Top App Bar
   final String appTitle = "Parking Nancy";
   final String hintText = "Destination...";
+
+  //==========================================
 
   //* Side Bar
   final String parkingUpdate = "Mettre à jour les informations des parkings";
@@ -13,6 +34,8 @@ class GlobalText extends ChangeNotifier {
 
   final String aboutTitle = "À propos";
   final String aboutDescr = "Mentions légales\nLibrairies Open Source\nVersion";
+
+  //==========================================
 
   //* Min Parking Card & Parking Card
   final String places = "places";
@@ -31,6 +54,8 @@ class GlobalText extends ChangeNotifier {
   final String owner = "Propriétaire :";
   final String webSite = "Site Web";
   final String parkingClosed = "Parking fermé";
+
+  //==========================================
 
   //* Bikestation popup
   final String availableBikes = "vélos disponibles";
