@@ -32,6 +32,10 @@ class GlobalText extends ChangeNotifier {
   final String webSite = "Site Web";
   final String parkingClosed = "Parking fermé";
 
+  //* Bikestation popup
+  final String availableBikes = "vélos disponibles";
+  final String availableStands = "emplacements disponibles";
+  final String availableCreditCardPayment = "Paiement par carte bancaire disponible";
 
   GlobalText() {
     if (kDebugMode) {

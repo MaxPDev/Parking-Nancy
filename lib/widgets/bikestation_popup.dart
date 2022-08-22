@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:latlong2/latlong.dart';
 
 import 'package:nancy_stationnement/models/station.dart';
+import 'package:nancy_stationnement/services/global_text.dart';
 import 'package:nancy_stationnement/services/jcdecaux_velostan.dart';
 import 'package:nancy_stationnement/widgets/items.dart';
 import 'package:provider/provider.dart';
@@ -96,6 +97,9 @@ class StationPopup extends StatelessWidget {
   final Station bikeStation;
   final Function update;
 
+  final text = Provider.of<GlobalText>;
+
+
   // Traite le texte de titre pour enlever le numéro de station et la mention "CB"
   String bikeStationNameToShorter(name) {
     if (name.indexOf("(CB") == -1) {
@@ -155,7 +159,7 @@ class StationPopup extends StatelessWidget {
                     fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  "vélos disponibles",
+                  text(context, listen: false).availableBikes,
                   style: TextStyle(
                     // fontSize: 14, 
                     fontWeight: FontWeight.normal),
@@ -176,7 +180,7 @@ class StationPopup extends StatelessWidget {
                     fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  "emplacements disponibles",
+                  text(context, listen: false).availableStands,
                   style: TextStyle(
                     // fontSize: 14, 
                     fontWeight: FontWeight.normal),
@@ -194,7 +198,7 @@ class StationPopup extends StatelessWidget {
                       SizedBox(
                         width: 244,
                         child: Text(
-                          "Paiement par carte bancaire disponible",
+                          text(context, listen: false).availableCreditCardPayment,
                           style: TextStyle(
                               // fontSize: 14, 
                               fontWeight: FontWeight.normal),
