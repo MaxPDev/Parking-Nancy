@@ -8,6 +8,7 @@ import 'package:nancy_stationnement/models/parking.dart';
 import 'package:nancy_stationnement/utils/hex_color.dart';
 import 'package:nancy_stationnement/services/gny_parking.dart';
 import 'package:nancy_stationnement/widgets/items.dart';
+import 'package:nancy_stationnement/services/global_text.dart';
 
 class MinParkingCard extends StatelessWidget {
   MinParkingCard({
@@ -19,6 +20,7 @@ class MinParkingCard extends StatelessWidget {
 
       // Providers
   final gny = Provider.of<GnyParking>;
+  final text = Provider.of<GlobalText>;
   // double cardHeight = 54;
 
   //? faire évoluer par charging/pmr/max si besoin d'autres conditions :
@@ -62,7 +64,8 @@ class MinParkingCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  parking.zone != "Parking Relais" ? "${parking.zone}" : "${parking.zone}",
+                  // parking.zone != "Parking Relais" ? "${parking.zone}" : "${parking.zone}",
+                  "${parking.zone}",
                   textAlign: TextAlign.center,
                   maxLines: 3,
                   style: Theme.of(context).textTheme.overline
@@ -81,7 +84,7 @@ class MinParkingCard extends StatelessWidget {
             parking.isClosed != null ?
               parking.isClosed == true ?
                 Text(
-                  "Parking fermé", 
+                  text(context, listen: false).parkingClosed, 
                   style: TextStyle(
                     color: Colors.red, 
                     fontSize: 15,
@@ -172,7 +175,7 @@ class MinParkingCard extends StatelessWidget {
                       // ),
                       parking.available != "null" ? 
                       Text(
-                        "${parking.available} places",
+                        "${parking.available} ${text(context, listen: false).places}",
                         style: Theme.of(context).textTheme.subtitle2!.copyWith(
                           color: HexColor(parking.colorHexa!)
                         ),
