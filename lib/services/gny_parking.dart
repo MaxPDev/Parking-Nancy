@@ -13,16 +13,23 @@ import 'package:nancy_stationnement/models/parking.dart';
 import 'package:nancy_stationnement/database/database_handler.dart';
 import 'package:nancy_stationnement/services/check_connection.dart';
 import 'package:nancy_stationnement/utils/hex_color.dart';
-import 'package:nancy_stationnement/utils/marker_with_value.dart';
 import 'package:nancy_stationnement/services_config.dart' as config;
 
 class GnyParking extends ChangeNotifier {
+
+  // Vrai ou faux si la connection au service est possible ou non.
   bool isGnyConnection = false;
+
+  // Vrai ou faux si la base de donnée local est vide ou non
   bool isParkingDatabaseEmpty = true;
 
+  // liste des objets parkings
   static List<Parking> _parkings = [];
+
+  // Parking selectionné sur la map
   Parking? selectedParking;
 
+  // Liste des marqueurs de parkings
   static List<Marker> _markers = [];
 
   GnyParking() {
@@ -43,7 +50,7 @@ class GnyParking extends ChangeNotifier {
   Future<void> initParkingAndGenerateMarkers() async {
     // Delete database : only for dev test, or implement if fulling database doesn't work
     // await DatabaseHandler.instance.deleteDatabase("parkings.db");
-    
+
     // Initialise les Parking
     await initParking();
     // Génère les marqueurs
