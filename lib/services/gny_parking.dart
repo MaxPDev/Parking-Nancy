@@ -25,11 +25,6 @@ class GnyParking extends ChangeNotifier {
 
   static List<Marker> _markers = [];
 
-  // String uriGny =
-  //     'https://go.g-ny.org/stationnement?output='; //TODO: Global uriGny
-
-  // late SnackBar snackBarError;
-
   GnyParking() {
     if (kDebugMode) {
       print("GnyParking constructor");
@@ -46,8 +41,9 @@ class GnyParking extends ChangeNotifier {
   
   // Prépare la liste de parking, génère les marqueur
   Future<void> initParkingAndGenerateMarkers() async {
-    //* Delete database : only for dev test, or implement if fulling database doesn't work
+    // Delete database : only for dev test, or implement if fulling database doesn't work
     // await DatabaseHandler.instance.deleteDatabase("parkings.db");
+    
     // Initialise les Parking
     await initParking();
     // Génère les marqueurs
