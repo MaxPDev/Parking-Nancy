@@ -11,15 +11,17 @@ import 'package:latlong2/latlong.dart';
 import 'package:nancy_stationnement/models/address.dart';
 import 'package:nancy_stationnement/utils/marker_with_value.dart';
 
+import 'package:nancy_stationnement/services_config.dart' as config;
+
 class BanService extends ChangeNotifier {
-  // URI de la Base Adresse Nationale
-  String uriBanFromAddress = 'https://api-adresse.data.gouv.fr/search/?q=';
+  // // URI de la Base Adresse Nationale
+  // String uriBanFromAddress = 'https://api-adresse.data.gouv.fr/search/?q=';
 
-  // Les recherches s'effectue depuis ce point en priorité
-  String geoPriority = '&lat=48.69078&lon=6.182468';
+  // // Les recherches s'effectue depuis ce point en priorité
+  // String geoPriority = '&lat=48.69078&lon=6.182468';
 
-  // Recherche depuis des coordonnées (Géolocalisation)
-  String uriBanFromCoordinates = 'https://api-adresse.data.gouv.fr/reverse/?';
+  // // Recherche depuis des coordonnées (Géolocalisation)
+  // String uriBanFromCoordinates = 'https://api-adresse.data.gouv.fr/reverse/?';
 
   List<Address> addressList = [];
   Address? selectedDestinationAddress;
@@ -48,7 +50,8 @@ class BanService extends ChangeNotifier {
     try {
       //? Taiter address avant ?
       // Récupère les données via l'API
-      var uri = Uri.parse('$uriBanFromAddress$address$geoPriority');
+      // var uri = Uri.parse('$uriBanFromAddress$address$geoPriority');
+      var uri = Uri.parse('${config.banUriFromAddress}$address${config.banGeoPriority}');
       Response response = await get(uri);
       Map<String, dynamic> data = jsonDecode(response.body);
 
@@ -88,7 +91,8 @@ class BanService extends ChangeNotifier {
     try {
       //? Taiter coordinates avant dans autres fonction ?
       // Récupère les données via l'API
-      var uri = Uri.parse('$uriBanFromAddress$coordinates$geoPriority');
+      // var uri = Uri.parse('$uriBanFromAddress$coordinates$geoPriority');
+      var uri = Uri.parse('${config.banUriFromAddress}$coordinates${config.banGeoPriority}');
       Response response = await get(uri);
       Map<String, dynamic> data = jsonDecode(response.body);
 

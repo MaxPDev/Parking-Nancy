@@ -14,6 +14,7 @@ import 'package:nancy_stationnement/database/database_handler.dart';
 import 'package:nancy_stationnement/services/check_connection.dart';
 import 'package:nancy_stationnement/utils/hex_color.dart';
 import 'package:nancy_stationnement/utils/marker_with_value.dart';
+import 'package:nancy_stationnement/services_config.dart' as config;
 
 class GnyParking extends ChangeNotifier {
   bool isGnyConnection = false;
@@ -24,8 +25,8 @@ class GnyParking extends ChangeNotifier {
 
   static List<Marker> _markers = [];
 
-  String uriGny =
-      'https://go.g-ny.org/stationnement?output='; //TODO: Global uriGny
+  // String uriGny =
+  //     'https://go.g-ny.org/stationnement?output='; //TODO: Global uriGny
 
   // late SnackBar snackBarError;
 
@@ -114,7 +115,8 @@ class GnyParking extends ChangeNotifier {
   Future<Map<String, dynamic>> fetchDataParkings() async {
     try {
       // Récupère les données via l'API
-      var uri = Uri.parse('${uriGny}json');
+      // var uri = Uri.parse('${uriGny}json');
+      var uri = Uri.parse('${config.gnyUri}${config.gnyJson}');
       Response response = await get(uri);
       Map<String, dynamic> data = jsonDecode(response.body);
 
@@ -141,7 +143,8 @@ class GnyParking extends ChangeNotifier {
   Future<void> fetchDynamicDataParkings() async {
     try {
       // Récupère les données via l'API
-      var uri = Uri.parse('${uriGny}hot');
+      // var uri = Uri.parse('${uriGny}hot');
+      var uri = Uri.parse('${config.gnyUri}${config.gnyHot}');
       Response response = await get(uri);
       Map<String, dynamic> data = jsonDecode(response.body);
 

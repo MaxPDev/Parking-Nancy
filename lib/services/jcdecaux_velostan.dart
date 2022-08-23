@@ -12,18 +12,19 @@ import 'package:path/path.dart';
 import 'package:nancy_stationnement/models/station.dart';
 import 'package:nancy_stationnement/widgets/bikestation_min_popup.dart';
 // import 'package:nancy_stationnement/utils/marker_with_value.dart';
+import 'package:nancy_stationnement/services_config.dart' as config;
 
 class JcdecauxVelostan extends ChangeNotifier {
   // https://developer.jcdecaux.com/#/opendata/vls?page=dynamic&contract=nancy
 
-  // URI API JCdecaux
-  String uriJcdecaux = "https://api.jcdecaux.com/vls/v3/stations";
+  // // URI API JCdecaux
+  // String uriJcdecaux = "https://api.jcdecaux.com/vls/v3/stations";
   
-  // Nom du contrat (correspond à la ville)
-  String contractName = "nancy";
+  // // Nom du contrat (correspond à la ville)
+  // String contractName = "nancy";
 
-  // API Key
-  String apiKey = "526c2bc0188fdb797a47511c029cec761757a838";
+  // // API Key
+  // String apiKey = "526c2bc0188fdb797a47511c029cec761757a838";
 
   List<Station> stationList = [];
 
@@ -50,7 +51,8 @@ class JcdecauxVelostan extends ChangeNotifier {
   Future<String> fetchDataStations() async {
     try {
       // Récupère les données via l'API
-      var uri = Uri.parse('$uriJcdecaux?contract=$contractName&apiKey=$apiKey');
+      // var uri = Uri.parse('$uriJcdecaux?contract=$contractName&apiKey=$apiKey');
+      var uri = Uri.parse('${config.jcdUri}?contract=${config.jcdContractName}&apiKey=${config.jcdApiKey}');
       Response response = await get(uri);
       // String data = jsonDecode(response.body);
       String data = response.body;
@@ -66,7 +68,8 @@ class JcdecauxVelostan extends ChangeNotifier {
 
   Future<void> fetchDynamicDataStation(int stationNumber) async {
     try {
-      var uri = Uri.parse('$uriJcdecaux/$stationNumber?contract=$contractName&apiKey=$apiKey');
+      // var uri = Uri.parse('$uriJcdecaux/$stationNumber?contract=$contractName&apiKey=$apiKey');
+      var uri = Uri.parse('${config.jcdUri}/$stationNumber?contract=${config.jcdContractName}&apiKey=${config.jcdApiKey}');
       Response response = await get(uri);
       var data = jsonDecode(response.body);
 
