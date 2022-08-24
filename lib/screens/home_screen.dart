@@ -100,6 +100,19 @@ class _HomeScreenState extends State<HomeScreen> {
     elevation: 5,
   );
 
+  final snackBarConnexionError = SnackBar(
+    duration: Duration(seconds: 20),
+    content: Text(
+      GlobalText().connexionError,
+      style: TextStyle(
+        fontSize: 15,
+        fontWeight: FontWeight.w500
+      )
+    ),
+    backgroundColor: Colors.red,
+    elevation: 5,
+  );
+
   /// Parkings
 
   // Initie les Parkings et leur marqueurs.
@@ -108,12 +121,17 @@ class _HomeScreenState extends State<HomeScreen> {
         .initParkingAndGenerateMarkers()
         .then((value) => {
               setState(() {
+                if (gny(context, listen: false).isGnyConnection == false) {
+                  FlutterNativeSplash.remove();
+                  ScaffoldMessenger.of(context).showSnackBar(snackBarConnexionError);
+                } else {
+                  
+                }
                 _markers =
-                    // GnyParking().getParkingsMarkers();
                     gny(context, listen: false).getParkingsMarkers();
+                    FlutterNativeSplash.remove();
               }),
               //! Risqué si échec
-              FlutterNativeSplash.remove()
             });
   }
 
@@ -459,6 +477,20 @@ class _HomeScreenState extends State<HomeScreen> {
     
                             //todo test sur key value ?
                             if (marker.key == const ObjectKey("parking_marker")) {
+                              if(!gny(context, listen: false).isGnyConnection) {
+                                return SizedBox(
+                                  height: 20,
+                                  width: 10,
+                                  child: Text(
+                                    "?",
+                                    style: TextStyle(
+                                      color: Colors.red
+                                    ),
+                                  ),
+                                );
+                              } else {
+
+                              }
                               return ParkingPopup(
                                   markers: _markers,
                                   marker: marker,
