@@ -101,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
   );
 
   final snackBarConnexionError = SnackBar(
-    duration: Duration(seconds: 20),
+    duration: Duration(seconds: 7),
     content: Text(
       GlobalText().connexionError,
       style: TextStyle(
@@ -125,11 +125,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   FlutterNativeSplash.remove();
                   ScaffoldMessenger.of(context).showSnackBar(snackBarConnexionError);
                 } else {
-                  
-                }
                 _markers =
                     gny(context, listen: false).getParkingsMarkers();
                     FlutterNativeSplash.remove();
+                }
               }),
               //! Risqué si échec
             });
@@ -141,11 +140,13 @@ class _HomeScreenState extends State<HomeScreen> {
         .reInitParkingAndGenerateMarkers()
         .then((value) => {
               setState(() {
-                _markers =
-                    // GnyParking().getParkingsMarkers();
-                    gny(context, listen: false).getParkingsMarkers();
+                _markers = gny(context, listen: false).getParkingsMarkers();
+                if (gny(context, listen: false).isGnyConnection == false) {
+                  ScaffoldMessenger.of(context).showSnackBar(snackBarConnexionError);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(snackBarParking);
+                }
               }),
-              ScaffoldMessenger.of(context).showSnackBar(snackBarParking)
             });
   }
 
@@ -155,10 +156,13 @@ class _HomeScreenState extends State<HomeScreen> {
       .initParkingAndGenerateMarkers()
       .then((value) => {
         setState(() {
-          print("updatePopuParking");
           _markers = gny(context, listen: false).getParkingsMarkers();
+          if (gny(context, listen: false).isGnyConnection == false) {
+            ScaffoldMessenger.of(context).showSnackBar(snackBarConnexionError);
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(snackBarPopupParking);
+          }
         }),
-        ScaffoldMessenger.of(context).showSnackBar(snackBarPopupParking),
       });
   }
 

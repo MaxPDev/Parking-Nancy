@@ -9,7 +9,7 @@ class GlobalText extends ChangeNotifier {
   final String parkingsAvailabiltyUpdated = "Disponibilités des parkings mis à jour";
   final String bikeStationsAvailabiltyUpdated = "Disponibilités des stations de vélo mis à jour";
   final String parkingsDataUpdated = "Données des parkings mis à jour";
-  final String connexionError = "Récupération impossible. Vérifiez votre connexion internet";
+  final String connexionError = "Récupération des données impossible. Vérifiez votre connexion internet";
   
   //* Message d'accueil et de sortie d'application
   static String welcomeTitle = "Parking Nancy";
