@@ -145,6 +145,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ScaffoldMessenger.of(context).showSnackBar(snackBarConnexionError);
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(snackBarParking);
+                  // Bascule sur l'onglet parking
+                  store(context, listen: false).userSelection = "parkings";
                 }
               }),
             });
