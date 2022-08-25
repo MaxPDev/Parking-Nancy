@@ -168,6 +168,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   _setParkingsMarkers() {
     _markers = gny(context, listen: false).getParkingsMarkers();
+    if (gny(context, listen: false).isGnyConnection == false) {
+      ScaffoldMessenger.of(context).showSnackBar(snackBarConnexionError);
+    }
   }
 
   /// Stations de Vélo
@@ -181,20 +184,30 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   // Met à jour les données des vélos.
+  //? Message d'erreur fonctionne pas ?
   _updateBikeStations() {
     bikeStations(context, listen: false).initStations()
       .then((value) {
-        bikeStations(context, listen: false).generateStationsMarker();
         setState(() {
           _markers = bikeStations(context, listen: false).stationMarkers;
+          if (gny(context, listen: false).isGnyConnection == false) {
+            ScaffoldMessenger.of(context).showSnackBar(snackBarConnexionError);
+          } else {
+            bikeStations(context, listen: false).stationMarkers.isEmpty ?
+              _initBikeStations() : 
+              bikeStations(context, listen: false).generateStationsMarker();
+            ScaffoldMessenger.of(context).showSnackBar(snackBarPopupBikeStation);
+          }
         });
-        ScaffoldMessenger.of(context).showSnackBar(snackBarPopupBikeStation);
       });
   }
 
   // Active les marques des stations de vélos
   _setBikeStationsMarkers() {
     _markers = bikeStations(context, listen: false).stationMarkers;
+    if (gny(context, listen: false).isGnyConnection == false) {
+      ScaffoldMessenger.of(context).showSnackBar(snackBarConnexionError);
+    }
   }
 
   /// Marqueur de localisation / d'adresse
@@ -210,7 +223,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     setState(() {
       _markers.add(ban(context, listen: false).selectedDestinationMarker);
-      ;
     });
 
     _markers.forEach((marker) {
