@@ -5,13 +5,12 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:path/path.dart';
 
 import 'package:nancy_stationnement/models/station.dart';
 import 'package:nancy_stationnement/widgets/bikestation_min_popup.dart';
-// import 'package:nancy_stationnement/utils/marker_with_value.dart';
 import 'package:nancy_stationnement/config/services_config.dart' as config;
 
 class JcdecauxVelostan extends ChangeNotifier {
@@ -111,8 +110,8 @@ class JcdecauxVelostan extends ChangeNotifier {
                 FontAwesomeIcons.bicycle,
                 size: 30,
                 color: station.status == "OPEN" ? 
-                  Color.fromARGB(255, 9, 148, 81) :
-                  Color.fromARGB(255, 224, 85, 50)
+                  const Color.fromARGB(255, 9, 148, 81) :
+                  const Color.fromARGB(255, 224, 85, 50)
               ),
             ],
           )
@@ -157,7 +156,9 @@ class JcdecauxVelostan extends ChangeNotifier {
   void removeListener(VoidCallback listener) {
     // TODO: implement removeListener
     super.removeListener(listener);
-    print("removeListener here");
+    if (kDebugMode) {
+      print("removeListener here");
+    }
   }
 
 }

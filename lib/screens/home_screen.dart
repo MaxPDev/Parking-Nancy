@@ -50,36 +50,36 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isBikeMinPopupVisible = false;
   Map areParkingTitleVisible = {'three': false, 'six': false, 'all': false};
 
-  final snackBarPopupParking = SnackBar(
+  final snackBarPopupParking = const SnackBar(
     content: Text(
       text.parkingsAvailabiltyUpdated,
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.w500
       )
     ),
     backgroundColor: Colors.blue,
-    duration: const Duration(seconds: 3),
+    duration: Duration(seconds: 3),
     elevation: 5,
   );
 
-  final snackBarPopupBikeStation = SnackBar(
+  final snackBarPopupBikeStation = const SnackBar(
     content: Text(
       text.bikeStationsAvailabiltyUpdated,
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.w500
       )
     ),
     backgroundColor: Colors.green,
-    duration: const Duration(seconds: 3),
+    duration: Duration(seconds: 3),
     elevation: 5,
   );
 
-  final snackBarParking = SnackBar(
+  final snackBarParking = const SnackBar(
     content: Text(
       text.parkingsDataUpdated,
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.w500
       )
@@ -88,11 +88,11 @@ class _HomeScreenState extends State<HomeScreen> {
     elevation: 5,
   );
 
-  final snackBarConnexionError = SnackBar(
-    duration: const Duration(seconds: 7),
+  final snackBarConnexionError = const SnackBar(
+    duration: Duration(seconds: 7),
     content: Text(
       text.connexionError,
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.w500
       )
@@ -265,12 +265,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return (await showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text(text.welcomeTitle),
-            content: Text(text.welcomeText),
+            title: const Text(text.welcomeTitle),
+            content: const Text(text.welcomeText),
             actions: <Widget>[
               TextButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: Text(text.welcomeConfirm),
+                child: const Text(text.welcomeConfirm),
               ),
             ],
           ),
@@ -283,16 +283,16 @@ class _HomeScreenState extends State<HomeScreen> {
     return (await showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text(text.quitTitle),
-            content: Text(text.quitMessage),
+            title: const Text(text.quitTitle),
+            content: const Text(text.quitMessage),
             actions: <Widget>[
               TextButton(
                 onPressed: () => Navigator.of(context).pop(false),
-                child: Text(text.quitNo),
+                child: const Text(text.quitNo),
               ),
               TextButton(
                 onPressed: () => Navigator.of(context).pop(true),
-                child: Text(text.quitYes),
+                child: const Text(text.quitYes),
               ),
             ],
           ),

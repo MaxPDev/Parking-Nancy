@@ -34,7 +34,7 @@ class SideBar extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Theme.of(context).appBarTheme.backgroundColor,
                 shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.all(Radius.circular(21)),
+                borderRadius: const BorderRadius.all(const Radius.circular(21)),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -42,7 +42,7 @@ class SideBar extends StatelessWidget {
                 children: [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: const [
                       Image(
                         width: 70,
                         height: 70,
@@ -50,7 +50,7 @@ class SideBar extends StatelessWidget {
                         )
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 54,
                   ),
                   Column(
@@ -65,7 +65,7 @@ class SideBar extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 7,
                       ),
                       Row(
@@ -87,7 +87,7 @@ class SideBar extends StatelessWidget {
             title: Text(
               text.parkingUpdate,
               style: Theme.of(context).textTheme.bodyText1),
-            subtitle: Text(
+            subtitle: const Text(
               text.parkingUpdateDescr,
               // style: Theme.of(context).textTheme.bodyText1,  
             ),
@@ -100,7 +100,7 @@ class SideBar extends StatelessWidget {
               // },);
             },
           ),
-          ListTile(
+          const ListTile(
             title: Text(text.aboutTitle),
             subtitle: Text(text.aboutDescr),
           ),

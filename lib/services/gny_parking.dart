@@ -98,8 +98,10 @@ class GnyParking extends ChangeNotifier {
         });
       } else {
         //? Générer affichage d'erreur ici ?
-        print(
-            "Récupération des Parkings impossible, pas de connecion"); //? try catch ?
+        if (kDebugMode) {
+          print(
+            "Récupération des Parkings impossible, pas de connecion");
+        } 
       }
     } else {
       //? update, ou alors le faire ailleurs ?
@@ -200,7 +202,9 @@ class GnyParking extends ChangeNotifier {
           builder: (context) => GestureDetector(
             // onTap: () => //,
             onTap: () {
-              print("${parking.name} tapped");
+              if (kDebugMode) {
+                print("${parking.name} tapped");
+              }
               selectedParking = parking;
               // selectedParking = selectedParking != null ? null : parking;
               inspect(selectedParking);
@@ -238,41 +242,27 @@ class GnyParking extends ChangeNotifier {
   }
 
    // Récupère Parking depuis les coordonnées
-  //! Contournement? FAIRE AVEC LES OBJECTKEY
+
   static Parking getParkingFromCoordinates(LatLng point) {
     return _parkings.firstWhere((parking) =>
         parking.coordinates[1] == point.latitude &&
         parking.coordinates[0] == point.longitude);
-    // notifyListeners();
-    // return parking;
   }
 
-  /**
-   * Récupère et rénvoie la propriété available depuis les coordonnées
-   */
-  //! Contournement FAIRE AVEC LES OBJECTKEY
+  /// Récupère et rénvoie la propriété available depuis les coordonnées
   //TODO: optimisiation : return directement, + . availabe
   static String? getAvailableFromCoordinates(LatLng point) {
     Parking parkingPopup = _parkings.firstWhere((parking) =>
         parking.coordinates[1] == point.latitude &&
         parking.coordinates[0] == point.longitude);
-    // notifyListeners();
     return parkingPopup.available;
   }
 
-  /**
-   * Récupère et rénvoie la propriété uiColor_en depuis les coordonnées
-   */
-  //! If parkings is closed color !
-  //! Contournement FAIRE AVEC LES OBJECTKEY
+  /// Récupère et rénvoie la propriété uiColor_en depuis les coordonnées
   static Color? getColorFromCoordinates(LatLng point) {
     Parking parkingPopup = _parkings.firstWhere((parking) =>
         parking.coordinates[1] == point.latitude &&
         parking.coordinates[0] == point.longitude);
-
-    // notifyListeners();
-    // //! Prevoir le cas null pour ne pas être bloquant
-    // return HexColor(parkingPopup.colorHexa!);
 
     switch (parkingPopup.colorText) {
       case "blue":
@@ -306,6 +296,8 @@ class GnyParking extends ChangeNotifier {
   void removeListener(VoidCallback listener) {
     // TODO: implement removeListener
     super.removeListener(listener);
-    print("removeListener here");
+    if (kDebugMode) {
+      print("removeListener here");
+    }
   }
 }

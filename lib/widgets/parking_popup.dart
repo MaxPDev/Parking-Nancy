@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
-// import 'package:indexed/indexed.dart';
-// import 'package:latlong2/latlong.dart';
-
 import 'package:nancy_stationnement/models/parking.dart';
 import 'package:nancy_stationnement/services/gny_parking.dart';
 
@@ -106,7 +102,7 @@ class PopupNameAndAvailable extends StatelessWidget {
                   // height: 24,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: Color.fromRGBO(216, 212, 212, 0.54),
+                    color: const Color.fromRGBO(216, 212, 212, 0.54),
                   ),
                   child: LimitedBox(
                     maxHeight: double.infinity,
@@ -114,7 +110,7 @@ class PopupNameAndAvailable extends StatelessWidget {
                     child: Text("  ${parking.name!}  ",
                         maxLines: 3,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold)),
                   ),
                 ),
@@ -133,8 +129,8 @@ class PopupNameAndAvailable extends StatelessWidget {
                 //     initiallySelectedMarkers: _markers), //! ou pas
                 child: Text(
                   // penser à mettre à jour ceci, alors que marker sont fixe (mise à jour plus rarement, et ceux affichés doivent être issues de la BD)
-                  "${available}",
-                  style: TextStyle(color: Colors.white, fontSize: 10),
+                  "$available",
+                  style: const TextStyle(color: Colors.white, fontSize: 10),
                 ),
               )),
         ],
@@ -174,7 +170,7 @@ class PopupName extends StatelessWidget {
                   // height: 24,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: Color.fromRGBO(216, 212, 212, 0.54),
+                    color: const Color.fromRGBO(216, 212, 212, 0.54),
                   ),
                   child: LimitedBox(
                     maxHeight: double.infinity,
@@ -182,7 +178,7 @@ class PopupName extends StatelessWidget {
                     child: Text("  ${parking.name!}  ",
                         maxLines: 3,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold)),
                   ),
                 ),
@@ -223,8 +219,8 @@ class PopupAvailable extends StatelessWidget {
           //     PopupController(initiallySelectedMarkers: _markers), //! ou pas
           child: Text(
             // penser à mettre à jour ceci, alors que marker sont fixe (mise à jour plus rarement, et ceux affichés doivent être issues de la BD)
-            "${available}",
-            style: TextStyle(color: Colors.white, fontSize: 10),
+            "$available",
+            style: const TextStyle(color: Colors.white, fontSize: 10),
           ),
         ));
   }

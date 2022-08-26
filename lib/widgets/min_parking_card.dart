@@ -47,7 +47,7 @@ class MinParkingCard extends StatelessWidget {
             // Flèche d'agrandissement
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: const [
                 SizedBox(
                   height: 12,
                   child: Icon(
@@ -82,7 +82,7 @@ class MinParkingCard extends StatelessWidget {
             // Affichage si parking fermé
             parking.isClosed != null ?
               parking.isClosed == true ?
-                Text(
+                const Text(
                   text.parkingClosed, 
                   style: TextStyle(
                     color: Colors.red, 
@@ -103,7 +103,7 @@ class MinParkingCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Icon(
+                      const Icon(
                         FontAwesomeIcons.squareParking,
                         size: 24,
                         color: Colors.blue,
@@ -132,7 +132,7 @@ class MinParkingCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Icon(
+                      const Icon(
                         FontAwesomeIcons.wheelchair,
                         size: 18
                       ),
@@ -150,7 +150,7 @@ class MinParkingCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Icon(
+                      const Icon(
                         FontAwesomeIcons.chargingStation,
                         size: 18
                       ),
@@ -189,7 +189,7 @@ class MinParkingCard extends StatelessWidget {
                                 color: Colors.indigo
                               )
                             )
-                       : Text(""),
+                       : const Text(""),
                       ],
                   ),
                 ),

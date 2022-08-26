@@ -1,14 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-// import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
-// import 'package:latlong2/latlong.dart';
 
 import 'package:nancy_stationnement/models/station.dart';
 import 'package:nancy_stationnement/services/jcdecaux_velostan.dart';
-import 'package:nancy_stationnement/widgets/items.dart';
 import 'package:nancy_stationnement/text/app_text.dart' as text;
 import 'package:provider/provider.dart';
 
@@ -63,7 +58,7 @@ class _BikestationPopupState extends State<BikestationPopup> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Container(
                 alignment: Alignment.bottomCenter,
-                child: SizedBox(
+                child: const SizedBox(
                   width: 54,
                   height: 10,
                   child: LinearProgressIndicator(
@@ -118,15 +113,15 @@ class StationPopup extends StatelessWidget {
       width: 300,
       child: Container(
         // constraints: BoxConstraints(maxWidth: 300, maxHeight: 200),
-        padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+        padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
         // width: 400,
         // height: 200,
         decoration: BoxDecoration(
           color: bikeStation.status == "OPEN" ?
-          Color.fromRGBO(210, 255, 197, 0.9) :
-          Color.fromARGB(255, 241, 154, 132),
+          const Color.fromRGBO(210, 255, 197, 0.9) :
+          const Color.fromARGB(255, 241, 154, 132),
           shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.all(Radius.circular(20))),
+          borderRadius: const BorderRadius.all(Radius.circular(20))),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -141,23 +136,23 @@ class StationPopup extends StatelessWidget {
               ],
             ),
 
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             
             Row(
               children: [
-                Icon(FontAwesomeIcons.bicycle, color: Colors.black, size: 16),
-                SizedBox(
+                const Icon(FontAwesomeIcons.bicycle, color: Colors.black, size: 16),
+                const SizedBox(
                   width: 20,
                 ),
                 Text(
                   "${bikeStation.bikes} ",
-                  style: TextStyle(
+                  style: const TextStyle(
                     // fontSize: 15, 
                     fontWeight: FontWeight.bold),
                 ),
-                Text(
+                const Text(
                   text.availableBikes,
                   style: TextStyle(
                     // fontSize: 14, 
@@ -167,18 +162,18 @@ class StationPopup extends StatelessWidget {
             ),
             Row(
               children: [
-                Icon(FontAwesomeIcons.checkToSlot,
+                const Icon(FontAwesomeIcons.checkToSlot,
                     color: Colors.black, size: 16),
-                SizedBox(
+                const SizedBox(
                   width: 20,
                 ),
                 Text(
                   "${bikeStation.stands} ",
-                  style: TextStyle(
+                  style: const TextStyle(
                     // fontSize: 15, 
                     fontWeight: FontWeight.bold),
                 ),
-                Text(
+                const Text(
                   text.availableStands,
                   style: TextStyle(
                     // fontSize: 14, 
@@ -188,7 +183,7 @@ class StationPopup extends StatelessWidget {
             ),
             bikeStation.banking
                 ? Row(
-                    children: [
+                    children: const [
                       Icon(FontAwesomeIcons.creditCard,
                           color: Colors.black, size: 16),
                       SizedBox(
@@ -209,16 +204,16 @@ class StationPopup extends StatelessWidget {
                 : Container(),
             Row(
               children: [
-                Icon(FontAwesomeIcons.house,
+                const Icon(FontAwesomeIcons.house,
                     color: Colors.black, size: 16),
-                SizedBox(
+                const SizedBox(
                   width: 20,
                 ),
                 SizedBox(
                   width: 240,
                   child: Text(
-                    "${bikeStation.address}",
-                    style: TextStyle(
+                    bikeStation.address,
+                    style: const TextStyle(
                       // fontSize: 14, 
                       fontWeight: FontWeight.normal),
                     maxLines: 3,
@@ -233,7 +228,7 @@ class StationPopup extends StatelessWidget {
                   onTap: (() {
                     update();
                   }),
-                  child: Icon(Icons.update,
+                  child: const Icon(Icons.update,
                       color: Colors.black, size: 24),
                 ),
 
@@ -242,7 +237,7 @@ class StationPopup extends StatelessWidget {
             bikeStation.status == "CLOSE" ?
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: const [
                 Text(
                   " - STATION FERMÉE - ",
                   style: TextStyle(

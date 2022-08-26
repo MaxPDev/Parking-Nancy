@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -30,7 +29,7 @@ class ListAddress extends StatelessWidget {
     // liste des adresses depuis le service ban
     List<Address> addressList = ban(context, listen: true).addressList;
 
-    return addressList.length != null ? 
+    return addressList.isNotEmpty ? 
     ListView.separated(
       // shrinkWrap: true,
       itemCount: ban(context, listen: true).addressList.length,
