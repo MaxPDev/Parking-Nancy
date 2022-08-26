@@ -128,6 +128,10 @@ class _TopAppBarState extends State<TopAppBar> {
 
                 if (value != null) {
                   ban(context, listen: false).initAddress(value.trim().replaceAll(' ', '+'));
+                  // textSave = value;
+                  // widget.onEdition();
+                  // textController.text = textSave;
+                  // textController.selection = TextSelection.collapsed(offset: textSave.length);
                 }
               },
 

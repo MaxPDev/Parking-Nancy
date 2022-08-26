@@ -225,6 +225,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     setState(() {
       _markers.add(ban(context, listen: false).selectedDestinationMarker);
+      _mapController.move(ban(context, listen: false).selectedDestinationMarker.point, 16);
     });
 
     _markers.forEach((marker) {
@@ -382,8 +383,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 options: MapOptions(
                     //TODO: make and use global var/settings
                     center: LatLng(48.6907359, 6.1825126),
+                    // center: (() {
+                    //   // Si la liste des marqueur possède un marqueur correspondant à une adresse, zoom dessus
+                    //   if ( _markers.contains((marker) => marker.key == ObjectKey("address_marker")) ) {
+                    //     return _markers.firstWhere((marker) => marker.key == ObjectKey("address_marker")).point;
+                    //   }
+
+                    //   // Zoom sur point de la carte
+                    //   return LatLng(48.6907359, 6.1825126);
+                    // }()),
                     // bounds: LatLngBounds(LatLng(48.6292781, 6.0974121), LatLng(48.7589048, 6.3322449)), //# affiche la zone en délimitant des coins
                     zoom: 14.0,
+  
                     // Empêche la rotation
                     interactiveFlags:
                         InteractiveFlag.pinchZoom | InteractiveFlag.drag,
