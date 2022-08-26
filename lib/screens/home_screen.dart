@@ -344,6 +344,7 @@ class _HomeScreenState extends State<HomeScreen> {
           onClose: () {
             setState(() {
               isAddressFieldEditing = false;
+              _markers.removeWhere((marker) => marker.key == ObjectKey("address_marker"));
             });
           },
         ),
