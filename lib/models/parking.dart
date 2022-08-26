@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-final String tableParkings = "parkings";
+const String tableParkings = "parkings";
 
 class ParkingFields {
   static final List<String> values = [
@@ -31,29 +31,29 @@ class ParkingFields {
   ];
 
   // static final String osmId = "osmId";
-  static final String id = "_id";
-  static final String name = "name";
-  static final String coordinates = "coordinates";
+  static const String id = "_id";
+  static const String name = "name";
+  static const String coordinates = "coordinates";
 
-  static final String addressNumber = "addresseNumber";
-  static final String addressStreet = "addressStreet";
-  static final String address = "address";
-  static final String phone = "phone";
-  static final String website = "website";
+  static const String addressNumber = "addresseNumber";
+  static const String addressStreet = "addressStreet";
+  static const String address = "address";
+  static const String phone = "phone";
+  static const String website = "website";
 
-  static final String disabled = "disabled";
-  static final String charging = "charging";
-  static final String maxHeight = "maxHeight";
-  static final String type = "type";
-  static final String operator = "operator";
-  static final String zone = "zone";
+  static const String disabled = "disabled";
+  static const String charging = "charging";
+  static const String maxHeight = "maxHeight";
+  static const String type = "type";
+  static const String operator = "operator";
+  static const String zone = "zone";
 
-  static final String fee = "fee";
-  static final String prices = "prices";
+  static const String fee = "fee";
+  static const String prices = "prices";
 
   //* For test purposes only
-  static final String osmId = "osmId";
-  static final String osmType = "osmType";
+  static const String osmId = "osmId";
+  static const String osmType = "osmType";
 
 
   // static final String capacity = "capacity";

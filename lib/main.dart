@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
-import 'package:http/http.dart';
 
 import 'package:nancy_stationnement/screens/home_screen.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -18,11 +16,11 @@ import 'package:nancy_stationnement/services/store.dart';
 ///
 void main() async {
   //! Could be not safe (https permissions)
-  HttpOverrides.global = new MyHttpOverrides();
+  HttpOverrides.global = MyHttpOverrides();
 
   // Splashscreen longer
-  //TODO if FlutterNativeSpash.remove is not setup after initialization,
-  //TODO no need of these two line
+  //* if FlutterNativeSpash.remove is not setup after initialization,
+  //* no need of these two line
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
@@ -72,7 +70,7 @@ void main() async {
             ),
 
             // Titre dans la Parking Card
-            headline3: TextStyle(
+            headline3: const TextStyle(
               color: Colors.black,
               fontSize: 20,
               fontWeight: FontWeight.w600,
@@ -80,7 +78,7 @@ void main() async {
 
             // Titre dans la Mini Parking Card
             // Titre dans la Bike Station Popup
-            headline4: TextStyle(
+            headline4: const TextStyle(
               color: Colors.black,
               fontSize: 16,
               fontWeight: FontWeight.w600,
@@ -92,7 +90,7 @@ void main() async {
             // subtitle1: ,
 
             // Utilisé pour la "zone" dans la Mini Parking Card et la Parking Card
-            overline: TextStyle(
+            overline: const TextStyle(
               fontWeight: FontWeight.normal,
               fontStyle: FontStyle.italic,
               fontSize: 16,
@@ -102,20 +100,20 @@ void main() async {
 
             // Sous-titre Nombre de place dans Mini Parking card et Parking Card
             // (Couleur gérée dans leur widgets)
-            subtitle2: TextStyle(
+            subtitle2: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
             ),
 
             // Titre des options de la side bar
-            bodyText1: TextStyle(
+            bodyText1: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700
             ),
 
             // Texte des cards, et la popup Velostan et des déscription dans la sidebar
             // sauf les messages en cas de parkings ou stations fermés
-            bodyText2: TextStyle(
+            bodyText2: const TextStyle(
               fontSize: 15,
               // fontStyle: FontStyle.italic
             )
@@ -123,14 +121,14 @@ void main() async {
           ),
 
           // Used for main bottom app's buttons
-          primaryColor: Color.fromARGB(255, 92, 212, 92),
-          primaryColorLight: Color.fromARGB(255, 168, 207, 169),
+          primaryColor: const Color.fromARGB(255, 92, 212, 92),
+          primaryColorLight: const Color.fromARGB(255, 168, 207, 169),
 
 
 
           // Top app bar theme.
           // Color also used in background color for title card in side bar.
-          appBarTheme: AppBarTheme(
+          appBarTheme: const AppBarTheme(
             color: Color.fromARGB(255, 31, 77, 33),
             ),
           drawerTheme: DrawerThemeData(
@@ -138,17 +136,16 @@ void main() async {
           ),
 
           // Parking card color
-          cardColor: Color(0xFFE5E5E5),
+          cardColor: const Color(0xFFE5E5E5),
           // Welcome message and quit message
-          dialogBackgroundColor: Color(0xFFE5E5E5),
+          dialogBackgroundColor: const Color(0xFFE5E5E5),
 
           // main bottom app theme
-          bottomAppBarColor: Color.fromARGB(255, 92, 212, 92)
+          bottomAppBarColor: const Color.fromARGB(255, 92, 212, 92)
         ),
         //TODO: Set it to false in release version
         debugShowCheckedModeBanner: true,
-        //TODO:vmanage here themeMode
-        home: NancyStationnementApp(),
+        home: const NancyStationnementApp(),
       )));
 }
 

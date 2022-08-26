@@ -26,8 +26,8 @@ class DatabaseHandler {
   Future _createDB(Database db, int version) async {
     const idType = 'TEXT PRIMARY KEY';
     const textType = 'TEXT';
-    const boolType = 'BOOLEAN';
-    const integerType = 'INTEGER';
+    // const boolType = 'BOOLEAN';
+    // const integerType = 'INTEGER';
 
     await db.execute('''
 CREATE TABLE $tableParkings (
