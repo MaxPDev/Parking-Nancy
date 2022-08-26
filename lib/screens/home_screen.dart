@@ -1,17 +1,11 @@
-import 'dart:developer';
-import 'dart:ui';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:searchbar_animation/searchbar_animation.dart';
 
 import 'package:nancy_stationnement/widgets/main_bottom_app_bar.dart';
 import 'package:nancy_stationnement/widgets/parking_popup.dart';
@@ -27,9 +21,6 @@ import 'package:nancy_stationnement/services/gny_parking.dart';
 import 'package:nancy_stationnement/services/ban_service.dart';
 import 'package:nancy_stationnement/services/jcdecaux_velostan.dart';
 import 'package:nancy_stationnement/text/app_text.dart' as text;
-// import 'package:nancy_stationnement/utils/marker_with_value.dart';
-// import 'package:nancy_stationnement/utils/marker_with_value_cluster_layer_options.dart';
-import 'package:nancy_stationnement/utils/hex_color.dart';
 
 ///
 /// HomeScreen gère l'affichage de la map, écran principal de l'applicati=on.
@@ -48,7 +39,6 @@ class _HomeScreenState extends State<HomeScreen> {
   final MapController _mapController = MapController();
 
   // Providers
-  //TODO: dans la var, mettre jusque (context, listen: false), en vérifiant si des true sont utilisés
   final store = Provider.of<Store>;
   final gny = Provider.of<GnyParking>;
   final ban = Provider.of<BanService>;
@@ -63,33 +53,33 @@ class _HomeScreenState extends State<HomeScreen> {
   final snackBarPopupParking = SnackBar(
     content: Text(
       text.parkingsAvailabiltyUpdated,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.w500
       )
     ),
     backgroundColor: Colors.blue,
-    duration: Duration(seconds: 3),
+    duration: const Duration(seconds: 3),
     elevation: 5,
   );
 
   final snackBarPopupBikeStation = SnackBar(
     content: Text(
       text.bikeStationsAvailabiltyUpdated,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.w500
       )
     ),
     backgroundColor: Colors.green,
-    duration: Duration(seconds: 3),
+    duration: const Duration(seconds: 3),
     elevation: 5,
   );
 
   final snackBarParking = SnackBar(
     content: Text(
       text.parkingsDataUpdated,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.w500
       )
@@ -99,10 +89,10 @@ class _HomeScreenState extends State<HomeScreen> {
   );
 
   final snackBarConnexionError = SnackBar(
-    duration: Duration(seconds: 7),
+    duration: const Duration(seconds: 7),
     content: Text(
       text.connexionError,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.w500
       )
@@ -215,7 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // Affiche le marqueur de la destination
   _displayDestinationMarker() {
     _markers.forEach((marker) {
-      if (marker.key == ObjectKey("address_marker")) {
+      if (marker.key == const ObjectKey("address_marker")) {
         _markers.remove(marker);
         print("sould not be there first time");
       }
@@ -227,7 +217,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
 
     _markers.forEach((marker) {
-      if (marker.key == ObjectKey("address_marker")) {
+      if (marker.key == const ObjectKey("address_marker")) {
         print("sould not here once");
       }
     });
@@ -342,7 +332,7 @@ class _HomeScreenState extends State<HomeScreen> {
           onClose: () {
             setState(() {
               isAddressFieldEditing = false;
-              _markers.removeWhere((marker) => marker.key == ObjectKey("address_marker"));
+              _markers.removeWhere((marker) => marker.key == const ObjectKey("address_marker"));
             });
           },
         ),
@@ -359,7 +349,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Container(
                         // height: 1,
                         // color: Color.fromARGB(0, 39, 23, 23),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           border: Border(
                             bottom: BorderSide(color: Colors.grey, width: 3.0),
                           ),
@@ -498,20 +488,20 @@ class _HomeScreenState extends State<HomeScreen> {
                               PopupController(
                                   initiallySelectedMarkers: _markers
                                       .where((marker) =>
-                                          marker.key != ObjectKey("address_marker")
-                                          && marker.key != ObjectKey("bikeStation_marker")).toList()),
+                                          marker.key != const ObjectKey("address_marker")
+                                          && marker.key != const ObjectKey("bikeStation_marker")).toList()),
     
                           popupBuilder: (_, marker) {
     
                             //todo test sur key value ?
                             if (marker.key == const ObjectKey("parking_marker")) {
                               if(!gny(context, listen: false).isGnyConnection) {
-                                return SizedBox(
+                                return const SizedBox(
                                   height: 20,
                                   width: 10,
                                   child: Text(
                                     "?",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.red
                                     ),
                                   ),
@@ -567,8 +557,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       : 3
                   : 0,
               child: Container(
-                decoration: BoxDecoration(
-                  border: Border(
+                decoration: const BoxDecoration(
+                  border: const Border(
                     top: BorderSide(color: Colors.grey, width: 3.0),
                   ),
                 ),
@@ -576,7 +566,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     children: [
                       AnimatedSize(
-                        duration: Duration(milliseconds: 400),
+                        duration: const Duration(milliseconds: 400),
                         // reverseDuration: Duration(milliseconds: 0),
                         curve: Curves.linear,
                         child: Container(
@@ -612,7 +602,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   //   });
                                   // },
                                   child: isParkCardSelected
-                                      ? ParkingCard()
+                                      ? const ParkingCard()
                                       // ? isPortrait ? ParkingCard() : Text("from home")
                                       : MinParkingCard()) //todo Gesture doctor : miniCard, onTruc : Card (column->row->column)
                               : Container(),
