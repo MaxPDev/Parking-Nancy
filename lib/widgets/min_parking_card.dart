@@ -168,11 +168,10 @@ class MinParkingCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      // Text("", style: TextStyle(fontStyle: FontStyle.italic),), 
-                      // SizedBox(
-                      //   height: sizedBoxHeighMiddle,
-                      // ),
+                      
+                      // Disponibilité si info disponible pour ce parking
                       parking.available != "null" ? 
+                      // Affichage si disponibilité reçu
                         parking.available != null ?
                           Text(
                             "${parking.available} ${text.places}",
@@ -180,6 +179,7 @@ class MinParkingCard extends StatelessWidget {
                               color: HexColor(parking.colorHexa!)
                             ),
                           )
+                          // Affichage si disponibilité non reçu (connexion)
                           : Text(
                               text.unknownPlaces,
                               textAlign: TextAlign.center,

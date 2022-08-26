@@ -166,21 +166,26 @@ class ParkingCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                // Disponibilité si info disponible
-                parking.available != "null"
-                    ? Text(
-                        "${parking.available} ${text.places}",
-                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                          color: HexColor(parking.colorHexa!)
-                        )
+                // Disponibilité si info disponible pour ce parking
+                parking.available != "null" ?
+                  // Affichage si disponibilité reçu (connexion)
+                  parking.available != null ?
+                    Text(
+                      "${parking.available} ${text.places}",
+                      style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                        color: HexColor(parking.colorHexa!)
+                      ),
                     )
-                        // style: TextStyle(
-                        //   fontWeight: FontWeight.bold,
-                        //   fontSize: 18,
-                        //   //! Prévoir un cas nullable pour ne pas être bloquant
-                        //   color: HexColor(parking.colorHexa!),
-                        // ),
-                      
+                    // Affichage si disponibilité non reçu (connexion)
+                    : Text(
+                        text.unknownPlaces,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                          fontWeight: FontWeight.w500,
+                          fontStyle: FontStyle.italic,
+                          color: Colors.indigo
+                        )
+                      )
                     : Container(),
                 // Zone
                 parking.zone != null
