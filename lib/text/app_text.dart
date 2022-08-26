@@ -35,6 +35,7 @@ final String aboutDescr = "Mentions légales\nLibrairies Open Source\nVersion";
 
 //* Min Parking Card & Parking Card
 final String places = "places";
+final String unknownPlaces = "Nombre de place indisponible";
 // final String parkAndRide = "Parking Relais";
 
 //* To Route

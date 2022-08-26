@@ -62,7 +62,10 @@ class GnyParking extends ChangeNotifier {
     //TODO; Try catch, ou mettre dans initParking a else
     // // Supprime la database : pour tester le remplissage.
     // await DatabaseHandler.instance.deleteDatabase('parkings.db');
-    await DatabaseHandler.instance.resetParkingsTables();
+    // Vérifie la connection internet vers go.gny.org
+    isGnyConnection = await CheckConnection.isGnyConnection();
+    
+    if(isGnyConnection) {await DatabaseHandler.instance.resetParkingsTables();}
     // Initialise les Parking
     await initParking();
     // Génère les marqueurs
@@ -144,34 +147,38 @@ class GnyParking extends ChangeNotifier {
   // Récupère les données dynamiques de parking depuis go.g-ny.org
   //
   Future<void> fetchDynamicDataParkings() async {
-    try {
-      // Récupère les données via l'API
-      // var uri = Uri.parse('${uriGny}hot');
-      var uri = Uri.parse('${config.gnyUri}${config.gnyHot}');
-      Response response = await get(uri);
-      Map<String, dynamic> data = jsonDecode(response.body);
+    // Vérifie la connection internet vers go.gny.org
+    isGnyConnection = await CheckConnection.isGnyConnection();
+    if(isGnyConnection) {
+      try {
+        // Récupère les données via l'API
+        // var uri = Uri.parse('${uriGny}hot');
+        var uri = Uri.parse('${config.gnyUri}${config.gnyHot}');
+        Response response = await get(uri);
+        Map<String, dynamic> data = jsonDecode(response.body);
 
-      // Met à jour les objets parkings avec les nouvelles données
-      for (Parking parking in _parkings) {
-        data.forEach((key, value) {
-          if (parking.id == key) {
-            // parking.capacity = data[key]["capacity"] == null
-            //     ? null
-            //     : int?.parse(data[key]["capacity"].toString());
-            parking.capacity = data[key]["capacity"].toString();
-            parking.available = data[key]["mgn:available"].toString();
-            parking.isClosed = data[key]["mgn:closed"];
-            parking.colorHexa = data[key]["ui:color"];
-            parking.colorText = data[key]["ui:color_en"];
-          }
-        });
-      }
+        // Met à jour les objets parkings avec les nouvelles données
+        for (Parking parking in _parkings) {
+          data.forEach((key, value) {
+            if (parking.id == key) {
+              // parking.capacity = data[key]["capacity"] == null
+              //     ? null
+              //     : int?.parse(data[key]["capacity"].toString());
+              parking.capacity = data[key]["capacity"].toString();
+              parking.available = data[key]["mgn:available"].toString();
+              parking.isClosed = data[key]["mgn:closed"];
+              parking.colorHexa = data[key]["ui:color"];
+              parking.colorText = data[key]["ui:color_en"];
+            }
+          });
+        }
 
-      notifyListeners();
-    } catch (e) {
-      if (kDebugMode) {
-        print('Caught error in GnyParking.fetchDynamicDataParking() : $e');
-        // snackBarError = errorToSnack(e.toString());
+        notifyListeners();
+      } catch (e) {
+        if (kDebugMode) {
+          print('Caught error in GnyParking.fetchDynamicDataParking() : $e');
+          // snackBarError = errorToSnack(e.toString());
+        }
       }
     }
   }

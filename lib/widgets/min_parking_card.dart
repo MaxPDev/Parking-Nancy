@@ -173,18 +173,22 @@ class MinParkingCard extends StatelessWidget {
                       //   height: sizedBoxHeighMiddle,
                       // ),
                       parking.available != "null" ? 
-                      Text(
-                        "${parking.available} ${text.places}",
-                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                          color: HexColor(parking.colorHexa!)
-                        ),
-                        // style: TextStyle(
-                        //   fontWeight: FontWeight.bold,
-                        //   fontSize: 16,
-                        //   //! Prévoir un cas nullable pour ne pas être bloquant
-                        //   color: HexColor(parking.colorHexa!),
-                        // ),) :
-                      )
+                        parking.available != null ?
+                          Text(
+                            "${parking.available} ${text.places}",
+                            style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                              color: HexColor(parking.colorHexa!)
+                            ),
+                          )
+                          : Text(
+                              text.unknownPlaces,
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                                fontWeight: FontWeight.w500,
+                                fontStyle: FontStyle.italic,
+                                color: Colors.indigo
+                              )
+                            )
                        : Text(""),
                       ],
                   ),
