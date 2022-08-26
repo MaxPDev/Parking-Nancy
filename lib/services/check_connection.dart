@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
+
 // https://www.woolha.com/tutorials/flutter-check-internet-connection-examples
 
 class CheckConnection {
@@ -14,8 +16,9 @@ class CheckConnection {
       }
       return false;
     } on SocketException catch (_) {
-      // TODO: Display it on a user screen
-      print("Connection to go.g-ny.org not possible. Check your connection, and if go.g-ny.org is still accessible");
+        if (kDebugMode) {
+          print("Connection to go.g-ny.org not possible. Check your connection, and if go.g-ny.org is still accessible");
+        }
       return false;
     }
   }

@@ -56,20 +56,6 @@ class BanService extends ChangeNotifier {
       Map<String, dynamic> data = jsonDecode(response.body);
 
       return data;
-      //TODO inspect avec inspect la récupération avec les index de tableau
-      //TODO bien penser les fonctions de ce fichier (créer objets etc, séparer)
-      //TODO créer les objets, les stocker
-      //TODO faire la liste de suggestion
-      //TODO faire une variable de selection
-      //TODO afficher le marquer
-      //TODO zoomer sur lui
-      //TODO bouton ajouter départ
-
-      //TODO faire géoloc
-
-      //TODO input field number typed first doesn't work
-
-      //TODO: limit
     } catch (e) {
       if (kDebugMode) {
         print('Caught error in fetchDataAdressFromInput() : $e');
@@ -104,11 +90,9 @@ class BanService extends ChangeNotifier {
     }
   }
 
-  //TODO: Marker generator
-
   void generateDistinationAdresseMarker() {
     selectedDestinationMarker = Marker(
-      key: ObjectKey("address_marker"),
+      key: const ObjectKey("address_marker"),
       point: LatLng(selectedDestinationAddress!.lat, selectedDestinationAddress!.long), 
       width: 40,
       height: 40,

@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -12,7 +12,6 @@ import 'dart:developer';
 import 'package:nancy_stationnement/models/parking.dart';
 import 'package:nancy_stationnement/database/database_handler.dart';
 import 'package:nancy_stationnement/services/check_connection.dart';
-import 'package:nancy_stationnement/utils/hex_color.dart';
 import 'package:nancy_stationnement/config/services_config.dart' as config;
 
 class GnyParking extends ChangeNotifier {
@@ -59,9 +58,10 @@ class GnyParking extends ChangeNotifier {
 
     // Supprime la DB pour la remplir à nouveauPrépare la liste de parking, génère les marqueur
   Future<void> reInitParkingAndGenerateMarkers() async {
-    //TODO; Try catch, ou mettre dans initParking a else
-    // // Supprime la database : pour tester le remplissage.
-    // await DatabaseHandler.instance.deleteDatabase('parkings.db');
+
+    // Supprime la database : pour tester le remplissage.
+      // await DatabaseHandler.instance.deleteDatabase('parkings.db');
+
     // Vérifie la connection internet vers go.gny.org
     isGnyConnection = await CheckConnection.isGnyConnection();
     
@@ -93,7 +93,7 @@ class GnyParking extends ChangeNotifier {
         Map<String, dynamic> data = await fetchDataParkings();
 
         data.forEach((key, value) async {
-          var id = await DatabaseHandler.instance
+          await DatabaseHandler.instance
               .createParking(Parking.fromAPIJson(data[key]));
         });
       } else {

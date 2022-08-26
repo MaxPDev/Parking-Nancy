@@ -204,23 +204,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Affiche le marqueur de la destination
   _displayDestinationMarker() {
-    _markers.forEach((marker) {
+    for (var marker in _markers) {
       if (marker.key == const ObjectKey("address_marker")) {
         _markers.remove(marker);
-        print("sould not be there first time");
       }
-    });
+    }
 
     setState(() {
       _markers.add(ban(context, listen: false).selectedDestinationMarker);
       _mapController.move(ban(context, listen: false).selectedDestinationMarker.point, 16);
     });
 
-    _markers.forEach((marker) {
+    for (var marker in _markers) {
       if (marker.key == const ObjectKey("address_marker")) {
-        print("sould not here once");
       }
-    });
+    }
   }
 
 
@@ -234,7 +232,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     // Charge l'initialisation des marqueur de Parkings au permiers chargement
@@ -268,12 +265,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return (await showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: new Text(text.welcomeTitle),
-            content: new Text(text.welcomeText),
+            title: Text(text.welcomeTitle),
+            content: Text(text.welcomeText),
             actions: <Widget>[
               TextButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: new Text(text.welcomeConfirm),
+                child: Text(text.welcomeConfirm),
               ),
             ],
           ),
@@ -286,16 +283,16 @@ class _HomeScreenState extends State<HomeScreen> {
     return (await showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: new Text(text.quitTitle),
-            content: new Text(text.quitMessage),
+            title: Text(text.quitTitle),
+            content: Text(text.quitMessage),
             actions: <Widget>[
               TextButton(
                 onPressed: () => Navigator.of(context).pop(false),
-                child: new Text(text.quitNo),
+                child: Text(text.quitNo),
               ),
               TextButton(
                 onPressed: () => Navigator.of(context).pop(true),
-                child: new Text(text.quitYes),
+                child: Text(text.quitYes),
               ),
             ],
           ),
@@ -308,8 +305,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
-    String _selectedMarkers = ""; // useless ??
-
 
     return WillPopScope(
       onWillPop: _onWillPop,
@@ -318,8 +313,6 @@ class _HomeScreenState extends State<HomeScreen> {
         // floatingActionButton: Icon(Icons.refresh),
         // floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
         // BottomBar
-        //TODO: Doit être une search bar, ou celle-ci doit être en dessous.
-        //TODO: Faire une fonction deselectParking si utilisable ailleurs //! Fait réduire la Parking Card lors d'une selection d'une icon : not wanted
         // appBar: TopAppBar(onExpansionComplete: () {isParkCardSelected = false;}),
         appBar: TopAppBar(
           onEdition: () {
@@ -421,8 +414,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         }
                       }
                     },
-    
-                    // //TODO: Make hide popup when tap map work
+
                     // onTap: (_, __) => _popupController.hidePopupsOnlyFor(_markers)
                     //TODO: placer destination avec un onLongPress: ,
                     onTap: (_, __) {
@@ -501,7 +493,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   width: 10,
                                   child: Text(
                                     "?",
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       color: Colors.red
                                     ),
                                   ),
@@ -522,15 +514,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             }
                             return Container();
     
-                            // //TODO: faire une fonction switch case de popup qui gère tout les type de popup
-                            // if (marker.key != ObjectKey("address_marker") &&
-                            //     marker.key != ObjectKey("bikeStation_marker")) {
-                            //   return ParkingPopup(
-                            //       markers: _markers,
-                            //       marker: marker,
-                            //       parkingTitle: areParkingTitleVisible);
-                            // }
-                            // return Container();
+                            //? faire une fonction switch case de popup qui gère tout les type de popup
+
                           }),
                       builder: (context, markers) {
                         // Affichage du Widget du Cluster
@@ -558,7 +543,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   : 0,
               child: Container(
                 decoration: const BoxDecoration(
-                  border: const Border(
+                  border: Border(
                     top: BorderSide(color: Colors.grey, width: 3.0),
                   ),
                 ),
@@ -579,15 +564,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               ? GestureDetector(
                                   behavior: HitTestBehavior.translucent,
                                   onPanUpdate: (details) {
+                                    // drag up
                                     if (details.delta.dy < 1) {
-                                      print("dragup");
                                       if (!isParkCardSelected) {
                                         setState(() {
                                           isParkCardSelected = true;
                                         });
                                       }
                                     } else {
-                                      print("drag down");
+                                      // drag down
                                       if (isParkCardSelected) {
                                         setState(() {
                                           isParkCardSelected = false;
