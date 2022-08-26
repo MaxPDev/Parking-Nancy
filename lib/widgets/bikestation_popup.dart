@@ -7,9 +7,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:latlong2/latlong.dart';
 
 import 'package:nancy_stationnement/models/station.dart';
-import 'package:nancy_stationnement/services/global_text.dart';
 import 'package:nancy_stationnement/services/jcdecaux_velostan.dart';
 import 'package:nancy_stationnement/widgets/items.dart';
+import 'package:nancy_stationnement/text/app_text.dart' as text;
 import 'package:provider/provider.dart';
 
 class BikestationPopup extends StatefulWidget {
@@ -97,7 +97,6 @@ class StationPopup extends StatelessWidget {
   final Station bikeStation;
   final Function update;
 
-  final text = Provider.of<GlobalText>;
 
 
   // Traite le texte de titre pour enlever le numéro de station et la mention "CB"
@@ -159,7 +158,7 @@ class StationPopup extends StatelessWidget {
                     fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  text(context, listen: false).availableBikes,
+                  text.availableBikes,
                   style: TextStyle(
                     // fontSize: 14, 
                     fontWeight: FontWeight.normal),
@@ -180,7 +179,7 @@ class StationPopup extends StatelessWidget {
                     fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  text(context, listen: false).availableStands,
+                  text.availableStands,
                   style: TextStyle(
                     // fontSize: 14, 
                     fontWeight: FontWeight.normal),
@@ -198,7 +197,7 @@ class StationPopup extends StatelessWidget {
                       SizedBox(
                         width: 244,
                         child: Text(
-                          text(context, listen: false).availableCreditCardPayment,
+                          text.availableCreditCardPayment,
                           style: TextStyle(
                               // fontSize: 14, 
                               fontWeight: FontWeight.normal),

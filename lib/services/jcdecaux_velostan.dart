@@ -12,7 +12,7 @@ import 'package:path/path.dart';
 import 'package:nancy_stationnement/models/station.dart';
 import 'package:nancy_stationnement/widgets/bikestation_min_popup.dart';
 // import 'package:nancy_stationnement/utils/marker_with_value.dart';
-import 'package:nancy_stationnement/services_config.dart' as config;
+import 'package:nancy_stationnement/config/services_config.dart' as config;
 
 class JcdecauxVelostan extends ChangeNotifier {
   // https://developer.jcdecaux.com/#/opendata/vls?page=dynamic&contract=nancy

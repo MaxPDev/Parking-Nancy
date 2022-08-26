@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:searchbar_animation/searchbar_animation.dart';
 
 import 'package:nancy_stationnement/services/ban_service.dart';
-import 'package:nancy_stationnement/services/global_text.dart';
+import 'package:nancy_stationnement/text/app_text.dart' as text;
 
 class TopAppBar extends StatefulWidget implements PreferredSizeWidget {
   TopAppBar({
@@ -30,7 +30,6 @@ class TopAppBar extends StatefulWidget implements PreferredSizeWidget {
 
 class _TopAppBarState extends State<TopAppBar> {
   final ban = Provider.of<BanService>;
-  final text = Provider.of<GlobalText>;
 
   final textController = TextEditingController();
 
@@ -66,7 +65,7 @@ class _TopAppBarState extends State<TopAppBar> {
       ),
       //TODO: make and use global var/settings
       title: Text(
-        text(context, listen: false).appTitle,
+        text.appTitle,
         // style: TextStyle(fontSize: 18, overflow: TextOverflow.visible),
         style: Theme.of(context).textTheme.headline2,
       ),
@@ -82,7 +81,7 @@ class _TopAppBarState extends State<TopAppBar> {
               textEditingController: textController,
               durationInMilliSeconds: 421,
               isOriginalAnimation: false,
-              hintText: text(context, listen: false).hintText,
+              hintText: text.hintText,
               searchBoxWidth: width * 0.70,
               enableBoxBorder: true,
               enableBoxShadow: true,
@@ -104,6 +103,23 @@ class _TopAppBarState extends State<TopAppBar> {
                   textController.text = textSave;
                   textController.selection = TextSelection.collapsed(offset: textSave.length);
                   }
+                }
+
+              },
+
+              onEditingComplete: (String? value) {
+                if (kDebugMode) {
+                  print("on changed $value");
+                }
+
+                if (value != null) {
+                  ban(context, listen: false).initAddress(value.trim().replaceAll(' ', '+'));
+        
+                  textSave = value;
+                  widget.onEdition();
+                  textController.text = textSave;
+                  textController.selection = TextSelection.collapsed(offset: textSave.length);
+                  
                 }
 
               },

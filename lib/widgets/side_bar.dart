@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:nancy_stationnement/services/gny_parking.dart';
-import 'package:nancy_stationnement/services/global_text.dart';
+import 'package:nancy_stationnement/text/app_text.dart' as text;
 
 class SideBar extends StatelessWidget {
   const SideBar({
@@ -12,7 +12,6 @@ class SideBar extends StatelessWidget {
   }) : super(key: key);
 
   final gny = Provider.of<GnyParking>;
-  final text = Provider.of<GlobalText>;
 
   final Function updateParking;
 
@@ -86,10 +85,10 @@ class SideBar extends StatelessWidget {
           ),
           ListTile(
             title: Text(
-              text(context, listen: false).parkingUpdate,
+              text.parkingUpdate,
               style: Theme.of(context).textTheme.bodyText1),
             subtitle: Text(
-              text(context, listen: false).parkingUpdateDescr,
+              text.parkingUpdateDescr,
               // style: Theme.of(context).textTheme.bodyText1,  
             ),
             onTap: () {
@@ -102,8 +101,8 @@ class SideBar extends StatelessWidget {
             },
           ),
           ListTile(
-            title: Text(text(context, listen: false).aboutTitle),
-            subtitle: Text(text(context, listen: false).aboutDescr),
+            title: Text(text.aboutTitle),
+            subtitle: Text(text.aboutDescr),
           ),
         ],
       ),

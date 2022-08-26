@@ -9,7 +9,6 @@ import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:latlong2/latlong.dart';
-import 'package:nancy_stationnement/services/global_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:searchbar_animation/searchbar_animation.dart';
@@ -27,8 +26,7 @@ import 'package:nancy_stationnement/services/store.dart';
 import 'package:nancy_stationnement/services/gny_parking.dart';
 import 'package:nancy_stationnement/services/ban_service.dart';
 import 'package:nancy_stationnement/services/jcdecaux_velostan.dart';
-import 'package:nancy_stationnement/services/global_text.dart';
-
+import 'package:nancy_stationnement/text/app_text.dart' as text;
 // import 'package:nancy_stationnement/utils/marker_with_value.dart';
 // import 'package:nancy_stationnement/utils/marker_with_value_cluster_layer_options.dart';
 import 'package:nancy_stationnement/utils/hex_color.dart';
@@ -55,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final gny = Provider.of<GnyParking>;
   final ban = Provider.of<BanService>;
   final bikeStations = Provider.of<JcdecauxVelostan>;
-  final text = Provider.of<GlobalText>;
+
   List<Marker> _markers = [];
   bool isParkCardSelected = false;
   bool isAddressFieldEditing = false;
@@ -64,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final snackBarPopupParking = SnackBar(
     content: Text(
-      GlobalText().parkingsAvailabiltyUpdated,
+      text.parkingsAvailabiltyUpdated,
       style: TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.w500
@@ -77,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final snackBarPopupBikeStation = SnackBar(
     content: Text(
-      GlobalText().bikeStationsAvailabiltyUpdated,
+      text.bikeStationsAvailabiltyUpdated,
       style: TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.w500
@@ -90,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final snackBarParking = SnackBar(
     content: Text(
-      GlobalText().parkingsDataUpdated,
+      text.parkingsDataUpdated,
       style: TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.w500
@@ -103,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final snackBarConnexionError = SnackBar(
     duration: Duration(seconds: 7),
     content: Text(
-      GlobalText().connexionError,
+      text.connexionError,
       style: TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.w500
@@ -280,12 +278,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return (await showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: new Text(GlobalText.welcomeTitle),
-            content: new Text(GlobalText.welcomeText),
+            title: new Text(text.welcomeTitle),
+            content: new Text(text.welcomeText),
             actions: <Widget>[
               TextButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: new Text(GlobalText.welcomeConfirm),
+                child: new Text(text.welcomeConfirm),
               ),
             ],
           ),
@@ -298,16 +296,16 @@ class _HomeScreenState extends State<HomeScreen> {
     return (await showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: new Text(GlobalText.quitTitle),
-            content: new Text(GlobalText.quitMessage),
+            title: new Text(text.quitTitle),
+            content: new Text(text.quitMessage),
             actions: <Widget>[
               TextButton(
                 onPressed: () => Navigator.of(context).pop(false),
-                child: new Text(GlobalText.quitNo),
+                child: new Text(text.quitNo),
               ),
               TextButton(
                 onPressed: () => Navigator.of(context).pop(true),
-                child: new Text(GlobalText.quitYes),
+                child: new Text(text.quitYes),
               ),
             ],
           ),

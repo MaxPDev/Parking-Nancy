@@ -7,7 +7,7 @@ import 'package:map_launcher/map_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:nancy_stationnement/models/parking.dart';
-import 'package:nancy_stationnement/services/global_text.dart';
+import 'package:nancy_stationnement/text/app_text.dart' as text;
 
 class ToRouteApp extends StatelessWidget {
   const ToRouteApp({
@@ -20,7 +20,6 @@ class ToRouteApp extends StatelessWidget {
 
   final Parking _parking;
   // final double? _normalTextCardFontSize;
-  final text = Provider.of<GlobalText>;
 
   openMapsSheet(context, double lat, double long, String name) async {
     try {
@@ -87,7 +86,7 @@ class ToRouteApp extends StatelessWidget {
               width: 10,
             ),
             Text(
-              text(context, listen: false).go,
+              text.go,
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   // fontSize: _normalTextCardFontSize

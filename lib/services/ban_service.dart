@@ -10,7 +10,7 @@ import 'package:latlong2/latlong.dart';
 
 import 'package:nancy_stationnement/models/address.dart';
 
-import 'package:nancy_stationnement/services_config.dart' as config;
+import 'package:nancy_stationnement/config/services_config.dart' as config;
 
 class BanService extends ChangeNotifier {
   // // URI de la Base Adresse Nationale

@@ -13,7 +13,7 @@ import 'package:nancy_stationnement/models/parking.dart';
 import 'package:nancy_stationnement/database/database_handler.dart';
 import 'package:nancy_stationnement/services/check_connection.dart';
 import 'package:nancy_stationnement/utils/hex_color.dart';
-import 'package:nancy_stationnement/services_config.dart' as config;
+import 'package:nancy_stationnement/config/services_config.dart' as config;
 
 class GnyParking extends ChangeNotifier {
 
