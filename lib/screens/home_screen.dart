@@ -204,11 +204,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Affiche le marqueur de la destination
   _displayDestinationMarker() {
-    // for (var marker in _markers) {
-    //   if (marker.key == const ObjectKey("address_marker")) {
-    //     _markers.remove(marker);
-    //   }
-    // }
     _markers.removeWhere((marker) => marker.key == const ObjectKey("address_marker"),);
     _markers.add(ban(context, listen: false).selectedDestinationMarker);
 
