@@ -618,9 +618,16 @@ class _HomeScreenState extends State<HomeScreen> {
               } else {
                 store(context, listen: false).userSelection = "parkings";
                 _setParkingsMarkers();
+                // Rencentre la map à sa position initial
+                // _mapController.move(LatLng(48.6907359, 6.1825126), 14);
               }
                 break;
-    
+              
+              case "center":
+                // Rencentre la map à sa position initial
+                _mapController.move(LatLng(48.6907359, 6.1825126), 14);
+                break;
+
               case "bikeStations":
               // Si parkings est déjà sélectionné : mis à jour des données dynamiques (disponibilité dans popup)
               if(store(context, listen: false).userSelection == "bikeStations") {
@@ -632,6 +639,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 gny(context, listen: false).selectedParking = null;
                 isParkCardSelected = false;
                 _setBikeStationsMarkers();
+                // Rencentre la map à sa position initial
+                // _mapController.move(LatLng(48.6907359, 6.1825126), 14);
               }
                 break;
               default:

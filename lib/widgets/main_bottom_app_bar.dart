@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'package:nancy_stationnement/services/store.dart';
@@ -90,6 +91,21 @@ class _MainBottomAppBarState extends State<MainBottomAppBar> {
                   
                 },
                 icon: const Icon(Icons.directions_bike)),
+          ),
+          Container(
+            color: Theme.of(context).primaryColor,
+            child: IconButton(
+                onPressed: () {
+                  if (kDebugMode) {
+                    print("Center button pressed");
+                  }
+
+                  widget.onUpdateTap("center");
+                  
+                },
+                icon: const Icon(
+                  Icons.center_focus_strong_rounded,
+                  size: 20,)),
           ),
           Container(
             color: selectedButton == "parkings" ? 
