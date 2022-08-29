@@ -175,6 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
     
     if(ban(context, listen: false).selectedDestinationMarker != null)
      {_markers.add(ban(context, listen: false).selectedDestinationMarker!);}
+     else {_markers.removeWhere((marker) => marker.key == const ObjectKey("address_marker"));}
 
     if (gny(context, listen: false).isGnyConnection == false) {
       ScaffoldMessenger.of(context).showSnackBar(snackBarConnexionError);
@@ -221,6 +222,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if(ban(context, listen: false).selectedDestinationMarker != null)
      {_markers.add(ban(context, listen: false).selectedDestinationMarker!);}
+     else {_markers.removeWhere((marker) => marker.key == const ObjectKey("address_marker"));}
+
+  
 
     if (gny(context, listen: false).isGnyConnection == false) {
       ScaffoldMessenger.of(context).showSnackBar(snackBarConnexionError);

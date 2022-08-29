@@ -26,10 +26,10 @@ const String hintText = "Destination...";
 
 //* Side Bar
 const String parkingUpdate = "Mettre à jour les informations des parkings";
-const String parkingUpdateDescr = "Met à jour les nombres de place pour personne à mobilité réduite, les places avec borne de recharge electrique, les tarifs et autres informations. \nUne pression sur le bouton P rafraichit seulement le nombre de places restantes dans les parkings.";
+const String parkingUpdateDescr = "Met à jour les informations générales sur les parkings \n(autre que la disponibilité)";
 
 const String aboutTitle = "À propos";
-const String aboutDescr = "Mentions légales\nLibrairies Open Source\nVersion";
+const String aboutDescr = "Mentions légales (à rédiger)\nLibrairies Open Source (à rédiger) \nVersion 1.0.0\n\nApplication développée par la Ville de Nancy";
 
 //==========================================
 
