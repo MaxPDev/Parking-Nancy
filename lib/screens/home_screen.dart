@@ -50,6 +50,8 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isBikeMinPopupVisible = false;
   Map areParkingTitleVisible = {'three': false, 'six': false, 'all': false};
 
+  Marker? addressMarker;
+
   final snackBarPopupParking = const SnackBar(
     content: Text(
       text.parkingsAvailabiltyUpdated,
@@ -124,20 +126,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Lance la mise à jour des données de parkings
   _updateParking() {
-      gny(context, listen: false)
-        .reInitParkingAndGenerateMarkers()
-        .then((value) => {
-              setState(() {
-                _markers = gny(context, listen: false).getParkingsMarkers();
-                if (gny(context, listen: false).isGnyConnection == false) {
-                  ScaffoldMessenger.of(context).showSnackBar(snackBarConnexionError);
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(snackBarParking);
-                  // Bascule sur l'onglet parking
-                  store(context, listen: false).userSelection = "parkings";
-                }
-              }),
-            });
+  
+    gny(context, listen: false)
+      .reInitParkingAndGenerateMarkers()
+      .then((value) => {
+            setState(() {
+              _markers = gny(context, listen: false).getParkingsMarkers();
+
+
+            if(ban(context, listen: false).selectedDestinationMarker != null)
+              {_markers.add(ban(context, listen: false).selectedDestinationMarker!);}
+
+              if (gny(context, listen: false).isGnyConnection == false) {
+                ScaffoldMessenger.of(context).showSnackBar(snackBarConnexionError);
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(snackBarParking);
+                // Bascule sur l'onglet parking
+                store(context, listen: false).userSelection = "parkings";
+              }
+            }),
+          });
   }
 
   // Lance la mise à jour de la disponibilité des parkings
@@ -147,6 +155,11 @@ class _HomeScreenState extends State<HomeScreen> {
       .then((value) => {
         setState(() {
           _markers = gny(context, listen: false).getParkingsMarkers();
+
+          
+    if(ban(context, listen: false).selectedDestinationMarker != null)
+     {_markers.add(ban(context, listen: false).selectedDestinationMarker!);}
+
           if (gny(context, listen: false).isGnyConnection == false) {
             ScaffoldMessenger.of(context).showSnackBar(snackBarConnexionError);
           } else {
@@ -158,6 +171,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   _setParkingsMarkers() {
     _markers = gny(context, listen: false).getParkingsMarkers();
+
+    
+    if(ban(context, listen: false).selectedDestinationMarker != null)
+     {_markers.add(ban(context, listen: false).selectedDestinationMarker!);}
+
     if (gny(context, listen: false).isGnyConnection == false) {
       ScaffoldMessenger.of(context).showSnackBar(snackBarConnexionError);
     }
@@ -180,6 +198,11 @@ class _HomeScreenState extends State<HomeScreen> {
       .then((value) {
         setState(() {
           _markers = bikeStations(context, listen: false).stationMarkers;
+
+          
+    if(ban(context, listen: false).selectedDestinationMarker != null)
+     {_markers.add(ban(context, listen: false).selectedDestinationMarker!);}
+
           if (gny(context, listen: false).isGnyConnection == false) {
             ScaffoldMessenger.of(context).showSnackBar(snackBarConnexionError);
           } else {
@@ -195,6 +218,10 @@ class _HomeScreenState extends State<HomeScreen> {
   // Active les marques des stations de vélos
   _setBikeStationsMarkers() {
     _markers = bikeStations(context, listen: false).stationMarkers;
+
+    if(ban(context, listen: false).selectedDestinationMarker != null)
+     {_markers.add(ban(context, listen: false).selectedDestinationMarker!);}
+
     if (gny(context, listen: false).isGnyConnection == false) {
       ScaffoldMessenger.of(context).showSnackBar(snackBarConnexionError);
     }
@@ -205,10 +232,10 @@ class _HomeScreenState extends State<HomeScreen> {
   // Affiche le marqueur de la destination
   _displayDestinationMarker() {
     _markers.removeWhere((marker) => marker.key == const ObjectKey("address_marker"),);
-    _markers.add(ban(context, listen: false).selectedDestinationMarker);
+    _markers.add(ban(context, listen: false).selectedDestinationMarker!);
 
     setState(() {
-      _mapController.move(ban(context, listen: false).selectedDestinationMarker.point, 16);
+      _mapController.move(ban(context, listen: false).selectedDestinationMarker!.point, 16);
     });
 
     for (var marker in _markers) {
@@ -323,6 +350,7 @@ class _HomeScreenState extends State<HomeScreen> {
             setState(() {
               isAddressFieldEditing = false;
               _markers.removeWhere((marker) => marker.key == const ObjectKey("address_marker"));
+              ban(context, listen: false).selectedDestinationMarker = null;
             });
           },
         ),

@@ -25,7 +25,7 @@ class BanService extends ChangeNotifier {
 
   List<Address> addressList = [];
   Address? selectedDestinationAddress;
-  late Marker selectedDestinationMarker;
+  Marker? selectedDestinationMarker;
 
   BanService() {
     if (kDebugMode) {
