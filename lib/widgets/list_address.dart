@@ -49,7 +49,7 @@ class ListAddress extends StatelessWidget {
           // leading: Text("${address.housenumber}"),
           subtitle: Text("${address.postcode} ${address.city}"),
           title: Text("${address.name}"),
-          trailing: Text("${roundDistanceInKm(address.distance)} km", style: TextStyle(fontStyle: FontStyle.italic),),
+          // trailing: Text("${roundDistanceInKm(address.distance)} km", style: TextStyle(fontStyle: FontStyle.italic),),
 
           onTap: () {
             ban(context, listen: false).selectedDestinationAddress = address;
