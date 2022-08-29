@@ -82,7 +82,9 @@ class _TopAppBarState extends State<TopAppBar> {
               durationInMilliSeconds: 421,
               isOriginalAnimation: false,
               hintText: text.hintText,
-              searchBoxWidth: width * 0.70,
+              // // Largeur si l'icone de localisation est utilisé 
+              // searchBoxWidth: width * 0.70, 
+              searchBoxWidth: width * 0.84, 
               enableBoxBorder: true,
               enableBoxShadow: true,
               // enableButtonBorder: true,
@@ -157,14 +159,14 @@ class _TopAppBarState extends State<TopAppBar> {
             ),
           ),
         ),
-        Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-            child: IconButton(
-              icon: Icon(Icons.location_searching, color: Colors.white),
-              iconSize: 30,
-              color: Colors.white,
-              onPressed: () {},
-            )),
+        // Padding(
+        //     padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+        //     child: IconButton(
+        //       icon: Icon(Icons.location_searching, color: Colors.white),
+        //       iconSize: 30,
+        //       color: Colors.white,
+        //       onPressed: () {},
+        //     )),
       ],
       actionsIconTheme:
           IconThemeData(size: 10.0, color: Colors.white, opacity: 0.7),

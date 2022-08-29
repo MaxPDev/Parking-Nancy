@@ -144,7 +144,7 @@ void main() async {
           bottomAppBarColor: const Color.fromARGB(255, 92, 212, 92)
         ),
         //TODO: Set it to false in release version
-        debugShowCheckedModeBanner: true,
+        debugShowCheckedModeBanner: false,
         home: const NancyStationnementApp(),
       )));
 }
