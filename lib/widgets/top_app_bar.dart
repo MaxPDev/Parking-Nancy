@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:searchbar_animation/searchbar_animation.dart';
 
 import 'package:nancy_stationnement/services/ban_service.dart';
+import 'package:nancy_stationnement/services/store.dart';
+
 import 'package:nancy_stationnement/text/app_text.dart' as text;
 
 class TopAppBar extends StatefulWidget implements PreferredSizeWidget {

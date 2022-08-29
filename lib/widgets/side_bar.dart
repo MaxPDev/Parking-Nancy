@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
+import 'package:nancy_stationnement/services/store.dart';
 import 'package:nancy_stationnement/services/gny_parking.dart';
 import 'package:nancy_stationnement/text/app_text.dart' as text;
 
@@ -12,23 +13,20 @@ class SideBar extends StatelessWidget {
   }) : super(key: key);
 
   final gny = Provider.of<GnyParking>;
+  final store = Provider.of<Store>;
 
   final Function updateParking;
 
   @override
   Widget build(BuildContext context) {
 
-    // final snackBarParking = SnackBar(
-    //   content: Text("Données des Parkings mis à jour"),
-    //   backgroundColor: Colors.blue,
-    //   elevation: 5,
-    // );
-
     return Drawer(
       // backgroundColor: Colors.green[200],
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
+
+          // Header Logo + Nom de l'applicatin
           DrawerHeader(
             child: Container(
               decoration: BoxDecoration(
@@ -83,6 +81,8 @@ class SideBar extends StatelessWidget {
               )
             ),
           ),
+
+          // Mise à jour des données de parkings
           ListTile(
             title: Text(
               text.parkingUpdate,
@@ -93,7 +93,10 @@ class SideBar extends StatelessWidget {
             ),
             onTap: () {
               updateParking();
+              store(context, listen: false).userSelection = "parkings";
+
               Scaffold.of(context).closeDrawer();
+
               
               // gny(context, listen: false).reInitParkingAndGenerateMarkers()
               // .then((value) {

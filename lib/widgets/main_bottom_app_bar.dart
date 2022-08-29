@@ -75,7 +75,8 @@ class _MainBottomAppBarState extends State<MainBottomAppBar> {
           // //       icon: const Icon(Icons.charging_station)),
           // // ),
           Container(
-            color: selectedButton == "bikestation" ? 
+            // color: selectedButton == "bikestation" ? 
+            color: store(context, listen: false).userSelection == "bikeStations" ?
               Theme.of(context).primaryColorLight :
               Theme.of(context).primaryColor,
             child: IconButton(
@@ -108,7 +109,8 @@ class _MainBottomAppBarState extends State<MainBottomAppBar> {
                   size: 20,)),
           ),
           Container(
-            color: selectedButton == "parkings" ? 
+            // color: selectedButton == "parkings" ? 
+            color: store(context, listen: false).userSelection == "parkings" ?
               Theme.of(context).primaryColorLight :
               Theme.of(context).primaryColor,
             child: IconButton(
