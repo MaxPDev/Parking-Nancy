@@ -204,19 +204,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Affiche le marqueur de la destination
   _displayDestinationMarker() {
-    for (var marker in _markers) {
-      if (marker.key == const ObjectKey("address_marker")) {
-        _markers.remove(marker);
-      }
-    }
+    // for (var marker in _markers) {
+    //   if (marker.key == const ObjectKey("address_marker")) {
+    //     _markers.remove(marker);
+    //   }
+    // }
+    _markers.removeWhere((marker) => marker.key == const ObjectKey("address_marker"),);
+    _markers.add(ban(context, listen: false).selectedDestinationMarker);
 
     setState(() {
-      _markers.add(ban(context, listen: false).selectedDestinationMarker);
       _mapController.move(ban(context, listen: false).selectedDestinationMarker.point, 16);
     });
 
     for (var marker in _markers) {
       if (marker.key == const ObjectKey("address_marker")) {
+        print("address marker");
       }
     }
   }
