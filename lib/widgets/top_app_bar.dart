@@ -91,6 +91,21 @@ class _TopAppBarState extends State<TopAppBar> {
               // enableButtonShadow: true,
 
               // onExpansionComplete: onEdition,
+              onExpansionComplete: (String? value) {
+                if (kDebugMode) {
+                  print("on expansion complete $value");
+                }
+
+                // if (value != null && value.length > 3) {
+                //   ban(context, listen: false).initAddress(value.trim().replaceAll(' ', '+'));
+                //   if (value.length > 5) {
+                //   textSave = value;
+                //   widget.onEdition();
+                //   textController.text = textSave;
+                //   textController.selection = TextSelection.collapsed(offset: textSave.length);
+                //   }
+                // }
+              },
               
               onChanged: (String? value) {
                 if (kDebugMode) {

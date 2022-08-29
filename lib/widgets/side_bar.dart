@@ -34,7 +34,7 @@ class SideBar extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Theme.of(context).appBarTheme.backgroundColor,
                 shape: BoxShape.rectangle,
-                borderRadius: const BorderRadius.all(const Radius.circular(21)),
+                borderRadius: const BorderRadius.all(Radius.circular(21)),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,

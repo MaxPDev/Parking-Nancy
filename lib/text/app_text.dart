@@ -29,7 +29,7 @@ const String parkingUpdate = "Mettre à jour les informations des parkings";
 const String parkingUpdateDescr = "Met à jour les informations générales sur les parkings \n(autre que la disponibilité)";
 
 const String aboutTitle = "À propos";
-const String aboutDescr = "Mentions légales (à rédiger)\nLibrairies Open Source (à rédiger) \nVersion 1.0.0\n\nApplication développée par la Ville de Nancy";
+const String aboutDescr = "Mentions légales (à rédiger)\nLibrairies Open Source (à rédiger) \nVersion 1.0.0\n\nParking Nancy est une application\ndéveloppée par la Ville de Nancy.";
 
 //==========================================
 
