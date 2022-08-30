@@ -621,7 +621,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: isParkCardSelected
                                       ? const ParkingCard()
                                       // ? isPortrait ? ParkingCard() : Text("from home")
-                                      : MinParkingCard()) //todo Gesture doctor : miniCard, onTruc : Card (column->row->column)
+                                      : const MinParkingCard()) //todo Gesture doctor : miniCard, onTruc : Card (column->row->column)
                               : Container(),
                         ),
                       ),
