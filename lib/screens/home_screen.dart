@@ -20,12 +20,10 @@ import 'package:nancy_stationnement/services/store.dart';
 import 'package:nancy_stationnement/services/gny_parking.dart';
 import 'package:nancy_stationnement/services/ban_service.dart';
 import 'package:nancy_stationnement/services/jcdecaux_velostan.dart';
+
 import 'package:nancy_stationnement/text/app_text.dart' as text;
 
-///
-/// HomeScreen gère l'affichage de la map, écran principal de l'applicati=on.
-///
-
+/// HomeScreen gère l'affichage de la map, écran principal de l'application.
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -34,262 +32,267 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // Fonction controllant move, rotate et fitBound de la carte de flutter_map
-  // et gére ses propriétés en cours
+  /// Contrôle les changements sur la carte, tel que le zoom, la rotation, le déplacement etc...
   final MapController _mapController = MapController();
 
-  // Providers
+  /// Providers du service store
   final store = Provider.of<Store>;
+
+  /// Providers du service G-Ny
   final gny = Provider.of<GnyParking>;
+
+  /// Providers du serice Base National Adresse
   final ban = Provider.of<BanService>;
+
+  /// Providers du service JCDecaux
   final bikeStations = Provider.of<JcdecauxVelostan>;
 
+  /// Liste des marqueurs
   List<Marker> _markers = [];
+
+  /// Si la min parking card est selectionné/glissé ou non
   bool isParkCardSelected = false;
+
+  /// Si le champ d'édition d'adresse est actif
   bool isAddressFieldEditing = false;
-  bool isBikeMinPopupVisible = false;
+
+  /// Nombre de nom de parkings visible depuis la carte
+  //TODO: Logique à repenser
   Map areParkingTitleVisible = {'three': false, 'six': false, 'all': false};
 
+  /// Marqueur de l'adresse sélectionnée
   Marker? addressMarker;
 
+  /// Message de succès de mise à jour de la disponibilité/couleur des parkings
   final snackBarPopupParking = const SnackBar(
-    content: Text(
-      text.parkingsAvailabiltyUpdated,
-      style: TextStyle(
-        fontSize: 15,
-        fontWeight: FontWeight.w500
-      )
-    ),
+    content: Text(text.parkingsAvailabiltyUpdated,
+        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
     backgroundColor: Colors.blue,
     duration: Duration(seconds: 3),
     elevation: 5,
   );
 
+  /// Message de succès de mise à jour de la disponibilité/couleur des parkings
   final snackBarPopupBikeStation = const SnackBar(
-    content: Text(
-      text.bikeStationsAvailabiltyUpdated,
-      style: TextStyle(
-        fontSize: 15,
-        fontWeight: FontWeight.w500
-      )
-    ),
+    content: Text(text.bikeStationsAvailabiltyUpdated,
+        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
     backgroundColor: Colors.green,
     duration: Duration(seconds: 3),
     elevation: 5,
   );
 
+  /// Message de succès de mise à jour des données statiques des parkings
   final snackBarParking = const SnackBar(
-    content: Text(
-      text.parkingsDataUpdated,
-      style: TextStyle(
-        fontSize: 15,
-        fontWeight: FontWeight.w500
-      )
-    ),
+    content: Text(text.parkingsDataUpdated,
+        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
     backgroundColor: Colors.blue,
     elevation: 5,
   );
 
+  /// Message d'erreur en cas d'échec d'une récupération des données
   final snackBarConnexionError = const SnackBar(
     duration: Duration(seconds: 7),
-    content: Text(
-      text.connexionError,
-      style: TextStyle(
-        fontSize: 15,
-        fontWeight: FontWeight.w500
-      )
-    ),
+    content: Text(text.connexionError,
+        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
     backgroundColor: Colors.red,
     elevation: 5,
   );
 
-  /// Parkings
+  //* Parkings
 
-  // Initie les Parkings et leur marqueurs.
+  /// Initie la récupération des parkings et la génération de leur marqueurs.
   _initParkingMarkers() {
     gny(context, listen: false)
         .initParkingAndGenerateMarkers()
         .then((value) => {
               setState(() {
+                // S'il n'y pas de connexion, message d'erreur. Sinon, les marqueurs sont récupérés.
                 if (gny(context, listen: false).isGnyConnection == false) {
+                  // Fin du splash screen
                   FlutterNativeSplash.remove();
-                  ScaffoldMessenger.of(context).showSnackBar(snackBarConnexionError);
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(snackBarConnexionError);
                 } else {
-                _markers =
-                    gny(context, listen: false).getParkingsMarkers();
-                    FlutterNativeSplash.remove();
+                  // Récupère les marqueurs des parkings générés
+                  _markers = gny(context, listen: false).getParkingsMarkers();
+                  // Fin du splash screen
+                  FlutterNativeSplash.remove();
                 }
               }),
-              //! Risqué si échec
             });
   }
 
-  // Lance la mise à jour des données de parkings
+  /// Met à jour des données de parkings
   _updateParking() {
-  
     gny(context, listen: false)
-      .reInitParkingAndGenerateMarkers()
-      .then((value) => {
-            setState(() {
-              _markers = gny(context, listen: false).getParkingsMarkers();
+        .reInitParkingAndGenerateMarkers()
+        .then((value) => {
+              setState(() {
+                // Récupère les marqueurs des parkings générés
+                _markers = gny(context, listen: false).getParkingsMarkers();
 
+                // Si une adresse à été sélectionnée, le marqueur correspondant est rajouté dans la liste des marqueurs
+                if (ban(context, listen: false).selectedDestinationMarker !=
+                    null) {
+                  _markers.add(
+                      ban(context, listen: false).selectedDestinationMarker!);
+                }
 
-            if(ban(context, listen: false).selectedDestinationMarker != null)
-              {_markers.add(ban(context, listen: false).selectedDestinationMarker!);}
+                // S'il n'y a pas de connexion, affiche message d'erreur
+                if (gny(context, listen: false).isGnyConnection == false) {
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(snackBarConnexionError);
+                } else {
+                  // Affiche le message de succès de mise à jour
+                  ScaffoldMessenger.of(context).showSnackBar(snackBarParking);
 
-              if (gny(context, listen: false).isGnyConnection == false) {
-                ScaffoldMessenger.of(context).showSnackBar(snackBarConnexionError);
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(snackBarParking);
-                // Bascule sur l'onglet parking
-                store(context, listen: false).userSelection = "parkings";
-              }
-            }),
-          });
+                  // Met à jour la sélection de l'utilisateur sur parkings
+                  store(context, listen: false).userSelection = "parkings";
+                }
+              }),
+            });
   }
 
-  // Lance la mise à jour de la disponibilité des parkings
+  /// Met à jour les données dynamiques des parkings : disponibilité, couleurs...
   _updatePopupParkings() {
-    gny(context, listen: false)
-      .initParkingAndGenerateMarkers()
-      .then((value) => {
-        setState(() {
-          _markers = gny(context, listen: false).getParkingsMarkers();
+    gny(context, listen: false).initParkingAndGenerateMarkers().then((value) =>
+        {
+          setState(() {
+            // Récupère les marqueurs de parkings
+            _markers = gny(context, listen: false).getParkingsMarkers();
 
-          
-    if(ban(context, listen: false).selectedDestinationMarker != null)
-     {_markers.add(ban(context, listen: false).selectedDestinationMarker!);}
+            // Si une adresse à été sélectionnée, le marqueur correspondant est rajouté dans la liste des marqueurs
+            if (ban(context, listen: false).selectedDestinationMarker != null) {
+              _markers
+                  .add(ban(context, listen: false).selectedDestinationMarker!);
+            }
 
-          if (gny(context, listen: false).isGnyConnection == false) {
-            ScaffoldMessenger.of(context).showSnackBar(snackBarConnexionError);
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(snackBarPopupParking);
-          }
-        }),
-      });
+            // S'il n'y a pas de connexion, affiche message d'erreur
+            if (gny(context, listen: false).isGnyConnection == false) {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(snackBarConnexionError);
+            } else {
+              // Affiche le message de succès de mise à jour
+              ScaffoldMessenger.of(context).showSnackBar(snackBarPopupParking);
+            }
+          }),
+        });
   }
 
+  /// Rempli la liste des marqueurs par ceux des parkigns
   _setParkingsMarkers() {
+    // Récupère la liste des marqueur de parkings
     _markers = gny(context, listen: false).getParkingsMarkers();
 
-    
-    if(ban(context, listen: false).selectedDestinationMarker != null)
-     {_markers.add(ban(context, listen: false).selectedDestinationMarker!);}
-     else {_markers.removeWhere((marker) => marker.key == const ObjectKey("address_marker"));}
+    // Si une adresse à été sélectionnée, le marqueur correspondant est rajouté dans la liste des marqueurs
+    if (ban(context, listen: false).selectedDestinationMarker != null) {
+      _markers.add(ban(context, listen: false).selectedDestinationMarker!);
+    } else {
+      // Sinon, supprime le marqueur de l'adresse éventuellement selectionnée précédemment
+      _markers.removeWhere(
+          (marker) => marker.key == const ObjectKey("address_marker"));
+    }
 
+    // S'il n'y a pas de connexion, affiche message d'erreur
     if (gny(context, listen: false).isGnyConnection == false) {
       ScaffoldMessenger.of(context).showSnackBar(snackBarConnexionError);
     }
   }
 
-  /// Stations de Vélo
+  //* Stations de location de Vélo
 
-  // Initie les stations de vélos.
+  /// Initie la récupération des stations de location de vélo et la génération de leur marqueur.
   _initBikeStations() {
-    bikeStations(context, listen: false).initStations()
-      .then((value) {
-        bikeStations(context, listen: false).generateStationsMarker();
-      });
+    bikeStations(context, listen: false).initStations().then((value) {
+      bikeStations(context, listen: false).generateStationsMarker();
+    });
   }
 
-  // Met à jour les données des vélos.
-  //? Message d'erreur fonctionne pas ?
+  // Met à jour les données des vélos
   _updateBikeStations() {
-    bikeStations(context, listen: false).initStations()
-      .then((value) {
-        setState(() {
-          _markers = bikeStations(context, listen: false).stationMarkers;
+    bikeStations(context, listen: false).initStations().then((value) {
+      setState(() {
+        // Récupère la liste des marqueur de station de vélo
+        _markers = bikeStations(context, listen: false).stationMarkers;
 
-          
-    if(ban(context, listen: false).selectedDestinationMarker != null)
-     {_markers.add(ban(context, listen: false).selectedDestinationMarker!);}
+        // Si une adresse à été sélectionnée, le marqueur correspondant est rajouté dans la liste des marqueurs
+        if (ban(context, listen: false).selectedDestinationMarker != null) {
+          _markers.add(ban(context, listen: false).selectedDestinationMarker!);
+        }
 
-          if (gny(context, listen: false).isGnyConnection == false) {
-            ScaffoldMessenger.of(context).showSnackBar(snackBarConnexionError);
-          } else {
-            bikeStations(context, listen: false).stationMarkers.isEmpty ?
-              _initBikeStations() : 
-              bikeStations(context, listen: false).generateStationsMarker();
-            ScaffoldMessenger.of(context).showSnackBar(snackBarPopupBikeStation);
-          }
-        });
+        // S'il n'y a pas de connexion, affiche message d'erreur
+        if (gny(context, listen: false).isGnyConnection == false) {
+          ScaffoldMessenger.of(context).showSnackBar(snackBarConnexionError);
+        } else {
+          // Si la lise des marqueurs des stations de vélo et vide, relance de l'initialisation.
+          // Sinon, génère les marqueurs des stations
+          bikeStations(context, listen: false).stationMarkers.isEmpty
+              ? _initBikeStations()
+              : bikeStations(context, listen: false).generateStationsMarker();
+
+          // Affiche le message de succès de mise à jour
+          ScaffoldMessenger.of(context).showSnackBar(snackBarPopupBikeStation);
+        }
       });
+    });
   }
 
-  // Active les marques des stations de vélos
+  /// Rempli la liste des marqueurs par ceux des stations de location de vélos
   _setBikeStationsMarkers() {
+    // Récupère la liste des marqueur de station de vélo
     _markers = bikeStations(context, listen: false).stationMarkers;
 
-    if(ban(context, listen: false).selectedDestinationMarker != null)
-     {_markers.add(ban(context, listen: false).selectedDestinationMarker!);}
-     else {_markers.removeWhere((marker) => marker.key == const ObjectKey("address_marker"));}
+    // Si une adresse à été sélectionnée, le marqueur correspondant est rajouté dans la liste des marqueurs
+    if (ban(context, listen: false).selectedDestinationMarker != null) {
+      _markers.add(ban(context, listen: false).selectedDestinationMarker!);
+    } else {
+      // Sinon, supprime le marqueur de l'adresse éventuellement selectionnée précédemment
+      _markers.removeWhere(
+          (marker) => marker.key == const ObjectKey("address_marker"));
+    }
 
-  
-
+    // S'il n'y a pas de connexion, affiche message d'erreur
     if (gny(context, listen: false).isGnyConnection == false) {
       ScaffoldMessenger.of(context).showSnackBar(snackBarConnexionError);
     }
   }
 
-  /// Marqueur de localisation / d'adresse
+  //* Marqueur de localisation / d'adresse
 
-  // Affiche le marqueur de la destination
+  /// Affiche le marqueur de la destination
   _displayDestinationMarker() {
-    _markers.removeWhere((marker) => marker.key == const ObjectKey("address_marker"),);
+    // Supprime un marqueur adresse éventuellement déjà présent dans la liste des marqueurs
+    _markers.removeWhere(
+      (marker) => marker.key == const ObjectKey("address_marker"),
+    );
+
+    // Rajoute le marqueur de l'adresse sélectionnée
     _markers.add(ban(context, listen: false).selectedDestinationMarker!);
 
     setState(() {
-      _mapController.move(ban(context, listen: false).selectedDestinationMarker!.point, 16);
+      // Déplace la carte vers le marqueur de l'adresse sélectionnée.
+      _mapController.move(
+          ban(context, listen: false).selectedDestinationMarker!.point, 16);
     });
-
-    // for (var marker in _markers) {
-    //   if (marker.key == const ObjectKey("address_marker")) {
-    //     print("address marker");
-    //   }
-    // }
   }
-
-
-  // // Switch de la mini card Parking à la grand card Parking
-  // switchParkCardSelected() {
-  //   // setState(() {
-  //   //   isParkCardSelected ? isParkCardSelected = false : isParkCardSelected = true;
-  //   // });
-  //   print("test");
-  // }
 
   @override
   void initState() {
     super.initState();
 
-    // Charge l'initialisation des marqueur de Parkings au permiers chargement
+    /// Initialise les marqueurs des marqueurs, les données des station de vélo et le message d'acceuil une fois la mise en page prête.
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      // Initialisation des marqueurs de parkings
       _initParkingMarkers();
+      // Initialisation des station de location de vélo
       _initBikeStations();
+      // Affichage du message d'acceui/avertissement
       _displayWelcomeMessage();
-      // areParkingTitleVisible["three"] = false;
-      // areParkingTitleVisible["six"] = false;
-
-      // //TODO: Remove Splashscreen. Could be put after initialization rather than here
-      // FlutterNativeSplash.remove();
     });
-
-    // AlertDialog(
-    //   title: Text("Avertissement"),
-    //   content: Text("Ne pas utilisez le téléphone en conduisant (...)"),
-    //   actions: [
-    //     TextButton(
-    //       onPressed: () {
-    //         print("test");
-    //       },
-    //       child: Icon(Icons.close)
-    //     )
-    //   ]
-    // );
   }
 
-    // Message d'accueil et d'avertissement
-    Future<bool> _displayWelcomeMessage() async {
+  /// Message d'accueil/d'avertissement
+  Future<bool> _displayWelcomeMessage() async {
     return (await showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -307,10 +310,10 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         )) ??
         false;
-    }
+  }
 
-    // Demande de confirmation de sortie de l'application
-    Future<bool> _onWillPop() async {
+  /// Message de sortie d'application
+  Future<bool> _onWillPop() async {
     return (await showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -329,51 +332,53 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         )) ??
         false;
-    }
-
-
+  }
 
   @override
   Widget build(BuildContext context) {
+    /// Détection de l'orientation de l'appareil
     var isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
 
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        // floatingActionButton: Icon(Icons.refresh),
-        // floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
-        // BottomBar
-        // appBar: TopAppBar(onExpansionComplete: () {isParkCardSelected = false;}),
+        // Top App Bar
         appBar: TopAppBar(
+          // Fonction déclenchée à l'édition d'une adresse
           onEdition: () {
+            // Si l'édtion est active, [isAddressFieldEditing] passe à true.
             if (!isAddressFieldEditing) {
               setState(() {
                 isAddressFieldEditing = true;
               });
             }
           },
+          // Fonction déclenché à la sortie de l'édition d'une adresse
           onClose: () {
             setState(() {
+              // [isAddressFieldEditing] passe à faux
               isAddressFieldEditing = false;
-              _markers.removeWhere((marker) => marker.key == const ObjectKey("address_marker"));
+
+              // Suppression du marqueur correspondant à l'adresse sélectionnée.
+              _markers.removeWhere(
+                  (marker) => marker.key == const ObjectKey("address_marker"));
+
+              // Mise à jour du marqueur de l'adresse sélectionnée à null
               ban(context, listen: false).selectedDestinationMarker = null;
             });
           },
         ),
-    
+
+        // Sidebar
         drawer: SideBar(updateParking: _updateParking),
-    
-        //? Container ?
+
         body: Column(
           children: [
-            // Affiche la liste de recherche d'adresse en fonction de l'action écoutée dans TopAppBar
+            // Affiche la liste de suggestion d'adresse en fonction de [isAddressFieldEditing]
             isAddressFieldEditing
                 ? Expanded(
                     flex: 1,
                     child: Container(
-                        // height: 1,
-                        // color: Color.fromARGB(0, 39, 23, 23),
                         decoration: const BoxDecoration(
                           border: Border(
                             bottom: BorderSide(color: Colors.grey, width: 3.0),
@@ -388,105 +393,83 @@ class _HomeScreenState extends State<HomeScreen> {
               flex: 2,
               child: FlutterMap(
                 mapController: _mapController,
-    
-                // - `center`- Mention the center of the map, it will be the center when the map starts.
-                // - `bounds`- It can take a list of geo-coordinates and show them all when the map starts. If both bounds & center are provided, then bounds will take preference.
-                // - `zoom`- It is used to mention the initial zoom.
-                // - `swPanBoundary`/`nePanBoundary`- These are two geocoordinate points, which can be used to have interactivity constraints.
-                // -  Callbacks such as `onTap`/`onLongPress`/`onPositionChanged` can also be used.
                 options: MapOptions(
-                    //TODO: make and use global var/settings
-                    center: LatLng(48.6907359, 6.1825126),
-                    // center: (() {
-                    //   // Si la liste des marqueur possède un marqueur correspondant à une adresse, zoom dessus
-                    //   if ( _markers.contains((marker) => marker.key == ObjectKey("address_marker")) ) {
-                    //     return _markers.firstWhere((marker) => marker.key == ObjectKey("address_marker")).point;
-                    //   }
+                  // Centré au centre de la ville
+                  center: LatLng(48.6907359, 6.1825126),
+                  zoom: 14.0,
 
-                    //   // Zoom sur point de la carte
-                    //   return LatLng(48.6907359, 6.1825126);
-                    // }()),
-                    // bounds: LatLngBounds(LatLng(48.6292781, 6.0974121), LatLng(48.7589048, 6.3322449)), //# affiche la zone en délimitant des coins
-                    zoom: 14.0,
-  
-                    // Empêche la rotation
-                    interactiveFlags:
-                        InteractiveFlag.pinchZoom | InteractiveFlag.drag,
-                    plugins: [
-                      MarkerClusterPlugin(),
-                    ],
-                    //todo Au Zoom 14, afficher titre de 3 parkings, 15 : 3 de +
-                    onPositionChanged: (MapPosition position, bool hasGesture) {
-                      
-                      // if (kDebugMode) {
-                      //   print(position.zoom);
-                      // }
+                  // Empêche la rotation
+                  interactiveFlags:
+                      InteractiveFlag.pinchZoom | InteractiveFlag.drag,
+                  plugins: [
+                    MarkerClusterPlugin(),
+                  ],
 
-                      if (position.zoom != null) {
-                        if (position.zoom! >= 15.42) {
-                          areParkingTitleVisible['all'] = true;
-                        } else {
-                          areParkingTitleVisible['all'] = false;
-                        }
-    
-                        if (position.zoom! >= 14.80) {
-                          areParkingTitleVisible['six'] = true;
-                        }
-    
-                        if (position.zoom! >= 14.3 && position.zoom! < 14.80) {
-                          areParkingTitleVisible['three'] = true;
-                          areParkingTitleVisible['six'] = false;
-                          isBikeMinPopupVisible = true;
-                        }
-    
-                        if (position.zoom! < 14.3) {
-                          areParkingTitleVisible['three'] = false;
-                          areParkingTitleVisible['six'] = false;
-                          isBikeMinPopupVisible = false;
-                        }
+                  // Active ou désactive le nombre de titre de parking directement visible dans les popup
+                  // selon le niveau de zoom
+                  //TODO: Logique à repenser
+                  onPositionChanged: (MapPosition position, bool hasGesture) {
+                    if (position.zoom != null) {
+                      if (position.zoom! >= 15.42) {
+                        areParkingTitleVisible['all'] = true;
+                      } else {
+                        areParkingTitleVisible['all'] = false;
                       }
-                    },
 
-                    // onTap: (_, __) => _popupController.hidePopupsOnlyFor(_markers)
-                    //TODO: placer destination avec un onLongPress: ,
-                    onTap: (_, __) {
-                      setState(() {
-                        // S'il y la petite card de parking et la liste d'adresse, réduit la petite card.
-                        // S'il n'y a que la liste d'adresse, la réduit
-                        if (isAddressFieldEditing) {
-                          if (gny(context, listen: false).selectedParking !=
-                              null) {
-                            if (isParkCardSelected) {
-                              isParkCardSelected = false;
-                            } else {
-                              gny(context, listen: false).selectedParking = null;
-                            }
+                      if (position.zoom! >= 14.80) {
+                        areParkingTitleVisible['six'] = true;
+                      }
+
+                      if (position.zoom! >= 14.3 && position.zoom! < 14.80) {
+                        areParkingTitleVisible['three'] = true;
+                        areParkingTitleVisible['six'] = false;
+                      }
+
+                      if (position.zoom! < 14.3) {
+                        areParkingTitleVisible['three'] = false;
+                        areParkingTitleVisible['six'] = false;
+                      }
+                    }
+                  },
+
+                  //? placer destination avec un onLongPress
+                  onTap: (_, __) {
+                    setState(() {
+                      // S'il y a la petite card de parking et la liste d'adresse, réduit la petite card.
+                      // S'il n'y a que la liste d'adresse, la réduit
+                      if (isAddressFieldEditing) {
+                        if (gny(context, listen: false).selectedParking !=
+                            null) {
+                          if (isParkCardSelected) {
+                            isParkCardSelected = false;
                           } else {
-                            isAddressFieldEditing = false;
+                            gny(context, listen: false).selectedParking = null;
                           }
                         } else {
-                          // Si la grande "card" de Parking est affichée, la réduit, et c'est la petit, l'enlève
-                          isParkCardSelected
-                              ? isParkCardSelected = false
-                              : gny(context, listen: false).selectedParking =
-                                  null;
+                          isAddressFieldEditing = false;
                         }
-                      });
-                    },
-    
-                    ),
+                      } else {
+                        // Si la grande "card" de Parking est affichée, la réduit, et c'est la petit, l'enlève
+                        isParkCardSelected
+                            ? isParkCardSelected = false
+                            : gny(context, listen: false).selectedParking =
+                                null;
+                      }
+                    });
+                  },
+                ),
                 layers: [
                   TileLayerOptions(
                     minZoom: 1, //? Global? ? 1 ?
                     maxZoom: 19, //? Global? 18 ? 19 max for classic OSM server
                     backgroundColor: Colors.black,
                     urlTemplate:
-                        // Carte OSM 
+                        // Carte OSM
                         "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
 
-                        // Carte OSM France : plus de détails, noms des pays et villes étranger en français
-                        // chargement des tiles un plus lent
-                        // "https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png",
+                    // Carte OSM France : plus de détails, noms des pays et villes étranger en français
+                    // chargement des tiles un plus lent
+                    // "https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png",
                     subdomains: ['a', 'b', 'c'],
                   ),
                   MarkerClusterLayerOptions(
@@ -501,53 +484,69 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: Colors.black12,
                           borderStrokeWidth: 3),
                       popupOptions: PopupOptions(
-                        // markerTapBehavior: MarkerTapBehavior.togglePopupAndHideRest(),
                           popupSnap: PopupSnap.markerTop,
-                          //todo: rajouter des conditions comme dans proto en fonction du service selectionné
-                          popupController: 
-                              // Affiche les popup sauf pour les marqueur d'adresse et les stations de vélo
-                              // PopupController().showPopupsOnlyFor(
-                              //   _markers.where((marker) => marker.key == ObjectKey("parking_marker")).toList()
-                              // ),
+                          popupController:
                               PopupController(
+                                // Popups affichés dès le début : uniquement ceux des parkings
                                   initiallySelectedMarkers: _markers
                                       .where((marker) =>
-                                          marker.key != const ObjectKey("address_marker")
-                                          && marker.key != const ObjectKey("bikeStation_marker")).toList()),
-    
+                                          marker.key !=
+                                              const ObjectKey(
+                                                  "address_marker") &&
+                                          marker.key !=
+                                              const ObjectKey(
+                                                  "bikeStation_marker"))
+                                      .toList()),
                           popupBuilder: (_, marker) {
-    
-                            //todo test sur key value ?
-                            if (marker.key == const ObjectKey("parking_marker")) {
-                              if(!gny(context, listen: false).isGnyConnection) {
+                            // Affiche les popup des parkings si les marqueurs sont ceux des parkings
+                            if (marker.key ==
+                                const ObjectKey("parking_marker")) {
+                              // Affiche si pas de connexion
+                              if (!gny(context, listen: false)
+                                  .isGnyConnection) {
                                 return const SizedBox(
                                   height: 20,
                                   width: 10,
                                   child: Text(
                                     "?",
-                                    style: TextStyle(
-                                      color: Colors.red
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                );
+                              } else {
+
+                              return ParkingPopup(
+                                  // markers: _markers,
+                                  marker: marker,
+                                  parkingTitle: areParkingTitleVisible);}
+                            }
+                            if (marker.key ==
+                                const ObjectKey("bikeStation_marker")) {
+                              
+                              // Affichage si pas de connexion
+                              if (!gny(context, listen: false)
+                                  .isGnyConnection) {
+                                return SizedBox(
+                                  height: 20,
+                                  width: 30,
+                                  child: Container(
+                                    color: const Color.fromRGBO(210, 255, 197, 0.9),
+                                    child: const Text(
+                                      "?",
+                                      style: TextStyle(color:Colors.red, fontWeight: FontWeight.w700),
+                                      textAlign: TextAlign.center,
                                     ),
                                   ),
                                 );
                               } else {
 
-                              }
-                              return ParkingPopup(
-                                  // markers: _markers,
-                                  marker: marker,
-                                  parkingTitle: areParkingTitleVisible);
-                            }
-                            if (marker.key == const ObjectKey("bikeStation_marker")) {
                               return BikestationPopup(
                                 marker: marker,
-                                // isBikeMinPopupVisible: isBikeMinPopupVisible
-                              );
+                                // // // isBikeMinPopupVisible: isBikeMinPopupVisible
+                              );}
                             }
                             return Container();
-    
-                            //? faire une fonction switch case de popup qui gère tout les type de popup
 
+                            //? faire une fonction switch case de popup qui gère tout les type de popup
                           }),
                       builder: (context, markers) {
                         // Affichage du Widget du Cluster
@@ -564,7 +563,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-    
+
             //TODO: to fix : Bug affichage quand Up et white screen quand down
             //? remonter le MediaQuery.of des cards ? Utiliser Navigator ?
             Expanded(
@@ -632,48 +631,48 @@ class _HomeScreenState extends State<HomeScreen> {
             )
           ],
         ),
-    
+
         ///
         /// Bar de selection des icones sur la map
         ///
         //? Better Icon ? Global ?
         //! attention, appellé une méthode avec (),n'est pas comme la passer en paramètre
-        bottomNavigationBar: MainBottomAppBar(onUpdateTap: (String selectedMarkers) {
+        bottomNavigationBar:
+            MainBottomAppBar(onUpdateTap: (String selectedMarkers) {
           setState(() {
             //todo repenser actio botto : deuxieme presse = mise à jour static ? dynamic ?
             switch (selectedMarkers) {
-    
               case "parkings":
-              // Si parkings est déjà sélectionné : mis à jour des données dynamiques (disponibilité dans popup)
-              if(store(context, listen: false).userSelection == "parkings") {
-                _updatePopupParkings();
-              } else {
-                store(context, listen: false).userSelection = "parkings";
-                _setParkingsMarkers();
-                // Rencentre la map à sa position initial
-                // _mapController.move(LatLng(48.6907359, 6.1825126), 14);
-              }
+                // Si parkings est déjà sélectionné : mis à jour des données dynamiques (disponibilité dans popup)
+                if (store(context, listen: false).userSelection == "parkings") {
+                  _updatePopupParkings();
+                } else {
+                  store(context, listen: false).userSelection = "parkings";
+                  _setParkingsMarkers();
+                  // Rencentre la map à sa position initial
+                  // _mapController.move(LatLng(48.6907359, 6.1825126), 14);
+                }
                 break;
-              
+
               case "center":
                 // Rencentre la map à sa position initial
                 _mapController.move(LatLng(48.6907359, 6.1825126), 14);
                 break;
 
               case "bikeStations":
-              // Si parkings est déjà sélectionné : mis à jour des données dynamiques (disponibilité dans popup)
-              if(store(context, listen: false).userSelection == "bikeStations") {
-                //?prévoir un update et mettre le scaffold dedans ?
-                _updateBikeStations();
-                
-              } else {
-                store(context, listen: false).userSelection = "bikeStations";
-                gny(context, listen: false).selectedParking = null;
-                isParkCardSelected = false;
-                _setBikeStationsMarkers();
-                // Rencentre la map à sa position initial
-                // _mapController.move(LatLng(48.6907359, 6.1825126), 14);
-              }
+                // Si parkings est déjà sélectionné : mis à jour des données dynamiques (disponibilité dans popup)
+                if (store(context, listen: false).userSelection ==
+                    "bikeStations") {
+                  //?prévoir un update et mettre le scaffold dedans ?
+                  _updateBikeStations();
+                } else {
+                  store(context, listen: false).userSelection = "bikeStations";
+                  gny(context, listen: false).selectedParking = null;
+                  isParkCardSelected = false;
+                  _setBikeStationsMarkers();
+                  // Rencentre la map à sa position initial
+                  // _mapController.move(LatLng(48.6907359, 6.1825126), 14);
+                }
                 break;
               default:
               // TODO : parking si app accès sur parking, sinon autre
@@ -684,5 +683,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-

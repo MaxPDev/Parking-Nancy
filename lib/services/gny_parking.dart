@@ -250,7 +250,6 @@ class GnyParking extends ChangeNotifier {
   }
 
   /// Récupère et rénvoie la propriété available depuis les coordonnées
-  //TODO: optimisiation : return directement, + . availabe
   static String? getAvailableFromCoordinates(LatLng point) {
     Parking parkingPopup = _parkings.firstWhere((parking) =>
         parking.coordinates[1] == point.latitude &&

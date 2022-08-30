@@ -38,10 +38,6 @@ class ListAddress extends StatelessWidget {
 
         Address address = addressList[index];
 
-        //todo: listview divider + ascensor ? + number / street / city apparence
-        //todo: affichage list + probleme saisie + garder le texte saisie dans le champ
-        //todo divier et height width en global
-        //todo animation up and dow
         return ListTile(
 
           isThreeLine: true,

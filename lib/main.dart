@@ -42,25 +42,25 @@ void main() async {
       ],
       child: MaterialApp(
 
-        /// Choisit le theme du téléphone
+        // Choisit le theme du téléphone
         themeMode: ThemeMode.system,
 
-        /// Darkmode
+        // Darkmode
         darkTheme: ThemeData.dark(),
 
-        /// Thème principal : text, couleur excepter icone et boite de dialogue
+        // Thème principal : text, couleur excepter icone et boite de dialogue
         theme: ThemeData(
 
           textTheme: TextTheme(
             
-            /// Style du titre dans la side bar
+            // Style du titre dans la side bar
             headline1: TextStyle(
               color: Colors.grey[100],
               fontSize: 24,
               fontWeight: FontWeight.w500
             ),
 
-            /// Style du titre dans la top app bar
+            // Style du titre dans la top app bar
             headline2: TextStyle(
               color: Colors.grey[100],
               fontSize: 18,
@@ -68,14 +68,14 @@ void main() async {
               overflow: TextOverflow.visible
             ),
 
-            /// Style du titre dans la Parking Card
+            // Style du titre dans la Parking Card
             headline3: const TextStyle(
               color: Colors.black,
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
 
-            /// Style Titre dans la Mini Parking Card et la BikeStation Popup
+            // Style Titre dans la Mini Parking Card et la BikeStation Popup
             headline4: const TextStyle(
               color: Colors.black,
               fontSize: 16,
@@ -83,11 +83,11 @@ void main() async {
               overflow: TextOverflow.ellipsis,
             ),
 
-            /// Titre et text dans les boites de dialogue
+            // Titre et text dans les boites de dialogue
             // headline6: ,
             // subtitle1: ,
 
-            /// Style de la "zone" dans la Mini Parking Card et la Parking Card
+            // Style de la "zone" dans la Mini Parking Card et la Parking Card
             overline: const TextStyle(
               fontWeight: FontWeight.normal,
               fontStyle: FontStyle.italic,
@@ -96,76 +96,84 @@ void main() async {
               letterSpacing: 1
             ),
 
-            /// Style du nombre de place dans Mini Parking card et Parking Card
+            // Style du nombre de place dans Mini Parking card et Parking Card
             //* (Couleur gérée dans leur widgets)
             subtitle2: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
             ),
 
-            /// Style du titre des options de la side bar
+            // Style du titre des options de la side bar
             bodyText1: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700
             ),
 
-            ///* Style du Texte des cards, de la popup Velostan et des déscription dans la sidebar
-            //* sauf les messages en cas de parkings ou stations fermés
+            // Style du Texte des cards, de la popup Velostan et des déscription dans la sidebar
+            // sauf les messages en cas de parkings ou stations fermés
             bodyText2: const TextStyle(
               fontSize: 15,
             )
 
           ),
 
-          // Used for main bottom app's buttons
+          // Couleur de la main bottom app bar
           primaryColor: const Color.fromARGB(255, 92, 212, 92),
           primaryColorLight: const Color.fromARGB(255, 168, 207, 169),
 
 
 
-          // Top app bar theme.
-          // Color also used in background color for title card in side bar.
+          // Theme de la top app bar 
           appBarTheme: const AppBarTheme(
             color: Color.fromARGB(255, 31, 77, 33),
             ),
+
+          // Theme de la side bar
           drawerTheme: DrawerThemeData(
             backgroundColor: Colors.green[200]
           ),
 
-          // Parking card color
+          // Couleur de le parking card
           cardColor: const Color(0xFFE5E5E5),
-          // Welcome message and quit message
+
+          // Couleur de fond des boite de dialogue : message d'acceuil et d'exit
           dialogBackgroundColor: const Color(0xFFE5E5E5),
 
-          // main bottom app theme
+          // Couleur principal de la main bottom app bar
           bottomAppBarColor: const Color.fromARGB(255, 92, 212, 92)
         ),
-        //TODO: Set it to false in release version
+
+        // darpeaux "debug" en haut de l'écran
         debugShowCheckedModeBanner: false,
+
+        // Appelle la classe général de l'application
         home: const NancyStationnementApp(),
       )));
 }
 
-///
+
 /// Classe principale
-///
 class NancyStationnementApp extends StatelessWidget {
   const NancyStationnementApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // Bloquer l'appli en mode portrait //? Temporaire
+    // Bloquer l'appli en mode portrait 
     // SystemChrome.setPreferredOrientations([
     //   DeviceOrientation.portraitUp,
     //   DeviceOrientation.portraitDown,
     // ]);
+
     return const SafeArea(
+      // Appelle la seule page de l'application
       child: HomeScreen()
     );
   }
 }
 
-
+//! Certificat
+//TODO: Activer SSL
+// https://stackoverflow.com/questions/54285172/how-to-solve-flutter-certificate-verify-failed-error-while-performing-a-post-req
 class MyHttpOverrides extends HttpOverrides{
   @override
   HttpClient createHttpClient(SecurityContext? context){

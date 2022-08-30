@@ -12,7 +12,10 @@ class SideBar extends StatelessWidget {
     required this.updateParking,
   }) : super(key: key);
 
+  ///* provider du service G-Ny
   final gny = Provider.of<GnyParking>;
+
+  ///* Provider du service Store
   final store = Provider.of<Store>;
 
   final Function updateParking;
