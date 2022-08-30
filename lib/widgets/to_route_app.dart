@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -73,14 +72,14 @@ class ToRouteApp extends StatelessWidget {
           _parking.name == null ? "parking" : _parking.name!),
       child: Container(
         // constraints: BoxConstraints(minWidth: 50),
-        padding: EdgeInsets.fromLTRB(21, 10, 21, 7),
-        decoration: BoxDecoration(
+        padding: const EdgeInsets.fromLTRB(21, 10, 21, 7),
+        decoration: const BoxDecoration(
             color: Color.fromARGB(255, 221, 200, 7),
             shape: BoxShape.rectangle,
             borderRadius: BorderRadius.all(Radius.circular(20))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
+          children: const [
             Icon(FontAwesomeIcons.route, size: 21),
             SizedBox(
               width: 10,

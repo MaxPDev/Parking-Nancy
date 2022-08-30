@@ -5,12 +5,11 @@ import 'package:provider/provider.dart';
 import 'package:searchbar_animation/searchbar_animation.dart';
 
 import 'package:nancy_stationnement/services/ban_service.dart';
-import 'package:nancy_stationnement/services/store.dart';
 
 import 'package:nancy_stationnement/text/app_text.dart' as text;
 
 class TopAppBar extends StatefulWidget implements PreferredSizeWidget {
-  TopAppBar({
+  const TopAppBar({
     Key? key,
     // required this.onExpansionComplete
     required this.onEdition,
@@ -45,16 +44,6 @@ class _TopAppBarState extends State<TopAppBar> {
     // Variables de hauteurs d'écrans
     // Full screen width and height
     double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-    // Height (without SafeArea)
-    var padding = MediaQuery.of(context).viewPadding;
-    double height1 = height - padding.top - padding.bottom;
-
-    // Height (without status bar)
-    double height2 = height - padding.top;
-
-    // Height (without status and toolbar)
-    double height3 = height - padding.top - kToolbarHeight;
 
     return AppBar(
       leading: IconButton(
@@ -186,7 +175,7 @@ class _TopAppBarState extends State<TopAppBar> {
         //     )),
       ],
       actionsIconTheme:
-          IconThemeData(size: 10.0, color: Colors.white, opacity: 0.7),
+          const IconThemeData(size: 10.0, color: Colors.white, opacity: 0.7),
       elevation: 7.0,
     );
   }
