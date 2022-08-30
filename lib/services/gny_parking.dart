@@ -37,15 +37,7 @@ class GnyParking extends ChangeNotifier {
     }
   }
 
-  // SnackBar errorToSnack(String message) {
-  //   return SnackBar(
-  //     content: Text(message),
-  //     backgroundColor: Colors.red,
-  //     duration: Duration(seconds: 30),
-  //   );
-  // }
-  
-  // Prépare la liste de parking, génère les marqueur
+  /// Prépare la liste de parking, génère les marqueur
   Future<void> initParkingAndGenerateMarkers() async {
     // Delete database : only for dev test, or implement if fulling database doesn't work
     // await DatabaseHandler.instance.deleteDatabase("parkings.db");
@@ -56,7 +48,7 @@ class GnyParking extends ChangeNotifier {
     generateParkingMarkers();
   }
 
-    // Supprime la DB pour la remplir à nouveauPrépare la liste de parking, génère les marqueur
+  /// Supprime la DB pour la remplir à nouveauPrépare la liste de parking, génère les marqueur
   Future<void> reInitParkingAndGenerateMarkers() async {
 
     // Supprime la database : pour tester le remplissage.
@@ -72,10 +64,10 @@ class GnyParking extends ChangeNotifier {
     generateParkingMarkers();
   }
 
-  // Rempli la liste de Parking depuis la DB Local:
-  //  Si pas de parking dans la DB Local :
-  //   Récupère les informations depuis g-ny.org et rempli la DB
-  //
+  /// Rempli la liste de Parking depuis la DB Local:
+  ///  Si pas de parking dans la DB Local :
+  ///   Récupère les informations depuis g-ny.org et rempli la DB
+  ///
   Future<void> initParking() async {
     // Vérifie la connection internet vers go.gny.org
     isGnyConnection = await CheckConnection.isGnyConnection();
@@ -97,20 +89,17 @@ class GnyParking extends ChangeNotifier {
               .createParking(Parking.fromAPIJson(data[key]));
         });
       } else {
-        //? Générer affichage d'erreur ici ?
         if (kDebugMode) {
           print(
-            "Récupération des Parkings impossible, pas de connecion");
+            "Récupération des Parkings impossible, pas de connection");
         } 
       }
     } else {
-      //? update, ou alors le faire ailleurs ?
       if (kDebugMode) {
         print("database parking already setup");
       }
     }
     // _parkings.clear();
-    //? Utile si accessible depuis DatabaseHandler ?
     _parkings = await DatabaseHandler.instance.getAllParking();
     await fetchDynamicDataParkings();
 
