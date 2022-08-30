@@ -51,7 +51,7 @@ class _BikestationPopupState extends State<BikestationPopup> {
 
     return SizedBox(
       width: 300,
-      height: 200,
+      height: 220,
       child: FutureBuilder(
         future: _initStationDataPopup(),
           builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
@@ -109,7 +109,7 @@ class StationPopup extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return SizedBox(
-      height: 200,
+      height: 220,
       width: 300,
       child: Container(
         // constraints: BoxConstraints(maxWidth: 300, maxHeight: 200),
@@ -125,6 +125,21 @@ class StationPopup extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  text.velostan,
+                  style: Theme.of(context).textTheme.bodyText2
+                  // style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
+
+            const SizedBox(
+              height: 3,
+            ),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

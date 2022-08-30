@@ -294,7 +294,10 @@ class _HomeScreenState extends State<HomeScreen> {
           context: context,
           builder: (context) => AlertDialog(
             title: const Text(text.welcomeTitle),
-            content: const Text(text.welcomeText),
+            content: const Text(
+              text.welcomeText,
+              // textAlign: TextAlign.justify,
+            ),
             actions: <Widget>[
               TextButton(
                 onPressed: () => Navigator.of(context).pop(),

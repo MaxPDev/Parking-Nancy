@@ -8,7 +8,7 @@ const String connexionError = "Récupération des données impossible. Vérifiez
 
 //* Message d'accueil et de sortie d'application
 const String welcomeTitle = "Parking Nancy";
-const String welcomeText = "Cette application affiche en temps réel de la disponibilité des parkings de Nancy. \n\nATTENTION : Ne pas utiliser le téléphone en conduisant !";
+const String welcomeText = "Cette application affiche en temps réel de la disponibilité des parkings de Nancy.\n\nL'onglet vélo permet de visualiser les stations VélOstan'lib. \n\nATTENTION : Ne pas utiliser le téléphone en conduisant !";
 const String welcomeConfirm = "Ok";
 
 const String quitTitle = "Quitter Parking Nancy";
@@ -55,6 +55,7 @@ const String parkingClosed = "Parking fermé";
 //==========================================
 
 //* Bikestation popup
+const String velostan = "vélOstan'lib";
 const String availableBikes = "vélos disponibles";
 const String availableStands = "emplacements disponibles";
 const String availableCreditCardPayment = "Paiement par carte bancaire disponible";
