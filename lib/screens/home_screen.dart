@@ -498,10 +498,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   "bikeStation_marker"))
                                       .toList()),
                           popupBuilder: (_, marker) {
-                            // Affiche les popup des parkings si les marqueurs sont ceux des parkings
+                            // Affiche les popup des parkings si le marqueur et celui d'un parking
                             if (marker.key ==
                                 const ObjectKey("parking_marker")) {
-                              // Affiche si pas de connexion
+                              // Affichage si pas de connexion
                               if (!gny(context, listen: false)
                                   .isGnyConnection) {
                                 return const SizedBox(
@@ -514,11 +514,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 );
                               } else {
 
+                              // Popup du Parking
                               return ParkingPopup(
-                                  // markers: _markers,
                                   marker: marker,
                                   parkingTitle: areParkingTitleVisible);}
                             }
+
+                            // Affiche les popup des parkings si le marqueur et celui d'une station de vélo
                             if (marker.key ==
                                 const ObjectKey("bikeStation_marker")) {
                               
@@ -539,15 +541,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                 );
                               } else {
 
+                              // Popup de la station de vélo
                               return BikestationPopup(
                                 marker: marker,
-                                // // // isBikeMinPopupVisible: isBikeMinPopupVisible
                               );}
                             }
+
+                            //Retourne un élément vide si le marqueur ne rempli pas les conditions précédentes
                             return Container();
 
-                            //? faire une fonction switch case de popup qui gère tout les type de popup
                           }),
+
                       builder: (context, markers) {
                         // Affichage du Widget du Cluster
                         return Container(
@@ -567,11 +571,14 @@ class _HomeScreenState extends State<HomeScreen> {
             //TODO: to fix : Bug affichage quand Up et white screen quand down
             //? remonter le MediaQuery.of des cards ? Utiliser Navigator ?
             Expanded(
+              // Proportion de la parking card en fonction de l'orientation de l'appareil
               flex: isParkCardSelected
                   ? isPortrait
                       ? 0
                       : 3
                   : 0,
+
+              // Parking card ou min parking card
               child: Container(
                 decoration: const BoxDecoration(
                   border: Border(
@@ -586,16 +593,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         // reverseDuration: Duration(milliseconds: 0),
                         curve: Curves.linear,
                         child: Container(
-                          // color: Color(0xFFE5E5E5),
                           color: Theme.of(context).cardColor,
-                          // mainAxisAlignment: MainAxisAlignment.start,
-                          // crossAxisAlignment: CrossAxisAlignment.center,
+
+                          // Affichage de la parking card si un parking est sélectionné
                           child: gny(context, listen: true).selectedParking !=
                                   null
                               ? GestureDetector(
                                   behavior: HitTestBehavior.translucent,
                                   onPanUpdate: (details) {
-                                    // drag up
+                                    // En cas de glisser vers le haut sur la min parking card, [isParkCardSelected] passe à true
                                     if (details.delta.dy < 1) {
                                       if (!isParkCardSelected) {
                                         setState(() {
@@ -603,7 +609,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         });
                                       }
                                     } else {
-                                      // drag down
+                                      // En cas de glisser vers le bas sur la parking card, [isParkCardSelected] passe à false
                                       if (isParkCardSelected) {
                                         setState(() {
                                           isParkCardSelected = false;
@@ -611,16 +617,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                       }
                                     }
                                   },
-                                  // onTap: () {
-                                  //   setState(() {
-                                  //     isParkCardSelected =
-                                  //         isParkCardSelected == false ? true : false;
-                                  //   });
-                                  // },
+                                  // Si [isParkCardSelected] est true, affichage de Parking Card, sinon de MinParkingCard
                                   child: isParkCardSelected
                                       ? const ParkingCard()
                                       // ? isPortrait ? ParkingCard() : Text("from home")
-                                      : const MinParkingCard()) //todo Gesture doctor : miniCard, onTruc : Card (column->row->column)
+                                      : const MinParkingCard())
+
+                              // Si pas de parking sélectionné, pas de card, retour d'un élément vide
                               : Container(),
                         ),
                       ),
@@ -632,25 +635,20 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
 
-        ///
         /// Bar de selection des icones sur la map
-        ///
-        //? Better Icon ? Global ?
-        //! attention, appellé une méthode avec (),n'est pas comme la passer en paramètre
         bottomNavigationBar:
             MainBottomAppBar(onUpdateTap: (String selectedMarkers) {
           setState(() {
-            //todo repenser actio botto : deuxieme presse = mise à jour static ? dynamic ?
             switch (selectedMarkers) {
               case "parkings":
                 // Si parkings est déjà sélectionné : mis à jour des données dynamiques (disponibilité dans popup)
                 if (store(context, listen: false).userSelection == "parkings") {
                   _updatePopupParkings();
                 } else {
+                  // Met à jour la variable de selection
                   store(context, listen: false).userSelection = "parkings";
+                  // Paramétre les marqueurs de parking
                   _setParkingsMarkers();
-                  // Rencentre la map à sa position initial
-                  // _mapController.move(LatLng(48.6907359, 6.1825126), 14);
                 }
                 break;
 
@@ -666,16 +664,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   //?prévoir un update et mettre le scaffold dedans ?
                   _updateBikeStations();
                 } else {
+                  // Met à jour la variable de selection
                   store(context, listen: false).userSelection = "bikeStations";
+                  // Met la variable de parking sélectionné à null (désactive l'affiche de la card)
                   gny(context, listen: false).selectedParking = null;
+                  // [isParkCardSelected] passe à false
                   isParkCardSelected = false;
+                  // Paramétre les marqueurs de station de vélo
                   _setBikeStationsMarkers();
-                  // Rencentre la map à sa position initial
-                  // _mapController.move(LatLng(48.6907359, 6.1825126), 14);
                 }
                 break;
               default:
-              // TODO : parking si app accès sur parking, sinon autre
+              //? Parking, ou autre selon la priorité de l'application
             }
           });
         }),
