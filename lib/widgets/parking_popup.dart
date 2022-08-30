@@ -4,7 +4,7 @@ import 'package:nancy_stationnement/models/parking.dart';
 import 'package:nancy_stationnement/services/gny_parking.dart';
 
 class ParkingPopup extends StatelessWidget {
-  ParkingPopup(
+  const ParkingPopup(
       {Key? key,
       // required List<Marker> markers,
       required Marker marker,
@@ -18,14 +18,13 @@ class ParkingPopup extends StatelessWidget {
   final Marker _marker;
   final Map _parkingTitle;
 
-  late String? available;
+  // late final String? available;
 
   @override
   Widget build(BuildContext context) {
     Parking parking = GnyParking.getParkingFromCoordinates(_marker.point);
 
-    //TODO: inutile !! available déjà dans parking. Nettoyer, contrôler
-    available = GnyParking.getAvailableFromCoordinates(_marker.point);
+    String? available = parking.available;
 
     // Si la donnée available est à null, un container vide est retournée
     // Sinon, un container est créé pour afficher une popup avec available
@@ -40,7 +39,6 @@ class ParkingPopup extends StatelessWidget {
           (parking.name == "Place des Vosges" ||
               parking.name == "Manufacture" ||
               parking.name == "Kennedy")) {
-        //TODO Global
         return PopupNameAndAvailable(
             parking: parking,
             marker: _marker,

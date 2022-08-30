@@ -48,13 +48,12 @@ class _TopAppBarState extends State<TopAppBar> {
     return AppBar(
       leading: IconButton(
         // padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-        icon: Icon(Icons.menu),
+        icon: const Icon(Icons.menu),
         onPressed: () {
           // widget.onMenu();
           Scaffold.of(context).openDrawer();
         },
       ),
-      //TODO: make and use global var/settings
       title: Text(
         text.appTitle,
         // style: TextStyle(fontSize: 18, overflow: TextOverflow.visible),
