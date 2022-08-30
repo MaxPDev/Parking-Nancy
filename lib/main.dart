@@ -11,57 +11,56 @@ import 'package:nancy_stationnement/services/jcdecaux_velostan.dart';
 import 'package:nancy_stationnement/services/store.dart';
 // import 'package:nancy_stationnement/services/global_text.dart';
 
-///
 /// Fonction main
-///
 void main() async {
   //! Could be not safe (https permissions)
   HttpOverrides.global = MyHttpOverrides();
 
-  // Splashscreen longer
-  //* if FlutterNativeSpash.remove is not setup after initialization,
-  //* no need of these two line
+  /// Affiche le Splashscreen avec [FlutterNativeSplash.preserve] jusqu'à que [FlutterNativeSplashRemove] soit invoqué.
+  //* Ces deux lignes sont à supprimé pour un affichage plus bref.
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
+  /// Configuration des servicies dans le MultiProvider
   runApp(MultiProvider(
       providers: [
+        /// Service G-Ny
         ChangeNotifierProvider(
           create: (context) => GnyParking(),
         ),
+        /// Service Base National Adresse
         ChangeNotifierProvider(
           create: (context) => BanService(),
         ),
+        /// Service JCDecaux
         ChangeNotifierProvider(
           create: (context) => JcdecauxVelostan(),
         ),
         ChangeNotifierProvider(
           create: (context) => Store(),
         ),
-        // ChangeNotifierProvider(
-        //   create: (context) => GlobalText(),
-        // )
       ],
       child: MaterialApp(
-        
-        //todo: à mettre par défaut
+
+        /// Choisit le theme du téléphone
         themeMode: ThemeMode.system,
+
+        /// Darkmode
         darkTheme: ThemeData.dark(),
 
-        // Thème principal
-        // Concerne text et couleur, sauf icones et snackbar
+        /// Thème principal : text, couleur excepter icone et boite de dialogue
         theme: ThemeData(
 
           textTheme: TextTheme(
             
-            // Titre dans la side bar
+            /// Style du titre dans la side bar
             headline1: TextStyle(
               color: Colors.grey[100],
               fontSize: 24,
               fontWeight: FontWeight.w500
             ),
 
-            // Titre dans la top app bar
+            /// Style du titre dans la top app bar
             headline2: TextStyle(
               color: Colors.grey[100],
               fontSize: 18,
@@ -69,15 +68,14 @@ void main() async {
               overflow: TextOverflow.visible
             ),
 
-            // Titre dans la Parking Card
+            /// Style du titre dans la Parking Card
             headline3: const TextStyle(
               color: Colors.black,
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
 
-            // Titre dans la Mini Parking Card
-            // Titre dans la Bike Station Popup
+            /// Style Titre dans la Mini Parking Card et la BikeStation Popup
             headline4: const TextStyle(
               color: Colors.black,
               fontSize: 16,
@@ -85,11 +83,11 @@ void main() async {
               overflow: TextOverflow.ellipsis,
             ),
 
-            // Titre et text dans les boites de dialogue
+            /// Titre et text dans les boites de dialogue
             // headline6: ,
             // subtitle1: ,
 
-            // Utilisé pour la "zone" dans la Mini Parking Card et la Parking Card
+            /// Style de la "zone" dans la Mini Parking Card et la Parking Card
             overline: const TextStyle(
               fontWeight: FontWeight.normal,
               fontStyle: FontStyle.italic,
@@ -98,24 +96,23 @@ void main() async {
               letterSpacing: 1
             ),
 
-            // Sous-titre Nombre de place dans Mini Parking card et Parking Card
-            // (Couleur gérée dans leur widgets)
+            /// Style du nombre de place dans Mini Parking card et Parking Card
+            //* (Couleur gérée dans leur widgets)
             subtitle2: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
             ),
 
-            // Titre des options de la side bar
+            /// Style du titre des options de la side bar
             bodyText1: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700
             ),
 
-            // Texte des cards, et la popup Velostan et des déscription dans la sidebar
-            // sauf les messages en cas de parkings ou stations fermés
+            ///* Style du Texte des cards, de la popup Velostan et des déscription dans la sidebar
+            //* sauf les messages en cas de parkings ou stations fermés
             bodyText2: const TextStyle(
               fontSize: 15,
-              // fontStyle: FontStyle.italic
             )
 
           ),

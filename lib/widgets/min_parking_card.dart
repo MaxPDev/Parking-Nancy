@@ -31,8 +31,8 @@ class MinParkingCard extends StatelessWidget {
     return data;
   }
 
-  double? sizedBoxHeighMiddle = 7;
-  double? sizedBoxHeighBottom = 9;
+  final double? sizedBoxHeighMiddle = 7;
+  final double? sizedBoxHeighBottom = 9;
 
   //! If parking is closed !
 

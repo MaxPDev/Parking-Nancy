@@ -13,7 +13,7 @@ class DividerQuart extends StatelessWidget {
     return Divider(
       height: 7,
       thickness: 1,
-      color: Color.fromRGBO(158, 158, 158, 0.3),
+      color: const Color.fromRGBO(158, 158, 158, 0.3),
       indent: width/4,
       endIndent: width/4,
     );

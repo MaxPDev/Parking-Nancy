@@ -242,11 +242,11 @@ class _HomeScreenState extends State<HomeScreen> {
       _mapController.move(ban(context, listen: false).selectedDestinationMarker!.point, 16);
     });
 
-    for (var marker in _markers) {
-      if (marker.key == const ObjectKey("address_marker")) {
-        print("address marker");
-      }
-    }
+    // for (var marker in _markers) {
+    //   if (marker.key == const ObjectKey("address_marker")) {
+    //     print("address marker");
+    //   }
+    // }
   }
 
 
@@ -534,7 +534,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                               }
                               return ParkingPopup(
-                                  markers: _markers,
+                                  // markers: _markers,
                                   marker: marker,
                                   parkingTitle: areParkingTitleVisible);
                             }

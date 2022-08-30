@@ -58,14 +58,14 @@ class ListAddress extends StatelessWidget {
           } ,
           // onLongPress: ,(//todo generate marker too ?)
 
-          tileColor: Color.fromARGB(255, 210, 236, 211),
+          tileColor: const Color.fromARGB(255, 210, 236, 211),
           selectedTileColor: Colors.green,
           focusColor: Colors.greenAccent,
 
           shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(21)),
 
           dense: false,
-          visualDensity: VisualDensity(vertical: -4),
+          visualDensity: const VisualDensity(vertical: -4),
           // contentPadding: EdgeInsets.fromLTRB(7, 7, 7, 7),
 
           // horizontalTitleGap: 10,

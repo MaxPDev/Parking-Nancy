@@ -6,15 +6,15 @@ import 'package:nancy_stationnement/services/gny_parking.dart';
 class ParkingPopup extends StatelessWidget {
   ParkingPopup(
       {Key? key,
-      required List<Marker> markers,
+      // required List<Marker> markers,
       required Marker marker,
       required Map parkingTitle})
-      : _markers = markers,
+      : 
         _marker = marker,
         _parkingTitle = parkingTitle,
         super(key: key);
 
-  final List<Marker> _markers;
+  // final List<Marker> _markers;
   final Marker _marker;
   final Map _parkingTitle;
 
@@ -31,7 +31,7 @@ class ParkingPopup extends StatelessWidget {
     // Sinon, un container est créé pour afficher une popup avec available
     if (available == "null") {
       if (_parkingTitle['all']) {
-        return PopupName(parking: parking, marker: _marker, markers: _markers);
+        return PopupName(parking: parking);
       } else {
         return Container();
       }
@@ -44,7 +44,7 @@ class ParkingPopup extends StatelessWidget {
         return PopupNameAndAvailable(
             parking: parking,
             marker: _marker,
-            markers: _markers,
+            // markers: _markers,
             available: available);
       } else if (_parkingTitle['six'] &&
           (parking.name == "Place Stanislas" ||
@@ -53,17 +53,17 @@ class ParkingPopup extends StatelessWidget {
         return PopupNameAndAvailable(
             parking: parking,
             marker: _marker,
-            markers: _markers,
+            // markers: _markers,
             available: available);
       } else if (_parkingTitle['all']) {
         return PopupNameAndAvailable(
             parking: parking,
             marker: _marker,
-            markers: _markers,
+            // markers: _markers,
             available: available);
       } else {
         return PopupAvailable(
-            marker: _marker, markers: _markers, available: available);
+            marker: _marker, available: available);
       }
     }
   }
@@ -74,15 +74,13 @@ class PopupNameAndAvailable extends StatelessWidget {
     Key? key,
     required this.parking,
     required Marker marker,
-    required List<Marker> markers,
+    // required List<Marker> markers,
     required this.available,
   })  : _marker = marker,
-        _markers = markers,
         super(key: key);
 
   final Parking parking;
   final Marker _marker;
-  final List<Marker> _markers;
   final String? available;
 
   @override
@@ -143,15 +141,14 @@ class PopupName extends StatelessWidget {
   const PopupName({
     Key? key,
     required this.parking,
-    required Marker marker,
-    required List<Marker> markers,
-  })  : _marker = marker,
-        _markers = markers,
+    // required Marker marker,
+    // required List<Marker> markers,
+  })  : 
         super(key: key);
 
   final Parking parking;
-  final Marker _marker;
-  final List<Marker> _markers;
+  // final Marker _marker;
+  // final List<Marker> _markers;
 
   @override
   Widget build(BuildContext context) {
@@ -195,14 +192,14 @@ class PopupAvailable extends StatelessWidget {
   const PopupAvailable({
     Key? key,
     required Marker marker,
-    required List<Marker> markers,
+    // required List<Marker> markers,
     required this.available,
   })  : _marker = marker,
-        _markers = markers,
+        // _markers = markers,
         super(key: key);
 
   final Marker _marker;
-  final List<Marker> _markers;
+  // final List<Marker> _markers;
   final String? available;
 
   @override

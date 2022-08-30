@@ -96,26 +96,22 @@ class ParkingCard extends StatelessWidget {
     // Variables de hauteurs d'écrans
     // Full screen width and height
     double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-    // Height (without SafeArea)
-    var padding = MediaQuery.of(context).viewPadding;
-    double height1 = height - padding.top - padding.bottom;
+    // double height = MediaQuery.of(context).size.height;
+    // // Height (without SafeArea)
+    // var padding = MediaQuery.of(context).viewPadding;
 
-    // Height (without status bar)
-    double height2 = height - padding.top;
-
-    // Height (without status and toolbar)
-    double height3 = height - padding.top - kToolbarHeight;
+    // // Height (without status and toolbar)
+    // double height2 = height - padding.top - kToolbarHeight;
 
     // return isPortrait ?
     return Container(
       padding: const EdgeInsets.fromLTRB(7, 0, 7, 4),
 
       // Height for real App
-      // height: height3 * 0.54,
+      // height: height2 * 0.54,
 
       //* Height for display more data for dev
-      // height: height3 * 0.75,
+      // height: height2 * 0.75,
       // height: 440,
 
       child: Column(
