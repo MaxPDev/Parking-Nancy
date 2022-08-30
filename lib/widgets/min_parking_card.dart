@@ -11,7 +11,7 @@ import 'package:nancy_stationnement/widgets/items.dart';
 import 'package:nancy_stationnement/text/app_text.dart' as text;
 
 class MinParkingCard extends StatelessWidget {
-  MinParkingCard({
+  const MinParkingCard({
     Key? key,
     // required this.gny,
   }) : super(key: key);
