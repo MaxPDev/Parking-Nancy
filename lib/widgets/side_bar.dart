@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
+import 'package:nancy_stationnement/services/store.dart';
 import 'package:nancy_stationnement/services/gny_parking.dart';
-import 'package:nancy_stationnement/services/global_text.dart';
+import 'package:nancy_stationnement/text/app_text.dart' as text;
 
 class SideBar extends StatelessWidget {
   const SideBar({
@@ -11,31 +12,30 @@ class SideBar extends StatelessWidget {
     required this.updateParking,
   }) : super(key: key);
 
+  ///* provider du service G-Ny
   final gny = Provider.of<GnyParking>;
-  final text = Provider.of<GlobalText>;
+
+  ///* Provider du service Store
+  final store = Provider.of<Store>;
 
   final Function updateParking;
 
   @override
   Widget build(BuildContext context) {
 
-    // final snackBarParking = SnackBar(
-    //   content: Text("Données des Parkings mis à jour"),
-    //   backgroundColor: Colors.blue,
-    //   elevation: 5,
-    // );
-
     return Drawer(
       // backgroundColor: Colors.green[200],
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
+
+          // Header Logo + Nom de l'applicatin
           DrawerHeader(
             child: Container(
               decoration: BoxDecoration(
                 color: Theme.of(context).appBarTheme.backgroundColor,
                 shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.all(Radius.circular(21)),
+                borderRadius: const BorderRadius.all(Radius.circular(21)),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -43,7 +43,7 @@ class SideBar extends StatelessWidget {
                 children: [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: const [
                       Image(
                         width: 70,
                         height: 70,
@@ -51,7 +51,7 @@ class SideBar extends StatelessWidget {
                         )
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 54,
                   ),
                   Column(
@@ -66,7 +66,7 @@ class SideBar extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 7,
                       ),
                       Row(
@@ -84,26 +84,27 @@ class SideBar extends StatelessWidget {
               )
             ),
           ),
+
+          // Mise à jour des données de parkings
           ListTile(
             title: Text(
-              text(context, listen: false).parkingUpdate,
+              text.parkingUpdate,
               style: Theme.of(context).textTheme.bodyText1),
-            subtitle: Text(
-              text(context, listen: false).parkingUpdateDescr,
+            subtitle: const Text(
+              text.parkingUpdateDescr,
               // style: Theme.of(context).textTheme.bodyText1,  
             ),
             onTap: () {
               updateParking();
+              store(context, listen: false).userSelection = "parkings";
+
               Scaffold.of(context).closeDrawer();
-              
-              // gny(context, listen: false).reInitParkingAndGenerateMarkers()
-              // .then((value) {
-              // },);
+
             },
           ),
-          ListTile(
-            title: Text(text(context, listen: false).aboutTitle),
-            subtitle: Text(text(context, listen: false).aboutDescr),
+          const ListTile(
+            title: Text(text.aboutTitle),
+            subtitle: Text(text.aboutDescr),
           ),
         ],
       ),

@@ -21,20 +21,20 @@ class BikestationMinPopup extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Container(
-                padding: EdgeInsets.fromLTRB(0, 2, 0, 2),
+                padding: const EdgeInsets.fromLTRB(0, 2, 0, 2),
                 decoration: BoxDecoration(
                   color: station.status == "OPEN" ? 
-                    Color.fromRGBO(9, 148, 81, 0.70) :
-                    Color.fromARGB(255, 241, 154, 132),
+                    const Color.fromRGBO(9, 148, 81, 0.70) :
+                    const Color.fromARGB(255, 241, 154, 132),
                   shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.all(Radius.circular(5))
+                  borderRadius: const BorderRadius.all(Radius.circular(5))
                 ),
                 child: Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Icon(
+                        const Icon(
                           FontAwesomeIcons.bicycle,
                           color: Colors.white70,
                           size: 12
@@ -43,7 +43,7 @@ class BikestationMinPopup extends StatelessWidget {
                         //   width: 4,
                         // ),
                         Text("${station.bikes}", 
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14, 
                           color: Colors.white70,
                           fontWeight: FontWeight.bold)),
@@ -53,7 +53,7 @@ class BikestationMinPopup extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
 
-                        Icon(
+                        const Icon(
                           FontAwesomeIcons.checkToSlot,
                           color: Colors.white70,
                           size: 12,
@@ -62,7 +62,7 @@ class BikestationMinPopup extends StatelessWidget {
                         //   width: 4,
                         // ),
                         Text("${station.stands}", 
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14, 
                           color: Colors.white70,
                           fontWeight: FontWeight.bold)),

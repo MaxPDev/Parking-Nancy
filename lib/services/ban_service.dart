@@ -5,25 +5,24 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart';
 import 'package:latlong2/latlong.dart';
 
 import 'package:nancy_stationnement/models/address.dart';
-import 'package:nancy_stationnement/utils/marker_with_value.dart';
+
+import 'package:nancy_stationnement/config/services_config.dart' as config;
 
 class BanService extends ChangeNotifier {
-  // URI de la Base Adresse Nationale
-  String uriBanFromAddress = 'https://api-adresse.data.gouv.fr/search/?q=';
 
-  // Les recherches s'effectue depuis ce point en priorité
-  String geoPriority = '&lat=48.69078&lon=6.182468';
-
-  // Recherche depuis des coordonnées (Géolocalisation)
-  String uriBanFromCoordinates = 'https://api-adresse.data.gouv.fr/reverse/?';
-
+  /// Liste des adresses suggérées
   List<Address> addressList = [];
+
+  /// Adresse selectionné par l'utilisateur
   Address? selectedDestinationAddress;
-  late Marker selectedDestinationMarker;
+
+  /// Marqueur de l'adresse sélectionné par l'utilisateur
+  Marker? selectedDestinationMarker;
 
   BanService() {
     if (kDebugMode) {
@@ -31,8 +30,8 @@ class BanService extends ChangeNotifier {
     }
   }
 
-  // Récupérer les données depuis la saisie, vider la liste des adresse, 
-  // et générer les objets Address en les ajoutant à la liste
+  /// Récupérer les données depuis la saisie, vider la liste des adresse, 
+  /// et générer les objets Address en les ajoutant à la liste
   Future<void> initAddress(String? value) async {
     if (value != null && value.length > 2 ) {
       var data = await fetchDataAdresseFromInput(value);
@@ -44,37 +43,24 @@ class BanService extends ChangeNotifier {
 
   }  
 
+  /// Effectue la requête à l'API depuis la saisie de l'utilisateur
   Future<Map<String, dynamic>> fetchDataAdresseFromInput(String? address) async {
     try {
-      //? Taiter address avant ?
       // Récupère les données via l'API
-      var uri = Uri.parse('$uriBanFromAddress$address$geoPriority');
+      var uri = Uri.parse('${config.banUriFromAddress}$address${config.banGeoPriority}');
       Response response = await get(uri);
       Map<String, dynamic> data = jsonDecode(response.body);
 
       return data;
-      //TODO inspect avec inspect la récupération avec les index de tableau
-      //TODO bien penser les fonctions de ce fichier (créer objets etc, séparer)
-      //TODO créer les objets, les stocker
-      //TODO faire la liste de suggestion
-      //TODO faire une variable de selection
-      //TODO afficher le marquer
-      //TODO zoomer sur lui
-      //TODO bouton ajouter départ
-
-      //TODO faire géoloc
-
-      //TODO input field number typed first doesn't work
-
-      //TODO: limit
     } catch (e) {
       if (kDebugMode) {
         print('Caught error in fetchDataAdressFromInput() : $e');
       }
-      rethrow; //todo gérer si null au lieu de ça ?
+      rethrow; //? gérer si null au lieu de ça ?
     }
   }
 
+  /// Conversion des données reçu en liste d'objet Address
   Future<void> dataToAddressList(Map<String, dynamic> data) async {
       for (var i = 0; i < data["features"].length; i++) {
         addressList.add(
@@ -84,11 +70,10 @@ class BanService extends ChangeNotifier {
         inspect(addressList);
   }
 
+  /// Récupère une adresse depuis l'API dà partir de coordonnées fournies [coordinates]
   Future<void> fetchAddressFromCoordinates(String coordinates) async {
     try {
-      //? Taiter coordinates avant dans autres fonction ?
-      // Récupère les données via l'API
-      var uri = Uri.parse('$uriBanFromAddress$coordinates$geoPriority');
+      var uri = Uri.parse('${config.banUriFromAddress}$coordinates${config.banGeoPriority}');
       Response response = await get(uri);
       Map<String, dynamic> data = jsonDecode(response.body);
 
@@ -100,11 +85,10 @@ class BanService extends ChangeNotifier {
     }
   }
 
-  //TODO: Marker generator
-
+  /// Création du marqueur de l'adresse
   void generateDistinationAdresseMarker() {
     selectedDestinationMarker = Marker(
-      key: ObjectKey("address_marker"),
+      key: const ObjectKey("address_marker"),
       point: LatLng(selectedDestinationAddress!.lat, selectedDestinationAddress!.long), 
       width: 40,
       height: 40,
@@ -124,6 +108,8 @@ class BanService extends ChangeNotifier {
   void removeListener(VoidCallback listener) {
     // TODO: implement removeListener
     super.removeListener(listener);
-    print("removeListener here");
+    if (kDebugMode) {
+      print("removeListener here");
+    }
   }
 }

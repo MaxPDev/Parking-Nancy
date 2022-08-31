@@ -1,13 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:nancy_stationnement/models/parking.dart';
-import 'package:nancy_stationnement/services/global_text.dart';
+import 'package:nancy_stationnement/text/app_text.dart' as text;
 
 class ToRouteApp extends StatelessWidget {
   const ToRouteApp({
@@ -20,7 +19,6 @@ class ToRouteApp extends StatelessWidget {
 
   final Parking _parking;
   // final double? _normalTextCardFontSize;
-  final text = Provider.of<GlobalText>;
 
   openMapsSheet(context, double lat, double long, String name) async {
     try {
@@ -58,7 +56,9 @@ class ToRouteApp extends StatelessWidget {
         },
       );
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
@@ -72,20 +72,20 @@ class ToRouteApp extends StatelessWidget {
           _parking.name == null ? "parking" : _parking.name!),
       child: Container(
         // constraints: BoxConstraints(minWidth: 50),
-        padding: EdgeInsets.fromLTRB(21, 10, 21, 7),
-        decoration: BoxDecoration(
+        padding: const EdgeInsets.fromLTRB(21, 10, 21, 7),
+        decoration: const BoxDecoration(
             color: Color.fromARGB(255, 221, 200, 7),
             shape: BoxShape.rectangle,
             borderRadius: BorderRadius.all(Radius.circular(20))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
+          children: const [
             Icon(FontAwesomeIcons.route, size: 21),
             SizedBox(
               width: 10,
             ),
             Text(
-              text(context, listen: false).go,
+              text.go,
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   // fontSize: _normalTextCardFontSize

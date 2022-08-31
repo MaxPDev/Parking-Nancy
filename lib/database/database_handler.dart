@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:nancy_stationnement/models/parking.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -26,10 +24,10 @@ class DatabaseHandler {
   }
 
   Future _createDB(Database db, int version) async {
-    final idType = 'TEXT PRIMARY KEY';
-    final textType = 'TEXT';
-    final boolType = 'BOOLEAN';
-    final integerType = 'INTEGER';
+    const idType = 'TEXT PRIMARY KEY';
+    const textType = 'TEXT';
+    // const boolType = 'BOOLEAN';
+    // const integerType = 'INTEGER';
 
     await db.execute('''
 CREATE TABLE $tableParkings (

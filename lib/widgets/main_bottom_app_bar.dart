@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'package:nancy_stationnement/services/store.dart';
@@ -31,52 +30,52 @@ class _MainBottomAppBarState extends State<MainBottomAppBar> {
   Widget build(BuildContext context) {
 
     return BottomAppBar(
-      // color: Color.fromARGB(255, 92, 212, 92), //TODO: Global
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Container(
-            // color: Colors.grey,
-            child: IconButton(
-                onPressed: () {
-                  if (kDebugMode) {
-                    print("pedestran button");
-                  }
-                },
-                icon: const Icon(Icons.directions_walk)),
-          ),
-          Container(
-            // color: Colors.grey,
-            child: IconButton(
-                onPressed: () {
-                  if (kDebugMode) {
-                    print("bus button");
-                  }
-                },
-                icon: const Icon(Icons.directions_bus)),
-          ),
-          Container(
-            // color: Colors.grey,
-            child: IconButton(
-                onPressed: () {
-                  if (kDebugMode) {
-                    print("warning button");
-                  }
-                },
-                icon: const Icon(Icons.warning)),
-          ),
           // Container(
           //   // color: Colors.grey,
           //   child: IconButton(
           //       onPressed: () {
           //         if (kDebugMode) {
-          //           print("charging station button");
+          //           print("pedestran button");
           //         }
           //       },
-          //       icon: const Icon(Icons.charging_station)),
+          //       icon: const Icon(Icons.directions_walk)),
           // ),
+          // Container(
+          //   // color: Colors.grey,
+          //   child: IconButton(
+          //       onPressed: () {
+          //         if (kDebugMode) {
+          //           print("bus button");
+          //         }
+          //       },
+          //       icon: const Icon(Icons.directions_bus)),
+          // ),
+          // Container(
+          //   // color: Colors.grey,
+          //   child: IconButton(
+          //       onPressed: () {
+          //         if (kDebugMode) {
+          //           print("warning button");
+          //         }
+          //       },
+          //       icon: const Icon(Icons.warning)),
+          // ),
+          // // Container(
+          // //   // color: Colors.grey,
+          // //   child: IconButton(
+          // //       onPressed: () {
+          // //         if (kDebugMode) {
+          // //           print("charging station button");
+          // //         }
+          // //       },
+          // //       icon: const Icon(Icons.charging_station)),
+          // // ),
           Container(
-            color: selectedButton == "bikestation" ? 
+            // color: selectedButton == "bikestation" ? 
+            color: store(context, listen: false).userSelection == "bikeStations" ?
               Theme.of(context).primaryColorLight :
               Theme.of(context).primaryColor,
             child: IconButton(
@@ -94,7 +93,23 @@ class _MainBottomAppBarState extends State<MainBottomAppBar> {
                 icon: const Icon(Icons.directions_bike)),
           ),
           Container(
-            color: selectedButton == "parkings" ? 
+            color: Theme.of(context).primaryColor,
+            child: IconButton(
+                onPressed: () {
+                  if (kDebugMode) {
+                    print("Center button pressed");
+                  }
+
+                  widget.onUpdateTap("center");
+                  
+                },
+                icon: const Icon(
+                  Icons.center_focus_strong_rounded,
+                  size: 20,)),
+          ),
+          Container(
+            // color: selectedButton == "parkings" ? 
+            color: store(context, listen: false).userSelection == "parkings" ?
               Theme.of(context).primaryColorLight :
               Theme.of(context).primaryColor,
             child: IconButton(

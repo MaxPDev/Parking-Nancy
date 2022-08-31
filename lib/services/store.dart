@@ -2,7 +2,6 @@
 // devant être accessible globalement, et n'étant pas gérer par un service particulier
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 
 class Store extends ChangeNotifier {
 
@@ -22,7 +21,9 @@ class Store extends ChangeNotifier {
   void removeListener(VoidCallback listener) {
     // TODO: implement removeListener
     super.removeListener(listener);
-    print("removeListener here");
+    if (kDebugMode) {
+      print("removeListener here");
+    }
   }
 
 }

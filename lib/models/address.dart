@@ -61,19 +61,19 @@ class Address {
 
   factory Address.fromAPIJson(Map<String, dynamic> json) {
     return Address(
-      id: json["properties"]["id"] == null ? null : json["properties"]["id"],
-      label: json["properties"]["label"] == null ? null : json["properties"]["label"],
+      id: json["properties"]["id"],
+      label: json["properties"]["label"],
       // coordinates: List<double>.from(
       //     json["geometry.coordinates"].map((x) => x.toDouble())),
-      long: json['geometry']['coordinates'][0] == null ? null : json['geometry']['coordinates'][0],
-      lat: json['geometry']['coordinates'][1] == null ? null : json['geometry']['coordinates'][1],
+      long: json['geometry']['coordinates'][0],
+      lat: json['geometry']['coordinates'][1],
 
-      name: json["properties"]["name"] == null ? null : json["properties"]["name"],
-      housenumber: json["properties"]["housenumber"] == null ? null : json["properties"]["housenumber"],
-      street: json["properties"]["street"] == null ? null : json["properties"]["street"],
-      postcode: json["properties"]["postcode"] == null ? null : json["properties"]["postcode"],
-      city: json["properties"]["city"] == null ? null : json["properties"]["city"],
-      distance: json["properties"]["distance"] == null ? null : json["properties"]["distance"],
+      name: json["properties"]["name"],
+      housenumber: json["properties"]["housenumber"],
+      street: json["properties"]["street"],
+      postcode: json["properties"]["postcode"],
+      city: json["properties"]["city"],
+      distance: json["properties"]["distance"],
     );
   }
 }

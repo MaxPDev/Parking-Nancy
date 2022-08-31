@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
-import 'package:http/http.dart';
 
 import 'package:nancy_stationnement/screens/home_screen.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -11,59 +9,58 @@ import 'package:nancy_stationnement/services/gny_parking.dart';
 import 'package:nancy_stationnement/services/ban_service.dart';
 import 'package:nancy_stationnement/services/jcdecaux_velostan.dart';
 import 'package:nancy_stationnement/services/store.dart';
-import 'package:nancy_stationnement/services/global_text.dart';
+// import 'package:nancy_stationnement/services/global_text.dart';
 
-///
 /// Fonction main
-///
 void main() async {
   //! Could be not safe (https permissions)
-  HttpOverrides.global = new MyHttpOverrides();
+  HttpOverrides.global = MyHttpOverrides();
 
-  // Splashscreen longer
-  //TODO if FlutterNativeSpash.remove is not setup after initialization,
-  //TODO no need of these two line
+  /// Affiche le Splashscreen avec [FlutterNativeSplash.preserve] jusqu'à que [FlutterNativeSplashRemove] soit invoqué.
+  //* Ces deux lignes sont à supprimé pour un affichage plus bref.
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
+  /// Configuration des servicies dans le MultiProvider
   runApp(MultiProvider(
       providers: [
+        /// Service G-Ny
         ChangeNotifierProvider(
           create: (context) => GnyParking(),
         ),
+        /// Service Base National Adresse
         ChangeNotifierProvider(
           create: (context) => BanService(),
         ),
+        /// Service JCDecaux
         ChangeNotifierProvider(
           create: (context) => JcdecauxVelostan(),
         ),
         ChangeNotifierProvider(
           create: (context) => Store(),
         ),
-        ChangeNotifierProvider(
-          create: (context) => GlobalText(),
-        )
       ],
       child: MaterialApp(
-        
-        //todo: à mettre par défaut
+
+        // Choisit le theme du téléphone
         themeMode: ThemeMode.system,
+
+        // Darkmode
         darkTheme: ThemeData.dark(),
 
-        // Thème principal
-        // Concerne text et couleur, sauf icones et snackbar
+        // Thème principal : text, couleur excepter icone et boite de dialogue
         theme: ThemeData(
 
           textTheme: TextTheme(
             
-            // Titre dans la side bar
+            // Style du titre dans la side bar
             headline1: TextStyle(
               color: Colors.grey[100],
               fontSize: 24,
               fontWeight: FontWeight.w500
             ),
 
-            // Titre dans la top app bar
+            // Style du titre dans la top app bar
             headline2: TextStyle(
               color: Colors.grey[100],
               fontSize: 18,
@@ -71,16 +68,15 @@ void main() async {
               overflow: TextOverflow.visible
             ),
 
-            // Titre dans la Parking Card
-            headline3: TextStyle(
+            // Style du titre dans la Parking Card
+            headline3: const TextStyle(
               color: Colors.black,
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
 
-            // Titre dans la Mini Parking Card
-            // Titre dans la Bike Station Popup
-            headline4: TextStyle(
+            // Style Titre dans la Mini Parking Card et la BikeStation Popup
+            headline4: const TextStyle(
               color: Colors.black,
               fontSize: 16,
               fontWeight: FontWeight.w600,
@@ -91,8 +87,8 @@ void main() async {
             // headline6: ,
             // subtitle1: ,
 
-            // Utilisé pour la "zone" dans la Mini Parking Card et la Parking Card
-            overline: TextStyle(
+            // Style de la "zone" dans la Mini Parking Card et la Parking Card
+            overline: const TextStyle(
               fontWeight: FontWeight.normal,
               fontStyle: FontStyle.italic,
               fontSize: 16,
@@ -100,78 +96,84 @@ void main() async {
               letterSpacing: 1
             ),
 
-            // Sous-titre Nombre de place dans Mini Parking card et Parking Card
-            // (Couleur gérée dans leur widgets)
-            subtitle2: TextStyle(
+            // Style du nombre de place dans Mini Parking card et Parking Card
+            //* (Couleur gérée dans leur widgets)
+            subtitle2: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
             ),
 
-            // Titre des options de la side bar
-            bodyText1: TextStyle(
+            // Style du titre des options de la side bar
+            bodyText1: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700
             ),
 
-            // Texte des cards, et la popup Velostan et des déscription dans la sidebar
+            // Style du Texte des cards, de la popup Velostan et des déscription dans la sidebar
             // sauf les messages en cas de parkings ou stations fermés
-            bodyText2: TextStyle(
+            bodyText2: const TextStyle(
               fontSize: 15,
-              // fontStyle: FontStyle.italic
             )
 
           ),
 
-          // Used for main bottom app's buttons
-          primaryColor: Color.fromARGB(255, 92, 212, 92),
-          primaryColorLight: Color.fromARGB(255, 168, 207, 169),
+          // Couleur de la main bottom app bar
+          primaryColor: const Color.fromARGB(255, 92, 212, 92),
+          primaryColorLight: const Color.fromARGB(255, 168, 207, 169),
 
 
 
-          // Top app bar theme.
-          // Color also used in background color for title card in side bar.
-          appBarTheme: AppBarTheme(
+          // Theme de la top app bar 
+          appBarTheme: const AppBarTheme(
             color: Color.fromARGB(255, 31, 77, 33),
             ),
+
+          // Theme de la side bar
           drawerTheme: DrawerThemeData(
             backgroundColor: Colors.green[200]
           ),
 
-          // Parking card color
-          cardColor: Color(0xFFE5E5E5),
-          // Welcome message and quit message
-          dialogBackgroundColor: Color(0xFFE5E5E5),
+          // Couleur de le parking card
+          cardColor: const Color(0xFFE5E5E5),
 
-          // main bottom app theme
-          bottomAppBarColor: Color.fromARGB(255, 92, 212, 92)
+          // Couleur de fond des boite de dialogue : message d'acceuil et d'exit
+          dialogBackgroundColor: const Color(0xFFE5E5E5),
+
+          // Couleur principal de la main bottom app bar
+          bottomAppBarColor: const Color.fromARGB(255, 92, 212, 92)
         ),
-        //TODO: Set it to false in release version
-        debugShowCheckedModeBanner: true,
-        //TODO:vmanage here themeMode
-        home: NancyStationnementApp(),
+
+        // darpeaux "debug" en haut de l'écran
+        debugShowCheckedModeBanner: false,
+
+        // Appelle la classe général de l'application
+        home: const NancyStationnementApp(),
       )));
 }
 
-///
+
 /// Classe principale
-///
 class NancyStationnementApp extends StatelessWidget {
   const NancyStationnementApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // Bloquer l'appli en mode portrait //? Temporaire
+    // Bloquer l'appli en mode portrait 
     // SystemChrome.setPreferredOrientations([
     //   DeviceOrientation.portraitUp,
     //   DeviceOrientation.portraitDown,
     // ]);
+
     return const SafeArea(
+      // Appelle la seule page de l'application
       child: HomeScreen()
     );
   }
 }
 
-
+//! Certificat
+//TODO: Activer SSL
+// https://stackoverflow.com/questions/54285172/how-to-solve-flutter-certificate-verify-failed-error-while-performing-a-post-req
 class MyHttpOverrides extends HttpOverrides{
   @override
   HttpClient createHttpClient(SecurityContext? context){

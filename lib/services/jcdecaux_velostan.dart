@@ -5,30 +5,23 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:path/path.dart';
 
 import 'package:nancy_stationnement/models/station.dart';
 import 'package:nancy_stationnement/widgets/bikestation_min_popup.dart';
-// import 'package:nancy_stationnement/utils/marker_with_value.dart';
+import 'package:nancy_stationnement/config/services_config.dart' as config;
 
 class JcdecauxVelostan extends ChangeNotifier {
-  // https://developer.jcdecaux.com/#/opendata/vls?page=dynamic&contract=nancy
 
-  // URI API JCdecaux
-  String uriJcdecaux = "https://api.jcdecaux.com/vls/v3/stations";
-  
-  // Nom du contrat (correspond à la ville)
-  String contractName = "nancy";
-
-  // API Key
-  String apiKey = "526c2bc0188fdb797a47511c029cec761757a838";
-
+  /// Liste des stations de location de vélo
   List<Station> stationList = [];
 
+  /// Liste des marqueurs des stations de location de vélo
   List<Marker> stationMarkers = [];
   
+  /// Station de vélo sélectionner par l'utilisateur
   late Station selectedStation;
 
   JcdecauxVelostan() {
@@ -37,22 +30,23 @@ class JcdecauxVelostan extends ChangeNotifier {
     }
   }
 
+  /// Initialise la liste des station en récupérant depuis l'API et en générant la liste
   Future<void> initStations() async {
     String data = await fetchDataStations();
     stationList = stationFromMap(data);
-    // notifyListeners();
-    // inspect(stationList);
+
   }
   
+  /// Convertit en objet Station
   List<Station> stationFromMap(String str) 
     => List<Station>.from(json.decode(str).map((x) => Station.fromAPIJson(x)));
 
+  /// Récupère depuis l''API les données des stations de toute les stations
   Future<String> fetchDataStations() async {
     try {
       // Récupère les données via l'API
-      var uri = Uri.parse('$uriJcdecaux?contract=$contractName&apiKey=$apiKey');
+      var uri = Uri.parse('${config.jcdUri}?contract=${config.jcdContractName}&apiKey=${config.jcdApiKey}');
       Response response = await get(uri);
-      // String data = jsonDecode(response.body);
       String data = response.body;
       
       return data;
@@ -64,9 +58,10 @@ class JcdecauxVelostan extends ChangeNotifier {
     }
   }
 
+  /// Récupère depuis l'API les données de la station à l'id [stationNumber]
   Future<void> fetchDynamicDataStation(int stationNumber) async {
     try {
-      var uri = Uri.parse('$uriJcdecaux/$stationNumber?contract=$contractName&apiKey=$apiKey');
+      var uri = Uri.parse('${config.jcdUri}/$stationNumber?contract=${config.jcdContractName}&apiKey=${config.jcdApiKey}');
       Response response = await get(uri);
       var data = jsonDecode(response.body);
 
@@ -83,9 +78,7 @@ class JcdecauxVelostan extends ChangeNotifier {
     }
   }
 
-  //
-  // Construit les markers depuis les objets station
-  //
+  /// Construit les markers depuis les objets station
   void generateStationsMarker() {
     List<Marker>markers = [];
     for (Station station in stationList) {
@@ -108,8 +101,8 @@ class JcdecauxVelostan extends ChangeNotifier {
                 FontAwesomeIcons.bicycle,
                 size: 30,
                 color: station.status == "OPEN" ? 
-                  Color.fromARGB(255, 9, 148, 81) :
-                  Color.fromARGB(255, 224, 85, 50)
+                  const Color.fromARGB(255, 9, 148, 81) :
+                  const Color.fromARGB(255, 224, 85, 50)
               ),
             ],
           )
@@ -121,6 +114,7 @@ class JcdecauxVelostan extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Récupère la station depuis les coordonnée du point du marqueur
   Station getStationFromCoordinates(LatLng point) {
     return stationList.singleWhere((station) =>
       station.lat == point.latitude &&
@@ -154,7 +148,9 @@ class JcdecauxVelostan extends ChangeNotifier {
   void removeListener(VoidCallback listener) {
     // TODO: implement removeListener
     super.removeListener(listener);
-    print("removeListener here");
+    if (kDebugMode) {
+      print("removeListener here");
+    }
   }
 
 }

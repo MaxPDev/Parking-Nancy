@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -30,7 +29,7 @@ class ListAddress extends StatelessWidget {
     // liste des adresses depuis le service ban
     List<Address> addressList = ban(context, listen: true).addressList;
 
-    return addressList.length != null ? 
+    return addressList.isNotEmpty ? 
     ListView.separated(
       // shrinkWrap: true,
       itemCount: ban(context, listen: true).addressList.length,
@@ -39,10 +38,6 @@ class ListAddress extends StatelessWidget {
 
         Address address = addressList[index];
 
-        //todo: listview divider + ascensor ? + number / street / city apparence
-        //todo: affichage list + probleme saisie + garder le texte saisie dans le champ
-        //todo divier et height width en global
-        //todo animation up and dow
         return ListTile(
 
           isThreeLine: true,
@@ -50,7 +45,7 @@ class ListAddress extends StatelessWidget {
           // leading: Text("${address.housenumber}"),
           subtitle: Text("${address.postcode} ${address.city}"),
           title: Text("${address.name}"),
-          trailing: Text("${roundDistanceInKm(address.distance)} km", style: TextStyle(fontStyle: FontStyle.italic),),
+          // trailing: Text("${roundDistanceInKm(address.distance)} km", style: TextStyle(fontStyle: FontStyle.italic),),
 
           onTap: () {
             ban(context, listen: false).selectedDestinationAddress = address;
@@ -59,14 +54,14 @@ class ListAddress extends StatelessWidget {
           } ,
           // onLongPress: ,(//todo generate marker too ?)
 
-          tileColor: Color.fromARGB(255, 210, 236, 211),
+          tileColor: const Color.fromARGB(255, 210, 236, 211),
           selectedTileColor: Colors.green,
           focusColor: Colors.greenAccent,
 
           shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(21)),
 
           dense: false,
-          visualDensity: VisualDensity(vertical: -4),
+          visualDensity: const VisualDensity(vertical: -4),
           // contentPadding: EdgeInsets.fromLTRB(7, 7, 7, 7),
 
           // horizontalTitleGap: 10,

@@ -8,10 +8,10 @@ import 'package:nancy_stationnement/models/parking.dart';
 import 'package:nancy_stationnement/utils/hex_color.dart';
 import 'package:nancy_stationnement/services/gny_parking.dart';
 import 'package:nancy_stationnement/widgets/items.dart';
-import 'package:nancy_stationnement/services/global_text.dart';
+import 'package:nancy_stationnement/text/app_text.dart' as text;
 
 class MinParkingCard extends StatelessWidget {
-  MinParkingCard({
+  const MinParkingCard({
     Key? key,
     // required this.gny,
   }) : super(key: key);
@@ -20,7 +20,6 @@ class MinParkingCard extends StatelessWidget {
 
       // Providers
   final gny = Provider.of<GnyParking>;
-  final text = Provider.of<GlobalText>;
   // double cardHeight = 54;
 
   //? faire évoluer par charging/pmr/max si besoin d'autres conditions :
@@ -32,8 +31,8 @@ class MinParkingCard extends StatelessWidget {
     return data;
   }
 
-  double? sizedBoxHeighMiddle = 7;
-  double? sizedBoxHeighBottom = 9;
+  final double? sizedBoxHeighMiddle = 7;
+  final double? sizedBoxHeighBottom = 9;
 
   //! If parking is closed !
 
@@ -48,7 +47,7 @@ class MinParkingCard extends StatelessWidget {
             // Flèche d'agrandissement
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: const [
                 SizedBox(
                   height: 12,
                   child: Icon(
@@ -83,8 +82,8 @@ class MinParkingCard extends StatelessWidget {
             // Affichage si parking fermé
             parking.isClosed != null ?
               parking.isClosed == true ?
-                Text(
-                  text(context, listen: false).parkingClosed, 
+                const Text(
+                  text.parkingClosed, 
                   style: TextStyle(
                     color: Colors.red, 
                     fontSize: 15,
@@ -104,7 +103,7 @@ class MinParkingCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Icon(
+                      const Icon(
                         FontAwesomeIcons.squareParking,
                         size: 24,
                         color: Colors.blue,
@@ -133,7 +132,7 @@ class MinParkingCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Icon(
+                      const Icon(
                         FontAwesomeIcons.wheelchair,
                         size: 18
                       ),
@@ -151,7 +150,7 @@ class MinParkingCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Icon(
+                      const Icon(
                         FontAwesomeIcons.chargingStation,
                         size: 18
                       ),
@@ -169,24 +168,28 @@ class MinParkingCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      // Text("", style: TextStyle(fontStyle: FontStyle.italic),), 
-                      // SizedBox(
-                      //   height: sizedBoxHeighMiddle,
-                      // ),
+                      
+                      // Disponibilité si info disponible pour ce parking
                       parking.available != "null" ? 
-                      Text(
-                        "${parking.available} ${text(context, listen: false).places}",
-                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                          color: HexColor(parking.colorHexa!)
-                        ),
-                        // style: TextStyle(
-                        //   fontWeight: FontWeight.bold,
-                        //   fontSize: 16,
-                        //   //! Prévoir un cas nullable pour ne pas être bloquant
-                        //   color: HexColor(parking.colorHexa!),
-                        // ),) :
-                      )
-                       : Text(""),
+                      // Affichage si disponibilité reçu
+                        parking.available != null ?
+                          Text(
+                            "${parking.available} ${text.places}",
+                            style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                              color: HexColor(parking.colorHexa!)
+                            ),
+                          )
+                          // Affichage si disponibilité non reçu (connexion)
+                          : Text(
+                              text.unknownPlaces,
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                                fontWeight: FontWeight.w500,
+                                fontStyle: FontStyle.italic,
+                                color: Colors.indigo
+                              )
+                            )
+                       : const Text(""),
                       ],
                   ),
                 ),

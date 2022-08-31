@@ -5,10 +5,11 @@ import 'package:provider/provider.dart';
 import 'package:searchbar_animation/searchbar_animation.dart';
 
 import 'package:nancy_stationnement/services/ban_service.dart';
-import 'package:nancy_stationnement/services/global_text.dart';
+
+import 'package:nancy_stationnement/text/app_text.dart' as text;
 
 class TopAppBar extends StatefulWidget implements PreferredSizeWidget {
-  TopAppBar({
+  const TopAppBar({
     Key? key,
     // required this.onExpansionComplete
     required this.onEdition,
@@ -30,7 +31,6 @@ class TopAppBar extends StatefulWidget implements PreferredSizeWidget {
 
 class _TopAppBarState extends State<TopAppBar> {
   final ban = Provider.of<BanService>;
-  final text = Provider.of<GlobalText>;
 
   final textController = TextEditingController();
 
@@ -44,29 +44,18 @@ class _TopAppBarState extends State<TopAppBar> {
     // Variables de hauteurs d'écrans
     // Full screen width and height
     double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-    // Height (without SafeArea)
-    var padding = MediaQuery.of(context).viewPadding;
-    double height1 = height - padding.top - padding.bottom;
-
-    // Height (without status bar)
-    double height2 = height - padding.top;
-
-    // Height (without status and toolbar)
-    double height3 = height - padding.top - kToolbarHeight;
 
     return AppBar(
       leading: IconButton(
         // padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-        icon: Icon(Icons.menu),
+        icon: const Icon(Icons.menu),
         onPressed: () {
           // widget.onMenu();
           Scaffold.of(context).openDrawer();
         },
       ),
-      //TODO: make and use global var/settings
       title: Text(
-        text(context, listen: false).appTitle,
+        text.appTitle,
         // style: TextStyle(fontSize: 18, overflow: TextOverflow.visible),
         style: Theme.of(context).textTheme.headline2,
       ),
@@ -82,16 +71,32 @@ class _TopAppBarState extends State<TopAppBar> {
               textEditingController: textController,
               durationInMilliSeconds: 421,
               isOriginalAnimation: false,
-              hintText: text(context, listen: false).hintText,
-              searchBoxWidth: width * 0.70,
+              hintText: text.hintText,
+              // // Largeur si l'icone de localisation est utilisé 
+              // searchBoxWidth: width * 0.70, 
+              searchBoxWidth: width * 0.84, 
               enableBoxBorder: true,
               enableBoxShadow: true,
               // enableButtonBorder: true,
               // enableButtonShadow: true,
 
               // onExpansionComplete: onEdition,
-              
+              onExpansionComplete: (String? value) {
+                if (kDebugMode) {
+                  print("on expansion complete $value");
+                }
 
+                // if (value != null && value.length > 3) {
+                //   ban(context, listen: false).initAddress(value.trim().replaceAll(' ', '+'));
+                //   if (value.length > 5) {
+                //   textSave = value;
+                //   widget.onEdition();
+                //   textController.text = textSave;
+                //   textController.selection = TextSelection.collapsed(offset: textSave.length);
+                //   }
+                // }
+              },
+              
               onChanged: (String? value) {
                 if (kDebugMode) {
                   print("on changed $value");
@@ -105,6 +110,23 @@ class _TopAppBarState extends State<TopAppBar> {
                   textController.text = textSave;
                   textController.selection = TextSelection.collapsed(offset: textSave.length);
                   }
+                }
+
+              },
+
+              onEditingComplete: (String? value) {
+                if (kDebugMode) {
+                  print("on changed $value");
+                }
+
+                if (value != null) {
+                  ban(context, listen: false).initAddress(value.trim().replaceAll(' ', '+'));
+        
+                  textSave = value;
+                  widget.onEdition();
+                  textController.text = textSave;
+                  textController.selection = TextSelection.collapsed(offset: textSave.length);
+                  
                 }
 
               },
@@ -128,6 +150,10 @@ class _TopAppBarState extends State<TopAppBar> {
 
                 if (value != null) {
                   ban(context, listen: false).initAddress(value.trim().replaceAll(' ', '+'));
+                  // textSave = value;
+                  // widget.onEdition();
+                  // textController.text = textSave;
+                  // textController.selection = TextSelection.collapsed(offset: textSave.length);
                 }
               },
 
@@ -138,17 +164,17 @@ class _TopAppBarState extends State<TopAppBar> {
             ),
           ),
         ),
-        Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-            child: IconButton(
-              icon: Icon(Icons.location_searching, color: Colors.white),
-              iconSize: 30,
-              color: Colors.white,
-              onPressed: () {},
-            )),
+        // Padding(
+        //     padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+        //     child: IconButton(
+        //       icon: Icon(Icons.location_searching, color: Colors.white),
+        //       iconSize: 30,
+        //       color: Colors.white,
+        //       onPressed: () {},
+        //     )),
       ],
       actionsIconTheme:
-          IconThemeData(size: 10.0, color: Colors.white, opacity: 0.7),
+          const IconThemeData(size: 10.0, color: Colors.white, opacity: 0.7),
       elevation: 7.0,
     );
   }
