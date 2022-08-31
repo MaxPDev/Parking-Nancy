@@ -100,10 +100,6 @@ class SideBar extends StatelessWidget {
 
               Scaffold.of(context).closeDrawer();
 
-              
-              // gny(context, listen: false).reInitParkingAndGenerateMarkers()
-              // .then((value) {
-              // },);
             },
           ),
           const ListTile(

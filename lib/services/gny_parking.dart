@@ -16,19 +16,19 @@ import 'package:nancy_stationnement/config/services_config.dart' as config;
 
 class GnyParking extends ChangeNotifier {
 
-  // Vrai ou faux si la connection au service est possible ou non.
+  /// Vrai ou faux si la connection au service est possible ou non.
   bool isGnyConnection = false;
 
-  // Vrai ou faux si la base de donnée local est vide ou non
+  /// Vrai ou faux si la base de donnée local est vide ou non
   bool isParkingDatabaseEmpty = true;
 
-  // liste des objets parkings
+  /// liste des objets parkings
   static List<Parking> _parkings = [];
 
-  // Parking selectionné sur la map
+  /// Parking selectionné sur la map
   Parking? selectedParking;
 
-  // Liste des marqueurs de parkings
+  /// Liste des marqueurs de parkings
   static List<Marker> _markers = [];
 
   GnyParking() {
@@ -67,7 +67,6 @@ class GnyParking extends ChangeNotifier {
   /// Rempli la liste de Parking depuis la DB Local:
   ///  Si pas de parking dans la DB Local :
   ///   Récupère les informations depuis g-ny.org et rempli la DB
-  ///
   Future<void> initParking() async {
     // Vérifie la connection internet vers go.gny.org
     isGnyConnection = await CheckConnection.isGnyConnection();
@@ -106,13 +105,10 @@ class GnyParking extends ChangeNotifier {
     inspect(_parkings);
   }
 
-  //
   // Récupère les données de parking depuis go.g-ny.org
-  //
   Future<Map<String, dynamic>> fetchDataParkings() async {
     try {
       // Récupère les données via l'API
-      // var uri = Uri.parse('${uriGny}json');
       var uri = Uri.parse('${config.gnyUri}${config.gnyJson}');
       Response response = await get(uri);
       Map<String, dynamic> data = jsonDecode(response.body);
@@ -127,23 +123,13 @@ class GnyParking extends ChangeNotifier {
     }
   }
 
-  // Future parkingsToDatabase() async {
-  //   _parkingsFromAPI.forEach((parking) async {
-  //     var id = await DatabaseHandler.instance.createParking(parking);
-  //     print(id);
-  //   });
-  // }
-
-  //
   // Récupère les données dynamiques de parking depuis go.g-ny.org
-  //
   Future<void> fetchDynamicDataParkings() async {
     // Vérifie la connection internet vers go.gny.org
     isGnyConnection = await CheckConnection.isGnyConnection();
     if(isGnyConnection) {
       try {
         // Récupère les données via l'API
-        // var uri = Uri.parse('${uriGny}hot');
         var uri = Uri.parse('${config.gnyUri}${config.gnyHot}');
         Response response = await get(uri);
         Map<String, dynamic> data = jsonDecode(response.body);
@@ -152,9 +138,6 @@ class GnyParking extends ChangeNotifier {
         for (Parking parking in _parkings) {
           data.forEach((key, value) {
             if (parking.id == key) {
-              // parking.capacity = data[key]["capacity"] == null
-              //     ? null
-              //     : int?.parse(data[key]["capacity"].toString());
               parking.capacity = data[key]["capacity"].toString();
               parking.available = data[key]["mgn:available"].toString();
               parking.isClosed = data[key]["mgn:closed"];
@@ -174,9 +157,7 @@ class GnyParking extends ChangeNotifier {
     }
   }
 
-  //
   // Construit les markers depuis les objets parking
-  //
   void generateParkingMarkers() {
     List<Marker> markers = [];
     for (var parking in _parkings) {
@@ -195,23 +176,12 @@ class GnyParking extends ChangeNotifier {
                 print("${parking.name} tapped");
               }
               selectedParking = parking;
-              // selectedParking = selectedParking != null ? null : parking;
               inspect(selectedParking);
               notifyListeners();
             },
-            // child: Icon(
-            //       FontAwesomeIcons.squareParking,
-            //       size: 30,
-            //       color: parking.isClosed != null ?
-            //         !parking.isClosed! ? Colors.blue : Colors.red
-            //         : Colors.blue,
-            //     ),
             child: parking.zone == "Parking Relais" ?
             Image.asset(
               "assets/images/icone_parking_relais.png",
-              // color: parking.isClosed != null ?
-              //   !parking.isClosed! ? Colors.blue : Colors.red
-              //   : Colors.blue,
             )
             : Image.asset(
               "assets/images/icone_parking.png",

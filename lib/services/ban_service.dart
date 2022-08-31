@@ -14,17 +14,14 @@ import 'package:nancy_stationnement/models/address.dart';
 import 'package:nancy_stationnement/config/services_config.dart' as config;
 
 class BanService extends ChangeNotifier {
-  // // URI de la Base Adresse Nationale
-  // String uriBanFromAddress = 'https://api-adresse.data.gouv.fr/search/?q=';
 
-  // // Les recherches s'effectue depuis ce point en priorité
-  // String geoPriority = '&lat=48.69078&lon=6.182468';
-
-  // // Recherche depuis des coordonnées (Géolocalisation)
-  // String uriBanFromCoordinates = 'https://api-adresse.data.gouv.fr/reverse/?';
-
+  /// Liste des adresses suggérées
   List<Address> addressList = [];
+
+  /// Adresse selectionné par l'utilisateur
   Address? selectedDestinationAddress;
+
+  /// Marqueur de l'adresse sélectionné par l'utilisateur
   Marker? selectedDestinationMarker;
 
   BanService() {
@@ -33,8 +30,8 @@ class BanService extends ChangeNotifier {
     }
   }
 
-  // Récupérer les données depuis la saisie, vider la liste des adresse, 
-  // et générer les objets Address en les ajoutant à la liste
+  /// Récupérer les données depuis la saisie, vider la liste des adresse, 
+  /// et générer les objets Address en les ajoutant à la liste
   Future<void> initAddress(String? value) async {
     if (value != null && value.length > 2 ) {
       var data = await fetchDataAdresseFromInput(value);
@@ -46,11 +43,10 @@ class BanService extends ChangeNotifier {
 
   }  
 
+  /// Effectue la requête à l'API depuis la saisie de l'utilisateur
   Future<Map<String, dynamic>> fetchDataAdresseFromInput(String? address) async {
     try {
-      //? Taiter address avant ?
       // Récupère les données via l'API
-      // var uri = Uri.parse('$uriBanFromAddress$address$geoPriority');
       var uri = Uri.parse('${config.banUriFromAddress}$address${config.banGeoPriority}');
       Response response = await get(uri);
       Map<String, dynamic> data = jsonDecode(response.body);
@@ -60,10 +56,11 @@ class BanService extends ChangeNotifier {
       if (kDebugMode) {
         print('Caught error in fetchDataAdressFromInput() : $e');
       }
-      rethrow; //todo gérer si null au lieu de ça ?
+      rethrow; //? gérer si null au lieu de ça ?
     }
   }
 
+  /// Conversion des données reçu en liste d'objet Address
   Future<void> dataToAddressList(Map<String, dynamic> data) async {
       for (var i = 0; i < data["features"].length; i++) {
         addressList.add(
@@ -73,11 +70,9 @@ class BanService extends ChangeNotifier {
         inspect(addressList);
   }
 
+  /// Récupère une adresse depuis l'API dà partir de coordonnées fournies [coordinates]
   Future<void> fetchAddressFromCoordinates(String coordinates) async {
     try {
-      //? Taiter coordinates avant dans autres fonction ?
-      // Récupère les données via l'API
-      // var uri = Uri.parse('$uriBanFromAddress$coordinates$geoPriority');
       var uri = Uri.parse('${config.banUriFromAddress}$coordinates${config.banGeoPriority}');
       Response response = await get(uri);
       Map<String, dynamic> data = jsonDecode(response.body);
@@ -90,6 +85,7 @@ class BanService extends ChangeNotifier {
     }
   }
 
+  /// Création du marqueur de l'adresse
   void generateDistinationAdresseMarker() {
     selectedDestinationMarker = Marker(
       key: const ObjectKey("address_marker"),
