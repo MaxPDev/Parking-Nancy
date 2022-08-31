@@ -1,11 +1,12 @@
 # Nancy Stationnement App
 
-Application permettant d'informer en temps réel les disponibilités des parkings de Nancy sur une carte.  
-Propose également un afficage des station de location de vélo.
+L'application permet d'informer en temps réel les disponibilités des parkings de Nancy sur une carte, d'afficher des informations détaillées par parking, et de faire rediriger la destination d'un parking vers une application de navigation.   
+ 
+Elle propose également un affichage des station de location de vélo, ainsi qu'une recherche par adresse.
 
 ## Services
 
-L'application utilise les services de [G-Ny](https://go.g-ny.org/stationnement?output=map&caller=g-ny) pour récupérer les données des parkings et de [JCdecaux](https://developer.jcdecaux.com/#/opendata/vls?page=getstarted) pour ceux des stations de location vélo vélOstan'lib.
+L'application utilise les services de [G-Ny](https://go.g-ny.org/stationnement?output=map&caller=g-ny) pour récupérer les données des parkings, de [JCdecaux](https://developer.jcdecaux.com/#/opendata/vls?page=getstarted) pour ceux des stations de location vélo vélOstan'lib et de la [Base Adresse Nationale](https://adresse.data.gouv.fr/api-doc/adresse) pour la recherche d'adresse.
 
 ## Framework et Langage :
 
