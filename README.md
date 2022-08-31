@@ -38,16 +38,16 @@ Obtenir la liste des devices disponible
 Lancer l'exécution de l'application, avec fvm s'il est actif  
 `fvm flutter run`      
  
-ou sans fvm  
+ou sans fvm (préfixer ou non selon le cas)  
 `flutter run`     
 
 ou sur un device spécifique  
 `flutter run --launch <id-device>`
 
 ### En cas d'erreur d'installation et de lancement :
-1)  ```flutter clean ```
-2)  ```flutter pub get ```
-3)  ```flutter run```
+1)  ```fvm flutter clean ```
+2)  ```fvm flutter pub get ```
+3)  ```fvm flutter run```
 
 ### Génération d'un fichier apk pour installer l'application sous Android :
 `fvm flutter build apk --split-per-abi`
